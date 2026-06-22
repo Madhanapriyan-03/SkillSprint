@@ -14,5 +14,6 @@ public class MilestoneSubmission {
     private Long roadmap_id;
     private String status;
     private Integer progressPercentage;
-    private LocalDateTime
+    private LocalDateTime submittedAt;
+    
 }
