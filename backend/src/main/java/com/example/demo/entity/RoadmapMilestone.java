@@ -51,7 +51,7 @@ public class RoadmapMilestone {
     public void setOrderIndex(Integer orderIndex) {
         this.orderIndex = orderIndex;
     }
-    
+
     public RoadmapMilestone(Long id, Long roadmapId, String title, String description, Integer orderIndex) {
         this.id = id;
         this.roadmapId = roadmapId;
@@ -63,7 +63,4 @@ public class RoadmapMilestone {
     public RoadmapMilestone() {
     }
     
-    
-
-
 }
