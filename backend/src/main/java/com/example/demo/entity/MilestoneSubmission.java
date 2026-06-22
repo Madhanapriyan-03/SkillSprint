@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -11,5 +13,6 @@ public class MilestoneSubmission {
     private Long student_id;
     private Long roadmap_id;
     private String status;
-    
+    private Integer progressPercentage;
+    private LocalDateTime
 }
