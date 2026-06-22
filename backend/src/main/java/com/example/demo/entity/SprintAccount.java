@@ -60,5 +60,7 @@ public class SprintAccount {
         this.role = role;
         this.createdAt = createdAt;
     }
+    public SprintAccount() {
+    }
 
 }
