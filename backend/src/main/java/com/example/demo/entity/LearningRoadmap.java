@@ -34,8 +34,8 @@ public class LearningRoadmap {
     public Long getMentor_id() {
         return mentorId;
     }
-    public void setMentor_id(Long mentor_id) {
-        this.mentor_id = mentor_id;
+    public void setMentor_id(Long mentorId) {
+        this.mentorId = mentorId;
     }
     public String getTitle() {
         return title;
@@ -62,10 +62,10 @@ public class LearningRoadmap {
         this.status = status;
     }
     
-    public LearningRoadmap(Long id, @NotBlank Long mentor_id, String title, String description, Integer maxCapacity,
+    public LearningRoadmap(Long id, @NotNull Long mentorId, String title, String description, Integer maxCapacity,
             String status) {
         this.id = id;
-        this.mentor_id = mentor_id;
+        this.mentorId = mentorId;
         this.title = title;
         this.description = description;
         this.maxCapacity = maxCapacity;
