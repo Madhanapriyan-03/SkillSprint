@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +19,7 @@ public class LearningRoadmap {
     @NotBlank
     private Long mentor_id;
     private String title;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private Integer maxCapacity;
     private String status;
