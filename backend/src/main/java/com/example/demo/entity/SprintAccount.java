@@ -18,6 +18,10 @@ public class SprintAccount {
     private Long id;
     @Email
     private String email;
+    private String passwordHash;
+    private String role;
+    private LocalDateTime createdAt;
+    
     public Long getId() {
         return id;
     }
@@ -48,8 +52,13 @@ public class SprintAccount {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-    private String passwordHash;
-    private String role;
-    private LocalDateTime createdAt;
+    
+    public SprintAccount(Long id, @Email String email, String passwordHash, String role, LocalDateTime createdAt) {
+        this.id = id;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.role = role;
+        this.createdAt = createdAt;
+    }
 
 }
