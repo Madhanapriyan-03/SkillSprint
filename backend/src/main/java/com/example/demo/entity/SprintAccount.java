@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +18,8 @@ public class SprintAccount {
     private Long id;
     @Email
     private String email;
-    
+    private String passwordHash;
+    private String role;
+    private LocalDateTime createdAt;
 
 }
