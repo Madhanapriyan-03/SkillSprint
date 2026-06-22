@@ -40,8 +40,8 @@ public class MilestoneSubmission {
     public Long getMilestoneId() {
         return milestoneId;
     }
-    public void setMilestone_id(Long milestone_id) {
-        this.milestone_id = milestone_id;
+    public void setMilestoneId(Long milestoneId) {
+        this.milestoneId = milestoneId;
     }
     public String getContentUrl() {
         return contentUrl;
@@ -68,11 +68,11 @@ public class MilestoneSubmission {
         this.submittedAt = submittedAt;
     }
     
-    public MilestoneSubmission(Long id, Long enrollment_id, Long milestone_id, String contentUrl, String status,
+    public MilestoneSubmission(Long id, Long enrollmentId, Long milestoneId, String contentUrl, String status,
             Integer score, LocalDateTime submittedAt) {
         this.id = id;
-        this.enrollment_id = enrollment_id;
-        this.milestone_id = milestone_id;
+        this.enrollmentId = enrollmentId;
+        this.milestone_id = milestoneId;
         this.contentUrl = contentUrl;
         this.status = status;
         this.score = score;
