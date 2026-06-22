@@ -10,5 +10,6 @@ public class MilestoneSubmission {
     private Long id;
     private Long student_id;
     private Long roadmap_id;
-
+    private String status;
+    
 }
