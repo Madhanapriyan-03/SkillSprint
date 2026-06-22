@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,8 +16,10 @@ public class RoadmapEnrollment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long student_id;
-    private Long roadmap_id;
+    @Column(name = "student_id")
+    private Long studentId;
+    @Column(name = "roadmap_id")
+    private Long roadmapId;
     private String status;
     private Integer progressPercentage;
     private LocalDateTime enrolledAt;
@@ -26,17 +29,17 @@ public class RoadmapEnrollment {
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getStudent_id() {
-        return student_id;
+    public Long getStudentId() {
+        return studentId;
     }
-    public void setStudent_id(Long student_id) {
-        this.student_id = student_id;
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
-    public Long getRoadmap_id() {
-        return roadmap_id;
+    public Long getRoadmapId() {
+        return roadmapId;
     }
-    public void setRoadmap_id(Long roadmap_id) {
-        this.roadmap_id = roadmap_id;
+    public void setRoadmapId(Long roadmapId) {
+        this.roadmapId = roadmapId;
     }
     public String getStatus() {
         return status;
