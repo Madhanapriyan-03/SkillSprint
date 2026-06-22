@@ -2,6 +2,8 @@ package com.example.demo.entity;
 
 import java.time.LocalDateTime;
 
+import com.mysql.cj.x.protobuf.MysqlxCrud.Column;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,8 +17,10 @@ public class MilestoneSubmission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long enrollment_id;
-    private Long milestone_id;
+    Column(name="enrollment_id")
+    private Long enrollmentId;
+    
+    private Long milestoneId;
     private String contentUrl;
     private String status;
     private Integer score;
