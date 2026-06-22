@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +18,9 @@ public class RoadmapMilestone {
     @Column(name = "roadmap_id")
     private Long roadmapId;
     private String title;
-    
+    @Column(columnDefinition = "TEXT")
+    private String description;
+    private 
+
 
 }
