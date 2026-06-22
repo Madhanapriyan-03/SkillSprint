@@ -2,8 +2,7 @@ package com.example.demo.entity;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.mapping.Column;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,9 +16,9 @@ public class MilestoneSubmission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    Colum(name = "enrollment_id")
+    @Column(name = "enrollment_id")
     private Long enrollmentId;
-    Column(name = "milestone_id")
+    @Column(name = "milestone_id")
     private Long milestoneId;
     private String contentUrl;
     private String status;
@@ -32,14 +31,14 @@ public class MilestoneSubmission {
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getEnrollment_id() {
-        return enrollment_id;
+    public Long getEnrollmentId() {
+        return enrollmentId;
     }
-    public void setEnrollment_id(Long enrollment_id) {
-        this.enrollment_id = enrollment_id;
+    public void setEnrollmentId(Long enrollmentId) {
+        this.enrollmentId = enrollmentId;
     }
-    public Long getMilestone_id() {
-        return milestone_id;
+    public Long getMilestoneId() {
+        return milestoneId;
     }
     public void setMilestone_id(Long milestone_id) {
         this.milestone_id = milestone_id;
