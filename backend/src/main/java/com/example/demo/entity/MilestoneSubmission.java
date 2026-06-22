@@ -10,10 +10,10 @@ import jakarta.persistence.Table;
 
 public class MilestoneSubmission {
     private Long id;
-    private Long student_id;
-    private Long roadmap_id;
+    private Long enrollment_id;
+    private Long milestone_id;
     private String status;
     private Integer progressPercentage;
     private LocalDateTime submittedAt;
-    
+
 }
