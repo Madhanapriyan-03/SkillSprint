@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -20,14 +19,10 @@ public class LearningRoadmap {
     @NotNull
     @Column(name = "mentor_id")
     private Long mentorId;
-    @NotBlank
     private String title;
     @Column(columnDefinition = "TEXT")
-    @NotBlank
     private String description;
-    @NotNull
     private Integer maxCapacity;
-    @NotBlank
     private String status;
     
     public Long getId() {

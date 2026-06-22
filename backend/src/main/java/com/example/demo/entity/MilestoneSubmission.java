@@ -75,5 +75,7 @@ public class MilestoneSubmission {
         this.score = score;
         this.submittedAt = submittedAt;
     }
+    public MilestoneSubmission() {
+    }
 
 }
