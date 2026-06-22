@@ -72,7 +72,7 @@ public class MilestoneSubmission {
             Integer score, LocalDateTime submittedAt) {
         this.id = id;
         this.enrollmentId = enrollmentId;
-        this.milestone_id = milestoneId;
+        this.milestoneId = milestoneId;
         this.contentUrl = contentUrl;
         this.status = status;
         this.score = score;
