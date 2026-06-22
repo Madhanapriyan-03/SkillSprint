@@ -17,7 +17,8 @@ public class LearningRoadmap {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    private Long mentor_id;
+    @Column(name = "mentor_id")
+    private Long mentorId;
     private String title;
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -31,7 +32,7 @@ public class LearningRoadmap {
         this.id = id;
     }
     public Long getMentor_id() {
-        return mentor_id;
+        return mentorId;
     }
     public void setMentor_id(Long mentor_id) {
         this.mentor_id = mentor_id;
