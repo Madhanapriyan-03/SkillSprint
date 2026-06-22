@@ -31,10 +31,10 @@ public class LearningRoadmap {
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getMentor_id() {
+    public Long getMentorId() {
         return mentorId;
     }
-    public void setMentor_id(Long mentorId) {
+    public void setMentorId(Long mentorId) {
         this.mentorId = mentorId;
     }
     public String getTitle() {
@@ -70,6 +70,8 @@ public class LearningRoadmap {
         this.description = description;
         this.maxCapacity = maxCapacity;
         this.status = status;
+    }
+    public LearningRoadmap() {
     }
 
 }
