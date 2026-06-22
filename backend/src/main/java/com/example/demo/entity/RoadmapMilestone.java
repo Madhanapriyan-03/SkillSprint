@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 @Table(name = "roadmap_milestone")
 public class RoadmapMilestone {
     private Long id;
-    private Long roadmap_id;
+    private Long roadmapId;
     private String title;
-    
+
 }
