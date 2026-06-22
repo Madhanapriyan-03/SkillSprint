@@ -23,8 +23,11 @@ public class LearningRoadmap {
     @NotBlank
     private String title;
     @Column(columnDefinition = "TEXT")
+    @NotBlank
     private String description;
+    @NotNull
     private Integer maxCapacity;
+    @NotBlank
     private String status;
     
     public Long getId() {
