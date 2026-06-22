@@ -59,15 +59,17 @@ public class RoadmapEnrollment {
     public void setEnrolledAt(LocalDateTime enrolledAt) {
         this.enrolledAt = enrolledAt;
     }
-    public RoadmapEnrollment(Long id, Long student_id, Long roadmap_id, String status, Integer progressPercentage,
+    public RoadmapEnrollment(Long id, Long studentId, Long roadmapId, String status, Integer progressPercentage,
             LocalDateTime enrolledAt) {
         this.id = id;
-        this.student_id = student_id;
-        this.roadmap_id = roadmap_id;
+        this.studentId = studentId;
+        this.roadmapId = roadmapId;
         this.status = status;
         this.progressPercentage = progressPercentage;
         this.enrolledAt = enrolledAt;
     }
-
+    
+    public RoadmapEnrollment() {
+    }
 
 }
