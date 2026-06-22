@@ -2,7 +2,7 @@ package com.example.demo.entity;
 
 import java.time.LocalDateTime;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud.Column;
+import org.hibernate.mapping.Column;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,9 +17,9 @@ public class MilestoneSubmission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    Column(name="enrollment_id")
+    Colum(name = "enrollment_id")
     private Long enrollmentId;
-    
+    Column(name = "milestone_id")
     private Long milestoneId;
     private String contentUrl;
     private String status;
