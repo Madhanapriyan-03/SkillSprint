@@ -24,5 +24,10 @@ public class AuthResponseDto {
     }
     public AuthResponseDto() {
     }
+    public AuthResponseDto(String token, String role, String email) {
+        this.token = token;
+        this.role = role;
+        this.email = email;
+    }
     
 }
