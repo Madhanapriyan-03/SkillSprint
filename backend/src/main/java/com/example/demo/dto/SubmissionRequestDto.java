@@ -19,7 +19,6 @@ public class SubmissionRequestDto {
     public Long getEnrollmentId() {
         return enrollmentId;
     }
-
     public void setEnrollmentId(Long enrollmentId) {
         this.enrollmentId = enrollmentId;
     }
@@ -27,7 +26,6 @@ public class SubmissionRequestDto {
     public Long getMilestoneId() {
         return milestoneId;
     }
-
     public void setMilestoneId(Long milestoneId) {
         this.milestoneId = milestoneId;
     }
@@ -35,7 +33,6 @@ public class SubmissionRequestDto {
     public String getContentUrl() {
         return contentUrl;
     }
-
     public void setContentUrl(String contentUrl) {
         this.contentUrl = contentUrl;
     }
