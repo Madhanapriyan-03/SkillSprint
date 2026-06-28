@@ -54,7 +54,6 @@ public class RoadmapResponseDto {
     public Integer getMaxCapacity() {
         return maxCapacity;
     }
-
     public void setMaxCapacity(Integer maxCapacity) {
         this.maxCapacity = maxCapacity;
     }
@@ -62,7 +61,6 @@ public class RoadmapResponseDto {
     public String getStatus() {
         return status;
     }
-
     public void setStatus(String status) {
         this.status = status;
     }
