@@ -1,26 +1,30 @@
 package com.example.demo.dto;
 
+import java.time.LocalDateTime;
+
 public class RoadmapResponseDto {
 
     private Long id;
-    private Long mentorId;
     private String title;
     private String description;
     private Integer maxCapacity;
     private String status;
+    private LocalDateTime createdAt;
+    private String mentorName;
 
     public RoadmapResponseDto() {
     }
 
-    public RoadmapResponseDto(Long id, Long mentorId, String title,
-                              String description, Integer maxCapacity,
-                              String status) {
+    public RoadmapResponseDto(Long id, String title, String description,
+                              Integer maxCapacity, String status,
+                              LocalDateTime createdAt, String mentorName) {
         this.id = id;
-        this.mentorId = mentorId;
         this.title = title;
         this.description = description;
         this.maxCapacity = maxCapacity;
         this.status = status;
+        this.createdAt = createdAt;
+        this.mentorName = mentorName;
     }
 
     public Long getId() {
@@ -28,13 +32,6 @@ public class RoadmapResponseDto {
     }
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getMentorId() {
-        return mentorId;
-    }
-    public void setMentorId(Long mentorId) {
-        this.mentorId = mentorId;
     }
 
     public String getTitle() {
@@ -63,5 +60,19 @@ public class RoadmapResponseDto {
     }
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getMentorName() {
+        return mentorName;
+    }
+    public void setMentorName(String mentorName) {
+        this.mentorName = mentorName;
     }
 }
