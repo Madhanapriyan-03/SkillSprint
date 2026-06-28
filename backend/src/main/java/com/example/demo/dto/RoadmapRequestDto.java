@@ -2,7 +2,6 @@ package com.example.demo.dto;
 
 public class RoadmapRequestDto {
 
-    private Long mentorId;
     private String title;
     private String description;
     private Integer maxCapacity;
@@ -10,18 +9,12 @@ public class RoadmapRequestDto {
     public RoadmapRequestDto() {
     }
 
-    public RoadmapRequestDto(Long mentorId, String title, String description, Integer maxCapacity) {
-        this.mentorId = mentorId;
+    public RoadmapRequestDto(String title,
+                             String description,
+                             Integer maxCapacity) {
         this.title = title;
         this.description = description;
         this.maxCapacity = maxCapacity;
-    }
-
-    public Long getMentorId() {
-        return mentorId;
-    }
-    public void setMentorId(Long mentorId) {
-        this.mentorId = mentorId;
     }
 
     public String getTitle() {
