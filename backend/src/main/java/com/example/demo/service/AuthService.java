@@ -1,5 +1,12 @@
 package com.example.demo.service;
 
-public class AuthService {
-    
+import com.example.demo.dto.AuthRequestDto;
+import com.example.demo.dto.AuthResponseDto;
+
+public interface AuthService {
+
+    AuthResponseDto register(AuthRequestDto dto);
+
+    AuthResponseDto login(AuthRequestDto dto);
+
 }
