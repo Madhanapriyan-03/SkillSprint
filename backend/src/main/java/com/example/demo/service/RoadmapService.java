@@ -85,7 +85,7 @@ public class RoadmapService {
         roadmapRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Roadmap not found"));
 
-        submissionRepository.deleteAllByRoadmapId(id);
+        //submissionRepository.deleteAllByRoadmapId(id);
         enrollmentRepository.deleteAllByRoadmapId(id);
         milestoneRepository.deleteAllByRoadmapId(id);
 
