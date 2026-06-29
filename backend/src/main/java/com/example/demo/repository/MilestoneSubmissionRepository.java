@@ -9,5 +9,5 @@ import com.example.demo.entity.MilestoneSubmission;
 public interface MilestoneSubmissionRepository
         extends JpaRepository<MilestoneSubmission, Long> {
 
-    void deleteAllByRoadmapId(Long roadmapId);
+    //void deleteAllByRoadmapId(Long roadmapId);
 }
