@@ -1,24 +1,24 @@
-package com.example.demo.service;
+// package com.example.demo.service;
 
-import org.springframework.data.domain.Pageable;
+// import org.springframework.data.domain.Pageable;
 
-import com.example.demo.dto.GradeRequestDto;
-import com.example.demo.dto.PageResponseDto;
-import com.example.demo.dto.SubmissionRequestDto;
-import com.example.demo.dto.SubmissionResponseDto;
+// import com.example.demo.dto.GradeRequestDto;
+// import com.example.demo.dto.PageResponseDto;
+// import com.example.demo.dto.SubmissionRequestDto;
+// import com.example.demo.dto.SubmissionResponseDto;
 
-public interface SubmissionService {
+// public interface SubmissionService {
 
-    PageResponseDto<SubmissionResponseDto> getAllSubmissions(Pageable pageable);
+//     PageResponseDto<SubmissionResponseDto> getAllSubmissions(Pageable pageable);
 
-    SubmissionResponseDto getSubmissionById(Long id);
+//     SubmissionResponseDto getSubmissionById(Long id);
 
-    SubmissionResponseDto createSubmission(SubmissionRequestDto dto);
+//     SubmissionResponseDto createSubmission(SubmissionRequestDto dto);
 
-    SubmissionResponseDto updateSubmission(Long id, SubmissionRequestDto dto);
+//     SubmissionResponseDto updateSubmission(Long id, SubmissionRequestDto dto);
 
-    void deleteSubmission(Long id);
+//     void deleteSubmission(Long id);
 
-    SubmissionResponseDto gradeSubmission(Long id, GradeRequestDto dto);
+//     SubmissionResponseDto gradeSubmission(Long id, GradeRequestDto dto);
 
-}
+// }
