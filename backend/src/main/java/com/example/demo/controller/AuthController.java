@@ -14,5 +14,6 @@ public class AuthController {
     @Autowired
     AuthService aut;
 
-    @PostMapping()
+    @PostMapping("/create")
+    public Auth
 }
