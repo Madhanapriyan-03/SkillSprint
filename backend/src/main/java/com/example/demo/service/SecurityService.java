@@ -1,11 +1,11 @@
-// package com.example.demo.service;
+package com.example.demo.service;
 
-// import org.springframework.security.core.Authentication;
+import org.springframework.security.core.Authentication;
 
-// public interface SecurityService {
+public interface SecurityService {
 
-//     boolean isEnrollmentOwner(Authentication authentication, Long enrollmentId);
+    boolean isEnrollmentOwner(Authentication authentication, Long enrollmentId);
 
-//     boolean isSubmissionOwner(Authentication authentication, Long submissionId);
+    boolean isSubmissionOwner(Authentication authentication, Long submissionId);
 
-// }
+}
