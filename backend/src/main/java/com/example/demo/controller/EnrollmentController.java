@@ -7,50 +7,52 @@ import com.example.demo.service.EnrollmentService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/enrollments")
 public class EnrollmentController {
+    private final EnrollmentService service;
 
-    private final EnrollmentService enrollmentService;
-
-    public EnrollmentController(EnrollmentService enrollmentService) {
-        this.enrollmentService = enrollmentService;
+    public EnrollmentController(EnrollmentService service) {
+        this.service = service;
     }
 
     @GetMapping
-    public ResponseEntity<PageResponseDto<EnrollmentResponseDto>> getAll(Pageable pageable) {
-        return ResponseEntity.ok(enrollmentService.getAllEnrollments(pageable));
+    public PageResponseDto<EnrollmentResponseDto> getAll(Pageable pageable) {
+        return service.getAllEnrollments(pageable);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EnrollmentResponseDto> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(enrollmentService.getEnrollmentById(id));
+    @PreAuthorize("hasAnyRole('MENTOR', 'LEARNING_MANAGER') or @securityService.isEnrollmentOwner(authentication, #id)")
+    public EnrollmentResponseDto getById(@PathVariable Long id) {
+        return service.getEnrollmentById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyRole('STUDENT', 'LEARNING_MANAGER')")
     public EnrollmentResponseDto create(@Valid @RequestBody EnrollmentRequestDto dto) {
-        return enrollmentService.createEnrollment(dto);
+        return service.createEnrollment(dto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EnrollmentResponseDto> update(@PathVariable Long id,
-            @Valid @RequestBody EnrollmentRequestDto dto) {
-
-        return ResponseEntity.ok(enrollmentService.updateEnrollment(id, dto));
+    @PreAuthorize("hasRole('LEARNING_MANAGER')")
+    public EnrollmentResponseDto update(@PathVariable Long id, @Valid @RequestBody EnrollmentRequestDto dto) {
+        return service.updateEnrollment(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-        enrollmentService.deleteEnrollment(id);
-        return ResponseEntity.ok("Enrollment deleted successfully.");
+    @PreAuthorize("hasRole('LEARNING_MANAGER')")
+    public org.springframework.http.ResponseEntity<String> delete(@PathVariable Long id) {
+        service.deleteEnrollment(id);
+        return org.springframework.http.ResponseEntity.ok("Enrollment deleted successfully.");
     }
 
     @PutMapping("/{id}/drop")
-    public ResponseEntity<EnrollmentResponseDto> drop(@PathVariable Long id) {
-        return ResponseEntity.ok(enrollmentService.dropEnrollment(id));
+    @PreAuthorize("hasRole('STUDENT') and @securityService.isEnrollmentOwner(authentication, #id)")
+    public EnrollmentResponseDto drop(@PathVariable Long id) {
+        return service.dropEnrollment(id);
     }
 }

@@ -5,27 +5,25 @@ import com.example.demo.dto.AuthResponseDto;
 import com.example.demo.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+    private final AuthService service;
 
-    private final AuthService authService;
-
-    public AuthController(AuthService authService) {
-        this.authService = authService;
+    public AuthController(AuthService service) {
+        this.service = service;
     }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<AuthResponseDto> register(@Valid @RequestBody AuthRequestDto dto) {
-        return new ResponseEntity<>(authService.register(dto), HttpStatus.CREATED);
+    public AuthResponseDto register(@Valid @RequestBody AuthRequestDto dto) {
+        return service.register(dto);
     }
 
     @PostMapping("/login")
     public AuthResponseDto login(@Valid @RequestBody AuthRequestDto dto) {
-        return authService.login(dto);
+        return service.login(dto);
     }
 }
