@@ -1,111 +1,129 @@
 package com.example.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import com.example.demo.dto.EnrollmentRequestDto;
 import com.example.demo.dto.EnrollmentResponseDto;
 import com.example.demo.dto.PageResponseDto;
 import com.example.demo.entity.LearningRoadmap;
 import com.example.demo.entity.RoadmapEnrollment;
+import com.example.demo.entity.SprintAccount;
+import com.example.demo.exception.BusinessValidationException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.LearningRoadmapRepository;
 import com.example.demo.repository.RoadmapEnrollmentRepository;
+import com.example.demo.repository.SprintAccountRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @Service
 public class EnrollmentService {
 
-    @Autowired
-    private RoadmapEnrollmentRepository enrollmentRepository;
+    private final RoadmapEnrollmentRepository repository;
+    private final LearningRoadmapRepository roadmapRepository;
+    private final SprintAccountRepository accountRepository;
 
-    @Autowired
-    private LearningRoadmapRepository roadmapRepository;
+    public EnrollmentService(
+            RoadmapEnrollmentRepository repository,
+            LearningRoadmapRepository roadmapRepository,
+            SprintAccountRepository accountRepository) {
+        this.repository = repository;
+        this.roadmapRepository = roadmapRepository;
+        this.accountRepository = accountRepository;
+    }
 
+    @Transactional(readOnly = true)
     public PageResponseDto<EnrollmentResponseDto> getAllEnrollments(Pageable pageable) {
+        Page<RoadmapEnrollment> page = repository.findAll(pageable);
 
-        Page<RoadmapEnrollment> page = enrollmentRepository.findAll(pageable);
-
-        PageResponseDto<EnrollmentResponseDto> response = new PageResponseDto<>();
-
-        response.setContent(page.map(this::convertToDto).getContent());
-        response.setCurrentPage(page.getNumber());
-        response.setTotalElements(page.getTotalElements());
-        response.setTotalPages(page.getTotalPages());
-
-        return response;
+        return new PageResponseDto<>(
+                page.getContent().stream().map(this::mapToDto).collect(Collectors.toList()),
+                page.getNumber(),
+                page.getTotalElements(),
+                page.getTotalPages()
+        );
     }
 
     public EnrollmentResponseDto getEnrollmentById(Long id) {
-
-        RoadmapEnrollment enrollment = enrollmentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found"));
-
-        return convertToDto(enrollment);
+        return mapToDto(findById(id));
     }
 
+    @Transactional
     public EnrollmentResponseDto createEnrollment(EnrollmentRequestDto dto) {
 
-        RoadmapEnrollment enrollment = new RoadmapEnrollment();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        enrollment.setStudentId(dto.getStudentId());
-        enrollment.setRoadmapId(dto.getRoadmapId());
+        SprintAccount student = accountRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+
+        LearningRoadmap roadmap = roadmapRepository.findById(dto.getRoadmapId())
+                .orElseThrow(() -> new ResourceNotFoundException("Roadmap not found"));
+
+        if (!"PUBLISHED".equals(roadmap.getStatus())) {
+            throw new BusinessValidationException("Can only enroll in published roadmaps");
+        }
+
+        if (repository.findByStudentIdAndRoadmapId(student.getId(), roadmap.getId()).isPresent()) {
+            throw new BusinessValidationException("Already enrolled in this roadmap");
+        }
+
+        long currentEnrollments = repository.countByRoadmapId(roadmap.getId());
+
+        if (currentEnrollments >= roadmap.getMaxCapacity()) {
+            throw new BusinessValidationException("Roadmap has reached max capacity");
+        }
+
+        RoadmapEnrollment enrollment = new RoadmapEnrollment();
+        enrollment.setStudent(student);
+        enrollment.setRoadmap(roadmap);
         enrollment.setStatus("ACTIVE");
         enrollment.setProgressPercentage(0);
+        enrollment.setEnrolledAt(LocalDateTime.now());
 
-        enrollment = enrollmentRepository.save(enrollment);
-
-        return convertToDto(enrollment);
+        return mapToDto(repository.save(enrollment));
     }
 
-    public EnrollmentResponseDto updateEnrollment(Long id,
-                                                  EnrollmentRequestDto dto) {
-
-        RoadmapEnrollment enrollment = enrollmentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found"));
-
-        enrollment.setStudentId(dto.getStudentId());
-        enrollment.setRoadmapId(dto.getRoadmapId());
-
-        enrollment = enrollmentRepository.save(enrollment);
-
-        return convertToDto(enrollment);
+    public EnrollmentResponseDto updateEnrollment(Long id, EnrollmentRequestDto dto) {
+        RoadmapEnrollment enrollment = findById(id);
+        return mapToDto(repository.save(enrollment));
     }
 
     public void deleteEnrollment(Long id) {
-
-        enrollmentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found"));
-
-        enrollmentRepository.deleteById(id);
+        RoadmapEnrollment enrollment = findById(id);
+        repository.delete(enrollment);
     }
 
     public EnrollmentResponseDto dropEnrollment(Long id) {
+        RoadmapEnrollment enrollment = findById(id);
 
-        RoadmapEnrollment enrollment = enrollmentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found"));
+        if (!"ACTIVE".equals(enrollment.getStatus())) {
+            throw new BusinessValidationException("Only ACTIVE enrollments can be dropped");
+        }
 
         enrollment.setStatus("DROPPED");
 
-        enrollment = enrollmentRepository.save(enrollment);
-
-        return convertToDto(enrollment);
+        return mapToDto(repository.save(enrollment));
     }
 
-    private EnrollmentResponseDto convertToDto(RoadmapEnrollment enrollment) {
+    private RoadmapEnrollment findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found"));
+    }
 
+    private EnrollmentResponseDto mapToDto(RoadmapEnrollment entity) {
         EnrollmentResponseDto dto = new EnrollmentResponseDto();
 
-        dto.setId(enrollment.getId());
-        dto.setStudentId(enrollment.getStudentId());
-        dto.setRoadmapId(enrollment.getRoadmapId());
-        dto.setStatus(enrollment.getStatus());
-        dto.setProgressPercentage(enrollment.getProgressPercentage());
-        dto.setEnrolledAt(enrollment.getEnrolledAt());
-
-        roadmapRepository.findById(enrollment.getRoadmapId())
-                .ifPresent(roadmap -> dto.setRoadmapTitle(roadmap.getTitle()));
+        dto.setId(entity.getId());
+        dto.setStudentId(entity.getStudent().getId());
+        dto.setRoadmapId(entity.getRoadmap().getId());
+        dto.setRoadmapTitle(entity.getRoadmap().getTitle());
+        dto.setStatus(entity.getStatus());
+        dto.setProgressPercentage(entity.getProgressPercentage());
+        dto.setEnrolledAt(entity.getEnrolledAt());
 
         return dto;
     }
