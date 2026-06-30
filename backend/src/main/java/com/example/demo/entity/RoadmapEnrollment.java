@@ -1,75 +1,74 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "roadmap_enrollment")
-
 public class RoadmapEnrollment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "student_id")
-    private Long studentId;
-    @Column(name = "roadmap_id")
-    private Long roadmapId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", nullable = false)
+    private SprintAccount student;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "roadmap_id", nullable = false)
+    private LearningRoadmap roadmap;
+
+    @Column(nullable = false)
     private String status;
-    private Integer progressPercentage;
+
+    @Column(nullable = false)
+    private Integer progressPercentage = 0;
+
+    @Column(nullable = false)
     private LocalDateTime enrolledAt;
+
+    public RoadmapEnrollment() {}
+
     public Long getId() {
         return id;
     }
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getStudentId() {
-        return studentId;
+
+    public SprintAccount getStudent() {
+        return student;
     }
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
+    public void setStudent(SprintAccount student) {
+        this.student = student;
     }
-    public Long getRoadmapId() {
-        return roadmapId;
+
+    public LearningRoadmap getRoadmap() {
+        return roadmap;
     }
-    public void setRoadmapId(Long roadmapId) {
-        this.roadmapId = roadmapId;
+    public void setRoadmap(LearningRoadmap roadmap) {
+        this.roadmap = roadmap;
     }
+
     public String getStatus() {
         return status;
     }
     public void setStatus(String status) {
         this.status = status;
     }
+
     public Integer getProgressPercentage() {
         return progressPercentage;
     }
     public void setProgressPercentage(Integer progressPercentage) {
         this.progressPercentage = progressPercentage;
     }
+
     public LocalDateTime getEnrolledAt() {
         return enrolledAt;
     }
     public void setEnrolledAt(LocalDateTime enrolledAt) {
         this.enrolledAt = enrolledAt;
     }
-    public RoadmapEnrollment(Long id, Long studentId, Long roadmapId, String status, Integer progressPercentage,
-            LocalDateTime enrolledAt) {
-        this.id = id;
-        this.studentId = studentId;
-        this.roadmapId = roadmapId;
-        this.status = status;
-        this.progressPercentage = progressPercentage;
-        this.enrolledAt = enrolledAt;
-    }
-    
-    public RoadmapEnrollment() {
-    }
-
 }
