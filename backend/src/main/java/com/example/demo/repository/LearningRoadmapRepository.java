@@ -1,12 +1,13 @@
 package com.example.demo.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import com.example.demo.entity.LearningRoadmap;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface LearningRoadmapRepository
-        extends JpaRepository<LearningRoadmap, Long> {
+public interface LearningRoadmapRepository extends JpaRepository<LearningRoadmap, Long> {
 
+    Page<LearningRoadmap> findByStatus(String status, Pageable pageable);
+
+    Page<LearningRoadmap> findByMentorId(Long mentorId, Pageable pageable);
 }
