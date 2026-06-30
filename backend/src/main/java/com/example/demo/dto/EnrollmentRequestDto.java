@@ -13,7 +13,7 @@ public class EnrollmentRequestDto {
     public EnrollmentRequestDto() {
     }
 
-    public EnrollmentRequestDto(Long studentId, Long roadmapId) {
+    public EnrollmentRequestDto(Long roadmapId) {
         this.roadmapId = roadmapId;
     }
     
