@@ -1,21 +1,105 @@
 package com.example.demo.service;
 
-import org.springframework.data.domain.Pageable;
-
 import com.example.demo.dto.MilestoneRequestDto;
 import com.example.demo.dto.MilestoneResponseDto;
 import com.example.demo.dto.PageResponseDto;
+import com.example.demo.entity.LearningRoadmap;
+import com.example.demo.entity.RoadmapMilestone;
+import com.example.demo.exception.BusinessValidationException;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.LearningRoadmapRepository;
+import com.example.demo.repository.RoadmapMilestoneRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface MilestoneService {
+import java.util.stream.Collectors;
 
-    PageResponseDto<MilestoneResponseDto> getMilestonesByRoadmap(Long roadmapId, Pageable pageable);
+@Service
+public class MilestoneService {
 
-    MilestoneResponseDto getMilestoneById(Long id);
+    private final RoadmapMilestoneRepository repository;
+    private final LearningRoadmapRepository roadmapRepository;
 
-    MilestoneResponseDto createMilestone(MilestoneRequestDto dto);
+    public MilestoneService(
+            RoadmapMilestoneRepository repository,
+            LearningRoadmapRepository roadmapRepository) {
+        this.repository = repository;
+        this.roadmapRepository = roadmapRepository;
+    }
 
-    MilestoneResponseDto updateMilestone(Long id, MilestoneRequestDto dto);
+    @Transactional(readOnly = true)
+    public PageResponseDto<MilestoneResponseDto> getMilestonesByRoadmap(Long roadmapId, Pageable pageable) {
+        Page<RoadmapMilestone> page = repository.findByRoadmapId(roadmapId, pageable);
 
-    void deleteMilestone(Long id);
+        return new PageResponseDto<>(
+                page.getContent().stream().map(this::mapToDto).collect(Collectors.toList()),
+                page.getNumber(),
+                page.getTotalElements(),
+                page.getTotalPages()
+        );
+    }
 
+    public MilestoneResponseDto getMilestoneById(Long id) {
+        return mapToDto(findById(id));
+    }
+
+    public MilestoneResponseDto createMilestone(MilestoneRequestDto dto) {
+        LearningRoadmap roadmap = roadmapRepository.findById(dto.getRoadmapId())
+                .orElseThrow(() -> new ResourceNotFoundException("Roadmap not found"));
+
+        if (!"DRAFT".equals(roadmap.getStatus())) {
+            throw new BusinessValidationException("Can only add milestones to DRAFT roadmaps");
+        }
+
+        RoadmapMilestone milestone = new RoadmapMilestone();
+        milestone.setRoadmap(roadmap);
+        milestone.setTitle(dto.getTitle());
+        milestone.setExpectedDurationDays(dto.getExpectedDurationDays());
+        milestone.setPassingScore(dto.getPassingScore());
+
+        return mapToDto(repository.save(milestone));
+    }
+
+    public MilestoneResponseDto updateMilestone(Long id, MilestoneRequestDto dto) {
+        RoadmapMilestone milestone = findById(id);
+
+        if (!"DRAFT".equals(milestone.getRoadmap().getStatus())) {
+            throw new BusinessValidationException("Cannot modify milestones of a published roadmap");
+        }
+
+        milestone.setTitle(dto.getTitle());
+        milestone.setExpectedDurationDays(dto.getExpectedDurationDays());
+        milestone.setPassingScore(dto.getPassingScore());
+
+        return mapToDto(repository.save(milestone));
+    }
+
+    public void deleteMilestone(Long id) {
+        RoadmapMilestone milestone = findById(id);
+
+        if (!"DRAFT".equals(milestone.getRoadmap().getStatus())) {
+            throw new BusinessValidationException("Cannot delete milestones from a published roadmap");
+        }
+
+        repository.delete(milestone);
+    }
+
+    private RoadmapMilestone findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Milestone not found"));
+    }
+
+    private MilestoneResponseDto mapToDto(RoadmapMilestone entity) {
+        MilestoneResponseDto dto = new MilestoneResponseDto();
+
+        dto.setId(entity.getId());
+        dto.setRoadmapId(entity.getRoadmap().getId());
+        dto.setTitle(entity.getTitle());
+        dto.setExpectedDurationDays(entity.getExpectedDurationDays());
+        dto.setPassingScore(entity.getPassingScore());
+
+        return dto;
+    }
 }
