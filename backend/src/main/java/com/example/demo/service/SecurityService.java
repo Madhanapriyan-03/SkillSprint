@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.MilestoneSubmission;
 import com.example.demo.entity.RoadmapEnrollment;
-import com.example.demo.repository.MilestoneSubmissionRepository;
+import com.example.demo.entity.MilestoneSubmission;
 import com.example.demo.repository.RoadmapEnrollmentRepository;
+import com.example.demo.repository.MilestoneSubmissionRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +13,7 @@ public class SecurityService {
     private final RoadmapEnrollmentRepository enrollmentRepository;
     private final MilestoneSubmissionRepository submissionRepository;
 
-    public SecurityService(
-            RoadmapEnrollmentRepository enrollmentRepository,
-            MilestoneSubmissionRepository submissionRepository) {
+    public SecurityService(RoadmapEnrollmentRepository enrollmentRepository, MilestoneSubmissionRepository submissionRepository) {
         this.enrollmentRepository = enrollmentRepository;
         this.submissionRepository = submissionRepository;
     }
