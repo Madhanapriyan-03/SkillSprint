@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/milestones")
-public class MilestoneController {
+public class MileStoneController {
     private final MilestoneService service;
 
-    public MilestoneController(MilestoneService service) {
+    public MileStoneController(MilestoneService service) {
         this.service = service;
     }
 
