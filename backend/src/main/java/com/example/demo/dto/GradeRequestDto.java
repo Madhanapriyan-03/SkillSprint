@@ -1,20 +1,18 @@
 package com.example.demo.dto;
 
-public class GradeRequestDto {
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
+public class GradeRequestDto {
+    @NotNull
+    @Min(0)
+    @Max(100)
     private Integer score;
 
-    public GradeRequestDto() {
-    }
+    public GradeRequestDto() {}
 
-    public GradeRequestDto(Integer score) {
-        this.score = score;
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-    public void setScore(Integer score) {
-        this.score = score;
-    }
+    public Integer getScore() { return score; }
+    public void setScore(Integer score) { this.score = score; }
 }
+
