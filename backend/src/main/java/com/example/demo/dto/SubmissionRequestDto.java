@@ -1,39 +1,26 @@
 package com.example.demo.dto;
 
-public class SubmissionRequestDto {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
+public class SubmissionRequestDto {
+    @NotNull
     private Long enrollmentId;
+
+    @NotNull
     private Long milestoneId;
+
+    @NotBlank
     private String contentUrl;
 
-    public SubmissionRequestDto() {
-    }
+    public SubmissionRequestDto() {}
 
-    public SubmissionRequestDto(Long enrollmentId, Long milestoneId,
-                                String contentUrl) {
-        this.enrollmentId = enrollmentId;
-        this.milestoneId = milestoneId;
-        this.contentUrl = contentUrl;
-    }
-
-    public Long getEnrollmentId() {
-        return enrollmentId;
-    }
-    public void setEnrollmentId(Long enrollmentId) {
-        this.enrollmentId = enrollmentId;
-    }
-
-    public Long getMilestoneId() {
-        return milestoneId;
-    }
-    public void setMilestoneId(Long milestoneId) {
-        this.milestoneId = milestoneId;
-    }
-
-    public String getContentUrl() {
-        return contentUrl;
-    }
-    public void setContentUrl(String contentUrl) {
-        this.contentUrl = contentUrl;
-    }
+    public Long getEnrollmentId() { return enrollmentId; }
+    public void setEnrollmentId(Long enrollmentId) { this.enrollmentId = enrollmentId; }
+    public Long getMilestoneId() { return milestoneId; }
+    public void setMilestoneId(Long milestoneId) { this.milestoneId = milestoneId; }
+    public String getContentUrl() { return contentUrl; }
+    public void setContentUrl(String contentUrl) { this.contentUrl = contentUrl; }
 }
+
+
