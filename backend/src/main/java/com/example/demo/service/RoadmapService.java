@@ -12,8 +12,9 @@ import com.example.demo.repository.MilestoneSubmissionRepository;
 import com.example.demo.repository.RoadmapEnrollmentRepository;
 import com.example.demo.repository.RoadmapMilestoneRepository;
 import com.example.demo.repository.SprintAccountRepository;
-import org.springframework.data.domain.Page;
+
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,18 +24,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class RoadmapService {
-
     private final LearningRoadmapRepository repository;
     private final SprintAccountRepository accountRepository;
     private final RoadmapMilestoneRepository milestoneRepository;
     private final RoadmapEnrollmentRepository enrollmentRepository;
     private final MilestoneSubmissionRepository submissionRepository;
 
-    public RoadmapService(
-            LearningRoadmapRepository repository,
-            SprintAccountRepository accountRepository,
-            RoadmapMilestoneRepository milestoneRepository,
-            RoadmapEnrollmentRepository enrollmentRepository,
+    public RoadmapService(LearningRoadmapRepository repository, SprintAccountRepository accountRepository,
+            RoadmapMilestoneRepository milestoneRepository, RoadmapEnrollmentRepository enrollmentRepository,
             MilestoneSubmissionRepository submissionRepository) {
         this.repository = repository;
         this.accountRepository = accountRepository;
@@ -46,7 +43,6 @@ public class RoadmapService {
     @Transactional(readOnly = true)
     public PageResponseDto<RoadmapResponseDto> getAllRoadmaps(Pageable pageable) {
         Page<LearningRoadmap> page = repository.findAll(pageable);
-
         return new PageResponseDto<>(
                 page.getContent().stream().map(this::mapToDto).collect(Collectors.toList()),
                 page.getNumber(),
@@ -60,7 +56,6 @@ public class RoadmapService {
 
     public RoadmapResponseDto createRoadmap(RoadmapRequestDto dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
         SprintAccount mentor = accountRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Mentor not found"));
 
@@ -77,22 +72,18 @@ public class RoadmapService {
 
     public RoadmapResponseDto updateRoadmap(Long id, RoadmapRequestDto dto) {
         LearningRoadmap roadmap = findById(id);
-
         if (!"DRAFT".equals(roadmap.getStatus())) {
             throw new BusinessValidationException("Cannot update roadmap unless it is in DRAFT status");
         }
-
         roadmap.setTitle(dto.getTitle());
         roadmap.setDescription(dto.getDescription());
         roadmap.setMaxCapacity(dto.getMaxCapacity());
-
         return mapToDto(repository.save(roadmap));
     }
 
     @Transactional
     public void deleteRoadmap(Long id) {
         LearningRoadmap roadmap = findById(id);
-
         submissionRepository.deleteAllByRoadmapId(id);
         enrollmentRepository.deleteAllByRoadmapId(id);
         milestoneRepository.deleteAllByRoadmapId(id);
@@ -103,7 +94,6 @@ public class RoadmapService {
         LearningRoadmap roadmap = findById(id);
 
         roadmap.setStatus("PUBLISHED");
-
         return mapToDto(repository.save(roadmap));
     }
 
@@ -114,7 +104,6 @@ public class RoadmapService {
 
     private RoadmapResponseDto mapToDto(LearningRoadmap entity) {
         RoadmapResponseDto dto = new RoadmapResponseDto();
-
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
         dto.setDescription(entity.getDescription());
@@ -122,7 +111,6 @@ public class RoadmapService {
         dto.setStatus(entity.getStatus());
         dto.setCreatedAt(entity.getCreatedAt());
         dto.setMentorName(entity.getMentor().getEmail());
-
         return dto;
     }
 }

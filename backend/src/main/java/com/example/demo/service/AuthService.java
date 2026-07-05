@@ -17,17 +17,12 @@ import java.util.Map;
 
 @Service
 public class AuthService {
-
     private final SprintAccountRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
 
-    public AuthService(
-            SprintAccountRepository repository,
-            PasswordEncoder passwordEncoder,
-            JwtUtil jwtUtil,
-            CustomUserDetailsService userDetailsService) {
+    public AuthService(SprintAccountRepository repository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil, CustomUserDetailsService userDetailsService) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
@@ -38,13 +33,12 @@ public class AuthService {
         if (repository.findByEmail(dto.getEmail()).isPresent()) {
             throw new BusinessValidationException("Email already in use");
         }
-
         SprintAccount account = new SprintAccount();
         account.setEmail(dto.getEmail());
         account.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
         account.setRole(dto.getRole() == null ? "STUDENT" : dto.getRole());
         account.setCreatedAt(LocalDateTime.now());
-
+        
         repository.save(account);
 
         return login(dto);
@@ -52,7 +46,7 @@ public class AuthService {
 
     public AuthResponseDto login(AuthRequestDto dto) {
         SprintAccount account = repository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new BusinessValidationException("Invalid credentials"));
+            .orElseThrow(() -> new BusinessValidationException("Invalid credentials"));
 
         if (!passwordEncoder.matches(dto.getPassword(), account.getPasswordHash())) {
             throw new BusinessValidationException("Invalid credentials");
@@ -64,7 +58,6 @@ public class AuthService {
         extraClaims.put("role", account.getRole());
 
         String token = jwtUtil.generateToken(extraClaims, userDetails);
-
         return new AuthResponseDto(token, account.getRole(), account.getEmail());
     }
 }
