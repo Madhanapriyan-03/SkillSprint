@@ -36,11 +36,7 @@ public class JwtUtil {
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
-    private String buildToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails,
-            long expiration) {
-
+    private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
@@ -52,9 +48,7 @@ public class JwtUtil {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-
-        return (username.equals(userDetails.getUsername()))
-                && !isTokenExpired(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {

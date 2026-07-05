@@ -25,10 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         SprintAccount account = repository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
-        return new User(
-                account.getEmail(),
-                account.getPasswordHash(),
-                Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole()))
-        );
+        return new User(account.getEmail(), account.getPasswordHash(),
+                Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole())));
     }
 }
