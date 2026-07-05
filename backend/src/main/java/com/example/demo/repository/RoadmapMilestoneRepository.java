@@ -10,9 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface RoadmapMilestoneRepository extends JpaRepository<RoadmapMilestone, Long> {
-
     Page<RoadmapMilestone> findByRoadmapId(Long roadmapId, Pageable pageable);
-
     long countByRoadmapId(Long roadmapId);
 
     @Modifying
