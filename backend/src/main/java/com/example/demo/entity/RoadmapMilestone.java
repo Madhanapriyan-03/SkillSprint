@@ -44,10 +44,18 @@ public class RoadmapMilestone {
     public void setTitle(String title) { 
         this.title = title; 
     }
+
     public Integer getExpectedDurationDays() { 
         return expectedDurationDays; 
     }
-    public void setExpectedDurationDays(Integer expectedDurationDays) { this.expectedDurationDays = expectedDurationDays; }
-    public Integer getPassingScore() { return passingScore; }
-    public void setPassingScore(Integer passingScore) { this.passingScore = passingScore; }
+    public void setExpectedDurationDays(Integer expectedDurationDays) { 
+        this.expectedDurationDays = expectedDurationDays; 
+    }
+    
+    public Integer getPassingScore() { 
+        return passingScore; 
+    }
+    public void setPassingScore(Integer passingScore) { 
+        this.passingScore = passingScore; 
+    }
 }
