@@ -21,8 +21,18 @@ public class RoadmapRequestDto {
     public void setTitle(String title) { 
         this.title = title; 
     }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public Integer getMaxCapacity() { return maxCapacity; }
-    public void setMaxCapacity(Integer maxCapacity) { this.maxCapacity = maxCapacity; }
+
+    public String getDescription() { 
+        return description; 
+    }
+    public void setDescription(String description) { 
+        this.description = description; 
+    }
+
+    public Integer getMaxCapacity() { 
+        return maxCapacity; 
+    }
+    public void setMaxCapacity(Integer maxCapacity) { 
+        this.maxCapacity = maxCapacity; 
+    }
 }
