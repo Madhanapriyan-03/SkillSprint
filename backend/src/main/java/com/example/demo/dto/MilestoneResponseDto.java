@@ -17,12 +17,30 @@ public class MilestoneResponseDto {
     }
 
     public Long getRoadmapId() { 
-        return roadmapId; }
-    public void setRoadmapId(Long roadmapId) { this.roadmapId = roadmapId; }
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-    public Integer getExpectedDurationDays() { return expectedDurationDays; }
-    public void setExpectedDurationDays(Integer expectedDurationDays) { this.expectedDurationDays = expectedDurationDays; }
-    public Integer getPassingScore() { return passingScore; }
-    public void setPassingScore(Integer passingScore) { this.passingScore = passingScore; }
+        return roadmapId; 
+    }
+    public void setRoadmapId(Long roadmapId) { 
+        this.roadmapId = roadmapId; 
+    }
+
+    public String getTitle() { 
+        return title; 
+    }
+    public void setTitle(String title) { 
+        this.title = title; 
+    }
+
+    public Integer getExpectedDurationDays() { 
+        return expectedDurationDays; 
+    }
+    public void setExpectedDurationDays(Integer expectedDurationDays) { 
+        this.expectedDurationDays = expectedDurationDays; 
+    }
+
+    public Integer getPassingScore() { 
+        return passingScore; 
+    }
+    public void setPassingScore(Integer passingScore) { 
+        this.passingScore = passingScore; 
+    }
 }
