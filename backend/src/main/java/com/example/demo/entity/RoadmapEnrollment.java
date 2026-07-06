@@ -42,13 +42,32 @@ public class RoadmapEnrollment {
     public void setStudent(SprintAccount student) { 
         this.student = student; 
     }
-    
-    public LearningRoadmap getRoadmap() { return roadmap; }
-    public void setRoadmap(LearningRoadmap roadmap) { this.roadmap = roadmap; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public Integer getProgressPercentage() { return progressPercentage; }
-    public void setProgressPercentage(Integer progressPercentage) { this.progressPercentage = progressPercentage; }
-    public LocalDateTime getEnrolledAt() { return enrolledAt; }
-    public void setEnrolledAt(LocalDateTime enrolledAt) { this.enrolledAt = enrolledAt; }
+
+    public LearningRoadmap getRoadmap() { 
+        return roadmap; 
+    }
+    public void setRoadmap(LearningRoadmap roadmap) { 
+        this.roadmap = roadmap; 
+    }
+
+    public String getStatus() { 
+        return status; 
+    }
+    public void setStatus(String status) { 
+        this.status = status; 
+    }
+
+    public Integer getProgressPercentage() { 
+        return progressPercentage; 
+    }
+    public void setProgressPercentage(Integer progressPercentage) { 
+        this.progressPercentage = progressPercentage; 
+    }
+
+    public LocalDateTime getEnrolledAt() { 
+        return enrolledAt; 
+    }
+    public void setEnrolledAt(LocalDateTime enrolledAt) { 
+        this.enrolledAt = enrolledAt; 
+    }
 }
