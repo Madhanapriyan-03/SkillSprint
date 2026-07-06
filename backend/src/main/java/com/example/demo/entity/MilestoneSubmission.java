@@ -70,7 +70,14 @@ public class MilestoneSubmission {
     public String getStatus() { 
         return status; 
     }
-    public void setStatus(String status) { this.status = status; }
-    public LocalDateTime getSubmittedAt() { return submittedAt; }
-    public void setSubmittedAt(LocalDateTime submittedAt) { this.submittedAt = submittedAt; }
+    public void setStatus(String status) { 
+        this.status = status; 
+    }
+
+    public LocalDateTime getSubmittedAt() { 
+        return submittedAt; 
+    }
+    public void setSubmittedAt(LocalDateTime submittedAt) { 
+        this.submittedAt = submittedAt; 
+    }
 }

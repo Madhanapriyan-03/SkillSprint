@@ -29,10 +29,20 @@ public class RoadmapEnrollment {
 
     public RoadmapEnrollment() {}
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public SprintAccount getStudent() { return student; }
-    public void setStudent(SprintAccount student) { this.student = student; }
+    public Long getId() { 
+        return id; 
+    }
+    public void setId(Long id) { 
+        this.id = id; 
+    }
+
+    public SprintAccount getStudent() { 
+        return student; 
+    }
+    public void setStudent(SprintAccount student) { 
+        this.student = student; 
+    }
+    
     public LearningRoadmap getRoadmap() { return roadmap; }
     public void setRoadmap(LearningRoadmap roadmap) { this.roadmap = roadmap; }
     public String getStatus() { return status; }
