@@ -39,10 +39,23 @@ public class SprintAccount {
     }
 
     public String getPasswordHash() { 
-        return passwordHash; }
-    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+        return passwordHash; 
+    }
+    public void setPasswordHash(String passwordHash) { 
+        this.passwordHash = passwordHash; 
+    }
+
+    public String getRole() { 
+        return role; 
+    }
+    public void setRole(String role) { 
+        this.role = role; 
+    }
+    
+    public LocalDateTime getCreatedAt() { 
+        return createdAt; 
+    }
+    public void setCreatedAt(LocalDateTime createdAt) { 
+        this.createdAt = createdAt; 
+    }
 }
