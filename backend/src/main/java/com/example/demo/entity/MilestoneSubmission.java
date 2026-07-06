@@ -38,8 +38,12 @@ public class MilestoneSubmission {
     public void setId(Long id) { 
         this.id = id; 
     }
-    public RoadmapEnrollment getEnrollment() { return enrollment; }
-    public void setEnrollment(RoadmapEnrollment enrollment) { this.enrollment = enrollment; }
+
+    public RoadmapEnrollment getEnrollment() { 
+        return enrollment; 
+    }
+    public void setEnrollment(RoadmapEnrollment enrollment) { 
+        this.enrollment = enrollment; }
     public RoadmapMilestone getMilestone() { return milestone; }
     public void setMilestone(RoadmapMilestone milestone) { this.milestone = milestone; }
     public String getContentUrl() { return contentUrl; }
