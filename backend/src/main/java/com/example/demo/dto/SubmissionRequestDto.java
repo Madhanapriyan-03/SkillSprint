@@ -15,11 +15,23 @@ public class SubmissionRequestDto {
 
     public SubmissionRequestDto() {}
 
-    public Long getEnrollmentId() { return enrollmentId; }
-    public void setEnrollmentId(Long enrollmentId) { this.enrollmentId = enrollmentId; }
-    public Long getMilestoneId() { return milestoneId; }
-    public void setMilestoneId(Long milestoneId) { this.milestoneId = milestoneId; }
-    public String getContentUrl() { return contentUrl; }
+    public Long getEnrollmentId() { 
+        return enrollmentId; 
+    }
+    public void setEnrollmentId(Long enrollmentId) { 
+        this.enrollmentId = enrollmentId; 
+    }
+
+    public Long getMilestoneId() { 
+        return milestoneId; 
+    }
+    public void setMilestoneId(Long milestoneId) { 
+        this.milestoneId = milestoneId; 
+    }
+
+    public String getContentUrl() { 
+        return contentUrl; 
+    }
     public void setContentUrl(String contentUrl) { this.contentUrl = contentUrl; }
 }
 

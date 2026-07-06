@@ -54,8 +54,12 @@ public class RoadmapResponseDto {
     public void setCreatedAt(LocalDateTime createdAt) { 
         this.createdAt = createdAt; 
     }
+
     public String getMentorName() { 
-        return mentorName; }
-    public void setMentorName(String mentorName) { this.mentorName = mentorName; }
+        return mentorName; 
+    }
+    public void setMentorName(String mentorName) { 
+        this.mentorName = mentorName; 
+    }
 }
 
