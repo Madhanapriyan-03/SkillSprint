@@ -32,7 +32,9 @@ public class SubmissionRequestDto {
     public String getContentUrl() { 
         return contentUrl; 
     }
-    public void setContentUrl(String contentUrl) { this.contentUrl = contentUrl; }
+    public void setContentUrl(String contentUrl) { 
+        this.contentUrl = contentUrl; 
+    }
 }
 
 
