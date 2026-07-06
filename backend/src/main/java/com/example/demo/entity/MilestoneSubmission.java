@@ -43,10 +43,18 @@ public class MilestoneSubmission {
         return enrollment; 
     }
     public void setEnrollment(RoadmapEnrollment enrollment) { 
-        this.enrollment = enrollment; }
-    public RoadmapMilestone getMilestone() { return milestone; }
-    public void setMilestone(RoadmapMilestone milestone) { this.milestone = milestone; }
-    public String getContentUrl() { return contentUrl; }
+        this.enrollment = enrollment; 
+    }
+
+    public RoadmapMilestone getMilestone() { 
+        return milestone; 
+    }
+    public void setMilestone(RoadmapMilestone milestone) { 
+        this.milestone = milestone; 
+    }
+
+    public String getContentUrl() { 
+        return contentUrl; }
     public void setContentUrl(String contentUrl) { this.contentUrl = contentUrl; }
     public Integer getScore() { return score; }
     public void setScore(Integer score) { this.score = score; }
