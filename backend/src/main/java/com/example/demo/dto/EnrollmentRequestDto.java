@@ -8,6 +8,10 @@ public class EnrollmentRequestDto {
 
     public EnrollmentRequestDto() {}
 
-    public Long getRoadmapId() { return roadmapId; }
-    public void setRoadmapId(Long roadmapId) { this.roadmapId = roadmapId; }
+    public Long getRoadmapId() { 
+        return roadmapId; 
+    }
+    public void setRoadmapId(Long roadmapId) { 
+        this.roadmapId = roadmapId; 
+    }
 }
