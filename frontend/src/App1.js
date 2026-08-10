@@ -1,9 +1,9 @@
 import React from 'react'
-import { App1 } from './App1'
-export const App = () => {
+
+export const App1 = () => {
   return (
     <div>
-      
+        <h1>React app</h1>
     </div>
   )
 }
