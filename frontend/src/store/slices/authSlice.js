@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import authService from '../../services/authService';
+import authService from '../../components/services/authService';
 
 const token = localStorage.getItem('sprint_token');
 const role = localStorage.getItem('sprint_role');

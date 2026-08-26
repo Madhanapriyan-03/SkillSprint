@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import roadmapService from '../../services/roadmapService';
+import roadmapService from '../../components/services/roadmapService';
 
 export const fetchRoadmaps = createAsyncThunk('roadmaps/fetchAll', async ({ page, size }, thunkAPI) => {
   try {
