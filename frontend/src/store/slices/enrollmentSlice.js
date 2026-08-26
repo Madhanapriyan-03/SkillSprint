@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import enrollmentService from '../../components/services/enrollmentService';
+import enrollmentService from '../../services/enrollmentService';
 
 export const fetchEnrollments = createAsyncThunk('enrollments/fetchAll', async ({ page, size }, thunkAPI) => {
   try {

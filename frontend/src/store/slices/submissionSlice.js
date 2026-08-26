@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import submissionService from '../../components/services/submissionService';
+import submissionService from '../../services/submissionService';
 
 export const fetchSubmissions = createAsyncThunk('submissions/fetchAll', async ({ page, size }, thunkAPI) => {
   try {
