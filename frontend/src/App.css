@@ -130,3 +130,26 @@ body {
   padding: 3rem;
   color: var(--text-muted);
 }
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.status-completed {
+  color: #047857;
+  background-color: #d1fae5;
+}
+
+.status-active {
+  color: #1d4ed8;
+  background-color: #dbeafe;
+}
+
+.status-dropped {
+  color: #b91c1c;
+  background-color: #fee2e2;
+}
