@@ -58,18 +58,18 @@ const EnrollmentList = () => {
   };
 
   const getStatusClass = (status) => {
-    switch (status) {
-      case 'COMPLETED':
-        return 'status-badge status-completed';
+  switch (status) {
+    case 'COMPLETED':
+      return 'status-badge status-completed';
 
-      case 'ACTIVE':
-        return 'status-badge status-active';
+    case 'ACTIVE':
+      return 'status-badge status-active';
 
-      case 'DROPPED':
-        return 'status-badge status-dropped';
+    case 'DROPPED':
+      return 'status-badge status-dropped';
 
-      default:
-        return 'status-badge';
+    default:
+      return 'status-badge';
     }
   };
 
