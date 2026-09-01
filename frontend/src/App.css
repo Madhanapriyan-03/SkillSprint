@@ -87,6 +87,31 @@ body {
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.dashboard-explore-btn {
+  background-color: var(--white);
+  color: var(--primary);
+  margin-top: 1rem;
+}
+
+.dashboard-explore-btn:hover {
+  background-color: #f8fafc;
+  color: var(--primary);
 }
 
 .card {
