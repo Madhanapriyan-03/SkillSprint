@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import api from '../../services/api';
+import SubmissionForm from '../submission/SubmissionForm';
 
 const RoadmapDetails = () => {
   const { id } = useParams();
+
+  const { user } = useSelector((state) => state.auth);
+  const { items: enrollments } = useSelector(
+    (state) => state.enrollments
+  );
 
   const [roadmap, setRoadmap] = useState(null);
   const [milestones, setMilestones] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedMilestone, setSelectedMilestone] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -16,14 +24,12 @@ const RoadmapDetails = () => {
         setLoading(true);
         setError('');
 
-        // Get roadmap by ID
         const roadmapResponse = await api.get(
           `/roadmaps/${id}`
         );
 
         setRoadmap(roadmapResponse.data);
 
-        // Get milestones for this roadmap
         const milestoneResponse = await api.get(
           `/milestones?roadmapId=${id}&page=0&size=100`
         );
@@ -51,6 +57,21 @@ const RoadmapDetails = () => {
 
     loadData();
   }, [id]);
+
+  /*
+    Find the student's enrollment for this roadmap.
+    This allows us to automatically pass the correct
+    enrollment ID to the submission form.
+  */
+  const currentEnrollment = enrollments?.find(
+    (enrollment) =>
+      Number(enrollment.roadmapId) === Number(id)
+  );
+
+  const isStudent = user?.role === 'STUDENT';
+
+  const canSubmit =
+    isStudent && !!currentEnrollment;
 
   if (loading) {
     return (
@@ -210,6 +231,33 @@ const RoadmapDetails = () => {
           </div>
         </div>
 
+        {/* Student Enrollment Info */}
+        {canSubmit && (
+          <div
+            style={{
+              marginBottom: '1.5rem',
+              padding: '1rem',
+              background: '#eff6ff',
+              border: '1px solid #bfdbfe',
+              borderRadius: '8px'
+            }}
+          >
+            <strong>
+              You are enrolled in this roadmap.
+            </strong>
+
+            <div
+              style={{
+                marginTop: '5px',
+                color: 'var(--text-muted)',
+                fontSize: '14px'
+              }}
+            >
+              Enrollment ID: #{currentEnrollment.id}
+            </div>
+          </div>
+        )}
+
         {/* Milestones */}
         <h2>Learning Milestones</h2>
 
@@ -253,7 +301,8 @@ const RoadmapDetails = () => {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  gap: '1rem'
+                  gap: '1rem',
+                  flexWrap: 'wrap'
                 }}
               >
                 <div>
@@ -270,6 +319,18 @@ const RoadmapDetails = () => {
                     Milestone ID: #{milestone.id}
                   </p>
                 </div>
+
+                {/* Submit Button */}
+                {canSubmit && (
+                  <button
+                    className="btn-primary"
+                    onClick={() =>
+                      setSelectedMilestone(milestone)
+                    }
+                  >
+                    Submit Milestone
+                  </button>
+                )}
               </div>
 
               <div
@@ -298,6 +359,23 @@ const RoadmapDetails = () => {
           ))
         )}
       </div>
+
+      {/* Submission Modal */}
+      {selectedMilestone && currentEnrollment && (
+        <SubmissionForm
+          item={{
+            enrollmentId: currentEnrollment.id,
+            milestoneId: selectedMilestone.id,
+            contentUrl: ''
+          }}
+          onClose={() =>
+            setSelectedMilestone(null)
+          }
+          onSuccess={() => {
+            setSelectedMilestone(null);
+          }}
+        />
+      )}
     </div>
   );
 };
