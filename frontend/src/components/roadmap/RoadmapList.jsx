@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { fetchRoadmaps, setSearchQuery } from '../../store/slices/roadmapSlice';
 import SearchFilterBar from '../common/SearchFilterBar';
 import CapacityBar from '../common/CapacityBar';
@@ -10,57 +11,21 @@ import enrollmentService from '../../services/enrollmentService';
 
 const RoadmapList = () => {
   const dispatch = useDispatch();
-  const { items, loading, searchQuery } = useSelector((state) => state.roadmaps);
+
+  const { items, loading, searchQuery } = useSelector(
+    (state) => state.roadmaps
+  );
+
   const { user } = useSelector((state) => state.auth);
 
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
 
-  // NEW: actual enrollment counts
-  const [enrollmentCounts, setEnrollmentCounts] = useState({});
-
   useEffect(() => {
     dispatch(fetchRoadmaps({ page: 0, size: 20 }));
   }, [dispatch]);
 
-  // NEW: load actual enrollment counts
-  const loadEnrollmentCounts = async () => {
-    try {
-      const response = await enrollmentService.getAll(0, 1000);
-
-      const enrollments = Array.isArray(response?.content)
-        ? response.content
-        : Array.isArray(response)
-          ? response
-          : [];
-
-      const counts = {};
-
-      enrollments.forEach((enrollment) => {
-        const roadmapId =
-          enrollment.roadmapId ??
-          enrollment.roadmap?.id;
-
-        if (roadmapId != null) {
-          counts[roadmapId] =
-            (counts[roadmapId] || 0) + 1;
-        }
-      });
-
-      setEnrollmentCounts(counts);
-    } catch (error) {
-      console.error(
-        'Failed to load enrollment counts:',
-        error
-      );
-    }
-  };
-
-  useEffect(() => {
-    loadEnrollmentCounts();
-  }, []);
-
-  const filteredItems = items.filter(item =>
+  const filteredItems = items.filter((item) =>
     item.title?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -73,10 +38,10 @@ const RoadmapList = () => {
 
     try {
       const response = await roadmapService.remove(id);
+
       console.log('Delete success:', response);
 
       dispatch(fetchRoadmaps({ page: 0, size: 20 }));
-      loadEnrollmentCounts();
     } catch (err) {
       console.error('Delete error:', err);
 
@@ -94,6 +59,7 @@ const RoadmapList = () => {
 
     try {
       const response = await roadmapService.publish(id);
+
       console.log('Publish success:', response);
 
       dispatch(fetchRoadmaps({ page: 0, size: 20 }));
@@ -114,9 +80,6 @@ const RoadmapList = () => {
       await enrollmentService.create({ roadmapId });
 
       alert('Successfully enrolled!');
-
-      // NEW: immediately refresh capacity
-      await loadEnrollmentCounts();
     } catch (err) {
       alert(
         err.response?.data?.message ||
@@ -129,6 +92,7 @@ const RoadmapList = () => {
     <div className="page-container">
       <div className="card">
 
+        {/* HEADER */}
         <div
           style={{
             display: 'flex',
@@ -151,6 +115,7 @@ const RoadmapList = () => {
           )}
         </div>
 
+        {/* SEARCH */}
         <SearchFilterBar
           searchQuery={searchQuery}
           onSearchChange={(q) =>
@@ -159,6 +124,7 @@ const RoadmapList = () => {
           placeholder="Search roadmaps by title..."
         />
 
+        {/* CONTENT */}
         {loading ? (
           <p>Loading roadmaps...</p>
         ) : filteredItems.length === 0 ? (
@@ -209,148 +175,179 @@ const RoadmapList = () => {
             </thead>
 
             <tbody>
-              {filteredItems.map(roadmap => {
-                const currentEnrollment =
-                  enrollmentCounts[roadmap.id] || 0;
+              {filteredItems.map((roadmap) => (
+                <tr
+                  key={roadmap.id}
+                  style={{
+                    borderBottom:
+                      '1px solid var(--border)'
+                  }}
+                >
 
-                return (
-                  <tr
-                    key={roadmap.id}
+                  {/* ID */}
+                  <td
                     style={{
-                      borderBottom:
-                        '1px solid var(--border)'
+                      padding: '10px',
+                      fontWeight: 'bold'
                     }}
                   >
-                    <td
+                    #{roadmap.id}
+                  </td>
+
+                  {/* TITLE - CLICKABLE */}
+                  <td style={{ padding: '10px' }}>
+                    <Link
+                      to={`/roadmaps/${roadmap.id}`}
                       style={{
-                        padding: '10px',
-                        fontWeight: 'bold'
+                        color: 'var(--text-dark)',
+                        textDecoration: 'none',
+                        fontWeight: '600',
+                        cursor: 'pointer'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color =
+                          'var(--primary)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color =
+                          'var(--text-dark)';
                       }}
                     >
-                      #{roadmap.id}
-                    </td>
-
-                    <td style={{ padding: '10px' }}>
                       {roadmap.title}
-                    </td>
+                    </Link>
+                  </td>
 
-                    <td style={{ padding: '10px' }}>
-                      <span
-                        style={{
-                          padding: '4px 8px',
-                          borderRadius: '4px',
-                          fontSize: '12px',
-                          fontWeight: '500',
-                          backgroundColor:
-                            roadmap.status === 'PUBLISHED'
-                              ? '#dcfce7'
-                              : '#f1f5f9',
-                          color:
-                            roadmap.status === 'PUBLISHED'
-                              ? '#166534'
-                              : '#475569'
-                        }}
-                      >
-                        {roadmap.status}
-                      </span>
-                    </td>
-
-                    <td style={{ padding: '10px' }}>
-                      <CapacityBar
-                        current={currentEnrollment}
-                        max={roadmap.maxCapacity}
-                      />
-                    </td>
-
-                    <td
+                  {/* STATUS */}
+                  <td style={{ padding: '10px' }}>
+                    <span
                       style={{
-                        padding: '10px',
-                        display: 'flex',
-                        gap: '10px',
-                        alignItems: 'center'
+                        padding: '4px 8px',
+                        borderRadius: '4px',
+                        fontSize: '12px',
+                        fontWeight: '500',
+                        backgroundColor:
+                          roadmap.status === 'PUBLISHED'
+                            ? '#dcfce7'
+                            : '#f1f5f9',
+                        color:
+                          roadmap.status === 'PUBLISHED'
+                            ? '#166534'
+                            : '#475569'
                       }}
                     >
-                      {roadmap.status === 'PUBLISHED' &&
-                        (
-                          user?.role === 'STUDENT' ||
-                          user?.role === 'LEARNING_MANAGER'
-                        ) && (
+                      {roadmap.status}
+                    </span>
+                  </td>
+
+                  {/* CAPACITY */}
+                  <td style={{ padding: '10px' }}>
+                    <CapacityBar
+                      current={0}
+                      max={roadmap.maxCapacity}
+                    />
+                  </td>
+
+                  {/* ACTIONS */}
+                  <td
+                    style={{
+                      padding: '10px',
+                      display: 'flex',
+                      gap: '10px',
+                      alignItems: 'center'
+                    }}
+                  >
+
+                    {/* ENROLL */}
+                    {roadmap.status === 'PUBLISHED' &&
+                      (
+                        user?.role === 'STUDENT' ||
+                        user?.role === 'LEARNING_MANAGER'
+                      ) && (
+                        <button
+                          className="btn-primary"
+                          style={{
+                            padding: '5px 10px',
+                            fontSize: '12px',
+                            minWidth: 'auto'
+                          }}
+                          onClick={() =>
+                            handleEnroll(roadmap.id)
+                          }
+                        >
+                          Enroll
+                        </button>
+                      )}
+
+                    {/* ADMIN ACTIONS */}
+                    {isAdmin && (
+                      <>
+                        {/* PUBLISH */}
+                        {roadmap.status === 'DRAFT' && (
                           <button
-                            className="btn-primary"
                             style={{
-                              padding: '5px 10px',
-                              fontSize: '12px',
-                              minWidth: 'auto'
+                              color: '#16a34a',
+                              border:
+                                '1px solid #16a34a',
+                              padding: '4px 8px',
+                              borderRadius: '4px',
+                              background: 'none',
+                              cursor: 'pointer',
+                              fontSize: '12px'
                             }}
                             onClick={() =>
-                              handleEnroll(roadmap.id)
+                              handlePublish(
+                                roadmap.id
+                              )
                             }
                           >
-                            Enroll
+                            Publish
                           </button>
                         )}
 
-                      {isAdmin && (
-                        <>
-                          {roadmap.status === 'DRAFT' && (
-                            <button
-                              style={{
-                                color: '#16a34a',
-                                border:
-                                  '1px solid #16a34a',
-                                padding: '4px 8px',
-                                borderRadius: '4px',
-                                background: 'none',
-                                cursor: 'pointer',
-                                fontSize: '12px'
-                              }}
-                              onClick={() =>
-                                handlePublish(roadmap.id)
-                              }
-                            >
-                              Publish
-                            </button>
-                          )}
+                        {/* EDIT */}
+                        <button
+                          style={{
+                            color: 'var(--primary)',
+                            border: 'none',
+                            background: 'none',
+                            cursor: 'pointer'
+                          }}
+                          onClick={() => {
+                            setEditingItem(roadmap);
+                            setShowModal(true);
+                          }}
+                        >
+                          Edit
+                        </button>
 
-                          <button
-                            style={{
-                              color: 'var(--primary)',
-                              border: 'none',
-                              background: 'none',
-                              cursor: 'pointer'
-                            }}
-                            onClick={() => {
-                              setEditingItem(roadmap);
-                              setShowModal(true);
-                            }}
-                          >
-                            Edit
-                          </button>
+                        {/* DELETE */}
+                        <button
+                          style={{
+                            color: 'var(--danger)',
+                            border: 'none',
+                            background: 'none',
+                            cursor: 'pointer'
+                          }}
+                          onClick={() =>
+                            handleDelete(
+                              roadmap.id
+                            )
+                          }
+                        >
+                          Delete
+                        </button>
+                      </>
+                    )}
 
-                          <button
-                            style={{
-                              color: 'var(--danger)',
-                              border: 'none',
-                              background: 'none',
-                              cursor: 'pointer'
-                            }}
-                            onClick={() =>
-                              handleDelete(roadmap.id)
-                            }
-                          >
-                            Delete
-                          </button>
-                        </>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         )}
       </div>
 
+      {/* ROADMAP FORM MODAL */}
       {showModal && (
         <RoadmapForm
           item={editingItem}
@@ -366,8 +363,6 @@ const RoadmapList = () => {
                 size: 20
               })
             );
-
-            loadEnrollmentCounts();
           }}
         />
       )}
