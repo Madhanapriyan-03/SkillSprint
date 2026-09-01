@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useSelector } from 'react-redux';
 import Navbar from './components/layout/Navbar';
 import Login from './components/Login';
+import Register from './components/Register';
 import ErrorHandler from './components/ErrorHandler';
 import NotificationStack from './components/NotificationStack';
 import Dashboard from './components/dashboard/Dashboard';
@@ -27,6 +28,7 @@ function App() {
         <NotificationStack />
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           <Route path="/roadmaps" element={<PrivateRoute><RoadmapList /></PrivateRoute>} />
           <Route path="/enrollments" element={<PrivateRoute><EnrollmentList /></PrivateRoute>} />
