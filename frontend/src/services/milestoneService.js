@@ -1,7 +1,9 @@
 import api from './api';
 
 const getByRoadmap = async (roadmapId) => {
-  const response = await api.get(`/milestones?roadmapId=${roadmapId}&page=0&size=20`);
+  const response = await api.get(
+    `/milestones?roadmapId=${roadmapId}&page=0&size=20`
+  );
   return response.data;
 };
 
@@ -20,9 +22,11 @@ const remove = async (id) => {
   return response.data;
 };
 
-export default {
+const milestoneService = {
   getByRoadmap,
   create,
   update,
   remove
 };
+
+export default milestoneService;
