@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import roadmapService from '../../services/roadmapService';
 import api from '../../services/api';
 
 const RoadmapDetails = () => {
@@ -11,41 +12,35 @@ const RoadmapDetails = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const loadRoadmap = async () => {
+    const loadData = async () => {
       try {
         setLoading(true);
         setError('');
 
-        const roadmapResponse = await api.get(
-          '/roadmaps?page=0&size=100'
-        );
+        // Get roadmap
+        const roadmapResponse =
+          await roadmapService.getById(id);
 
-        const roadmaps =
-          roadmapResponse.data?.content ||
-          roadmapResponse.data ||
-          [];
+        setRoadmap(roadmapResponse.data);
 
-        const selectedRoadmap = roadmaps.find(
-          (item) => String(item.id) === String(id)
-        );
-
-        if (!selectedRoadmap) {
-          setError('Roadmap not found');
-          return;
-        }
-
-        setRoadmap(selectedRoadmap);
-
+        // Get milestones
         const milestoneResponse = await api.get(
           `/milestones?roadmapId=${id}&page=0&size=100`
         );
 
-        setMilestones(
+        const milestoneData =
           milestoneResponse.data?.content ||
           milestoneResponse.data ||
-          []
-        );
+          [];
+
+        setMilestones(milestoneData);
+
       } catch (err) {
+        console.error(
+          'Failed to load roadmap:',
+          err
+        );
+
         setError(
           err.response?.data?.message ||
           'Failed to load roadmap details'
@@ -55,7 +50,7 @@ const RoadmapDetails = () => {
       }
     };
 
-    loadRoadmap();
+    loadData();
   }, [id]);
 
   if (loading) {
@@ -72,8 +67,15 @@ const RoadmapDetails = () => {
     return (
       <div className="page-container">
         <div className="card">
+
           <h2>Roadmap</h2>
-          <p style={{ color: 'var(--danger)' }}>
+
+          <p
+            style={{
+              color: 'var(--danger)',
+              marginTop: '1rem'
+            }}
+          >
             {error}
           </p>
 
@@ -86,8 +88,9 @@ const RoadmapDetails = () => {
               textDecoration: 'none'
             }}
           >
-            Back to Roadmaps
+            ← Back to Roadmaps
           </Link>
+
         </div>
       </div>
     );
@@ -98,18 +101,19 @@ const RoadmapDetails = () => {
 
       <div className="card">
 
-        {/* Back */}
+        {/* BACK */}
         <Link
           to="/roadmaps"
           style={{
             display: 'inline-block',
-            marginBottom: '1rem'
+            marginBottom: '1.5rem',
+            textDecoration: 'none'
           }}
         >
           ← Back to Roadmaps
         </Link>
 
-        {/* Roadmap Header */}
+        {/* HEADER */}
         <div
           style={{
             display: 'flex',
@@ -121,7 +125,9 @@ const RoadmapDetails = () => {
           }}
         >
           <div>
-            <h1>{roadmap.title}</h1>
+            <h1>
+              {roadmap?.title}
+            </h1>
 
             <p
               style={{
@@ -129,7 +135,7 @@ const RoadmapDetails = () => {
                 marginTop: '0.5rem'
               }}
             >
-              {roadmap.description ||
+              {roadmap?.description ||
                 'Learning Roadmap'}
             </p>
           </div>
@@ -138,170 +144,197 @@ const RoadmapDetails = () => {
             style={{
               padding: '6px 12px',
               borderRadius: '999px',
-              fontSize: '0.8rem',
+              fontSize: '12px',
               fontWeight: '600',
               backgroundColor:
-                roadmap.status === 'PUBLISHED'
+                roadmap?.status === 'PUBLISHED'
                   ? '#dcfce7'
                   : '#f1f5f9',
               color:
-                roadmap.status === 'PUBLISHED'
+                roadmap?.status === 'PUBLISHED'
                   ? '#166534'
                   : '#475569'
             }}
           >
-            {roadmap.status}
+            {roadmap?.status}
           </span>
         </div>
 
-        {/* Roadmap Info */}
+        {/* INFO CARDS */}
         <div
           style={{
-            display: 'flex',
+            display: 'grid',
+            gridTemplateColumns:
+              'repeat(auto-fit, minmax(180px, 1fr))',
             gap: '1rem',
-            flexWrap: 'wrap',
             marginBottom: '2rem'
           }}
         >
+
           <div
             style={{
-              flex: '1',
-              minWidth: '180px',
               padding: '1rem',
-              backgroundColor: '#f8fafc',
-              borderRadius: '8px',
-              border: '1px solid var(--border)'
+              background: '#f8fafc',
+              border:
+                '1px solid var(--border)',
+              borderRadius: '8px'
             }}
           >
             <strong>Roadmap ID</strong>
-            <div style={{ marginTop: '5px' }}>
-              #{roadmap.id}
+
+            <div style={{ marginTop: '6px' }}>
+              #{roadmap?.id}
             </div>
           </div>
 
           <div
             style={{
-              flex: '1',
-              minWidth: '180px',
               padding: '1rem',
-              backgroundColor: '#f8fafc',
-              borderRadius: '8px',
-              border: '1px solid var(--border)'
+              background: '#f8fafc',
+              border:
+                '1px solid var(--border)',
+              borderRadius: '8px'
             }}
           >
             <strong>Capacity</strong>
-            <div style={{ marginTop: '5px' }}>
-              {roadmap.maxCapacity}
+
+            <div style={{ marginTop: '6px' }}>
+              {roadmap?.maxCapacity || 'N/A'}
             </div>
           </div>
 
           <div
             style={{
-              flex: '1',
-              minWidth: '180px',
               padding: '1rem',
-              backgroundColor: '#f8fafc',
-              borderRadius: '8px',
-              border: '1px solid var(--border)'
+              background: '#f8fafc',
+              border:
+                '1px solid var(--border)',
+              borderRadius: '8px'
             }}
           >
             <strong>Milestones</strong>
-            <div style={{ marginTop: '5px' }}>
+
+            <div style={{ marginTop: '6px' }}>
               {milestones.length}
             </div>
           </div>
+
         </div>
 
-        {/* Milestones */}
-        <div>
-          <h2 style={{ marginBottom: '0.5rem' }}>
-            Learning Milestones
-          </h2>
+        {/* MILESTONES */}
+        <h2>
+          Learning Milestones
+        </h2>
 
-          <p
+        <p
+          style={{
+            color: 'var(--text-muted)',
+            marginTop: '0.5rem',
+            marginBottom: '1.5rem'
+          }}
+        >
+          Complete each milestone to progress
+          through this roadmap.
+        </p>
+
+        {milestones.length === 0 ? (
+
+          <div
             style={{
-              color: 'var(--text-muted)',
-              marginBottom: '1.5rem'
+              padding: '2rem',
+              textAlign: 'center',
+              border:
+                '1px dashed var(--border)',
+              borderRadius: '8px',
+              color: 'var(--text-muted)'
             }}
           >
-            Complete each milestone to progress
-            through this roadmap.
-          </p>
+            No milestones available yet.
+          </div>
 
-          {milestones.length === 0 ? (
+        ) : (
+
+          milestones.map((milestone, index) => (
+
             <div
+              key={milestone.id}
               style={{
-                textAlign: 'center',
-                padding: '2rem',
-                color: 'var(--text-muted)',
-                border: '1px dashed var(--border)',
-                borderRadius: '8px'
+                padding: '1.25rem',
+                marginBottom: '1rem',
+                border:
+                  '1px solid var(--border)',
+                borderRadius: '10px',
+                background: '#fff'
               }}
             >
-              No milestones available yet.
-            </div>
-          ) : (
-            milestones.map((milestone, index) => (
+
               <div
-                key={milestone.id}
                 style={{
-                  padding: '1.25rem',
-                  marginBottom: '1rem',
-                  border: '1px solid var(--border)',
-                  borderRadius: '10px',
-                  backgroundColor: 'white'
+                  display: 'flex',
+                  justifyContent:
+                    'space-between',
+                  alignItems: 'center',
+                  gap: '1rem'
                 }}
               >
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    gap: '1rem',
-                    flexWrap: 'wrap'
-                  }}
-                >
-                  <div>
-                    <h3>
-                      {index + 1}. {milestone.title}
-                    </h3>
 
-                    <p
-                      style={{
-                        color: 'var(--text-muted)',
-                        marginTop: '8px'
-                      }}
-                    >
-                      Milestone ID: #{milestone.id}
-                    </p>
-                  </div>
+                <div>
+
+                  <h3>
+                    {index + 1}.{' '}
+                    {milestone.title}
+                  </h3>
+
+                  <p
+                    style={{
+                      color:
+                        'var(--text-muted)',
+                      marginTop: '6px'
+                    }}
+                  >
+                    Milestone ID: #{milestone.id}
+                  </p>
+
                 </div>
 
-                <div
-                  style={{
-                    display: 'flex',
-                    gap: '1.5rem',
-                    flexWrap: 'wrap',
-                    marginTop: '1rem',
-                    fontSize: '0.9rem'
-                  }}
-                >
-                  <span>
-                    <strong>Duration:</strong>{' '}
-                    {milestone.expectedDurationDays}{' '}
-                    days
-                  </span>
-
-                  <span>
-                    <strong>Passing Score:</strong>{' '}
-                    {milestone.passingScore}
-                  </span>
-                </div>
               </div>
-            ))
-          )}
-        </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '2rem',
+                  flexWrap: 'wrap',
+                  marginTop: '1rem',
+                  fontSize: '14px'
+                }}
+              >
+
+                <span>
+                  <strong>
+                    Duration:
+                  </strong>{' '}
+                  {milestone.expectedDurationDays ||
+                    'N/A'}{' '}
+                  days
+                </span>
+
+                <span>
+                  <strong>
+                    Passing Score:
+                  </strong>{' '}
+                  {milestone.passingScore ||
+                    'N/A'}
+                </span>
+
+              </div>
+
+            </div>
+
+          ))
+        )}
 
       </div>
+
     </div>
   );
 };
