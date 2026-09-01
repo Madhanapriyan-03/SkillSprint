@@ -42,7 +42,7 @@ public class DataSeeder implements CommandLineRunner {
 
             SprintAccount student = new SprintAccount();
             student.setEmail("student@skillsprint.com");
-            student.setPasswordHash(passwordEncoder.encode("password123"));
+            student.setPasswordHash(passwordEncoder.encode("student@skillsprint.com"));
             student.setRole("STUDENT");
             student.setCreatedAt(LocalDateTime.now());
 
