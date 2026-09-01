@@ -58,18 +58,18 @@ const EnrollmentList = () => {
   };
 
   const getStatusClass = (status) => {
-  switch (status) {
-    case 'COMPLETED':
-      return 'status-badge status-completed';
+    switch (status) {
+      case 'COMPLETED':
+        return 'status-badge status-completed';
 
-    case 'ACTIVE':
-      return 'status-badge status-active';
+      case 'ACTIVE':
+        return 'status-badge status-active';
 
-    case 'DROPPED':
-      return 'status-badge status-dropped';
+      case 'DROPPED':
+        return 'status-badge status-dropped';
 
-    default:
-      return 'status-badge';
+      default:
+        return 'status-badge';
     }
   };
 
@@ -124,7 +124,7 @@ const EnrollmentList = () => {
           </button>
         </div>
 
-        {/* Content */}
+        {/* Enrollment Table */}
         {loading ? (
           <div
             style={{
@@ -187,8 +187,7 @@ const EnrollmentList = () => {
 
               <tbody>
                 {items.map((enroll) => {
-                  const progress =
-                    getProgress(enroll);
+                  const progress = getProgress(enroll);
 
                   return (
                     <tr
@@ -198,6 +197,7 @@ const EnrollmentList = () => {
                           '1px solid var(--border)'
                       }}
                     >
+
                       {/* Enrollment ID */}
                       <td
                         style={{
@@ -274,19 +274,26 @@ const EnrollmentList = () => {
                             Completion
                           </span>
 
-                          <strong>
+                          <strong
+                            style={{
+                              color:
+                                progress === 100
+                                  ? '#059669'
+                                  : 'var(--text-dark)'
+                            }}
+                          >
                             {progress}%
                           </strong>
                         </div>
 
+                        {/* Progress Bar */}
                         <div
                           style={{
                             width: '100%',
                             height: '9px',
                             backgroundColor:
                               '#e5e7eb',
-                            borderRadius:
-                              '999px',
+                            borderRadius: '999px',
                             overflow: 'hidden'
                           }}
                         >
@@ -296,16 +303,16 @@ const EnrollmentList = () => {
                               height: '100%',
                               backgroundColor:
                                 progress === 100
-                                  ? 'var(--success)'
-                                  : 'var(--primary)',
-                              borderRadius:
-                                '999px',
+                                  ? '#10b981'
+                                  : '#3b82f6',
+                              borderRadius: '999px',
                               transition:
                                 'width 0.4s ease'
                             }}
                           />
                         </div>
                       </td>
+
                     </tr>
                   );
                 })}
@@ -327,6 +334,8 @@ const EnrollmentList = () => {
               e.stopPropagation()
             }
           >
+
+            {/* Modal Header */}
             <div
               style={{
                 display: 'flex',
@@ -374,6 +383,7 @@ const EnrollmentList = () => {
               </button>
             </div>
 
+            {/* Error */}
             {errorMsg && (
               <div
                 style={{
@@ -391,6 +401,7 @@ const EnrollmentList = () => {
               </div>
             )}
 
+            {/* Form */}
             <form
               onSubmit={handleEnrollSubmit}
             >
@@ -456,6 +467,7 @@ const EnrollmentList = () => {
                 </button>
               </div>
             </form>
+
           </div>
         </div>
       )}
