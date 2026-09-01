@@ -5,7 +5,6 @@ import SearchFilterBar from '../common/SearchFilterBar';
 import CapacityBar from '../common/CapacityBar';
 import EmptyState from '../common/EmptyState';
 import RoadmapForm from './RoadmapForm';
-import MilestoneList from '../milestone/MilestoneList';
 import roadmapService from '../../services/roadmapService';
 import enrollmentService from '../../services/enrollmentService';
 
@@ -16,11 +15,50 @@ const RoadmapList = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
-  const [selectedRoadmap, setSelectedRoadmap] = useState(null);
+
+  // NEW: actual enrollment counts
+  const [enrollmentCounts, setEnrollmentCounts] = useState({});
 
   useEffect(() => {
     dispatch(fetchRoadmaps({ page: 0, size: 20 }));
   }, [dispatch]);
+
+  // NEW: load actual enrollment counts
+  const loadEnrollmentCounts = async () => {
+    try {
+      const response = await enrollmentService.getAll(0, 1000);
+
+      const enrollments = Array.isArray(response?.content)
+        ? response.content
+        : Array.isArray(response)
+          ? response
+          : [];
+
+      const counts = {};
+
+      enrollments.forEach((enrollment) => {
+        const roadmapId =
+          enrollment.roadmapId ??
+          enrollment.roadmap?.id;
+
+        if (roadmapId != null) {
+          counts[roadmapId] =
+            (counts[roadmapId] || 0) + 1;
+        }
+      });
+
+      setEnrollmentCounts(counts);
+    } catch (error) {
+      console.error(
+        'Failed to load enrollment counts:',
+        error
+      );
+    }
+  };
+
+  useEffect(() => {
+    loadEnrollmentCounts();
+  }, []);
 
   const filteredItems = items.filter(item =>
     item.title?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -36,9 +74,12 @@ const RoadmapList = () => {
     try {
       const response = await roadmapService.remove(id);
       console.log('Delete success:', response);
+
       dispatch(fetchRoadmaps({ page: 0, size: 20 }));
+      loadEnrollmentCounts();
     } catch (err) {
       console.error('Delete error:', err);
+
       const errorMsg =
         err.response?.data?.message ||
         err.message ||
@@ -54,9 +95,11 @@ const RoadmapList = () => {
     try {
       const response = await roadmapService.publish(id);
       console.log('Publish success:', response);
+
       dispatch(fetchRoadmaps({ page: 0, size: 20 }));
     } catch (err) {
       console.error('Publish error:', err);
+
       const errorMsg =
         err.response?.data?.message ||
         err.message ||
@@ -69,7 +112,11 @@ const RoadmapList = () => {
   const handleEnroll = async (roadmapId) => {
     try {
       await enrollmentService.create({ roadmapId });
+
       alert('Successfully enrolled!');
+
+      // NEW: immediately refresh capacity
+      await loadEnrollmentCounts();
     } catch (err) {
       alert(
         err.response?.data?.message ||
@@ -81,6 +128,7 @@ const RoadmapList = () => {
   return (
     <div className="page-container">
       <div className="card">
+
         <div
           style={{
             display: 'flex',
@@ -105,7 +153,9 @@ const RoadmapList = () => {
 
         <SearchFilterBar
           searchQuery={searchQuery}
-          onSearchChange={(q) => dispatch(setSearchQuery(q))}
+          onSearchChange={(q) =>
+            dispatch(setSearchQuery(q))
+          }
           placeholder="Search roadmaps by title..."
         />
 
@@ -131,205 +181,194 @@ const RoadmapList = () => {
             <thead>
               <tr
                 style={{
-                  borderBottom: '2px solid var(--border)',
+                  borderBottom:
+                    '2px solid var(--border)',
                   textAlign: 'left'
                 }}
               >
-                <th style={{ padding: '10px' }}>ID</th>
-                <th style={{ padding: '10px' }}>Title</th>
-                <th style={{ padding: '10px' }}>Status</th>
-                <th style={{ padding: '10px' }}>Capacity</th>
-                <th style={{ padding: '10px' }}>Actions</th>
+                <th style={{ padding: '10px' }}>
+                  ID
+                </th>
+
+                <th style={{ padding: '10px' }}>
+                  Title
+                </th>
+
+                <th style={{ padding: '10px' }}>
+                  Status
+                </th>
+
+                <th style={{ padding: '10px' }}>
+                  Capacity
+                </th>
+
+                <th style={{ padding: '10px' }}>
+                  Actions
+                </th>
               </tr>
             </thead>
 
             <tbody>
-              {filteredItems.map(roadmap => (
-                <tr
-                  key={roadmap.id}
-                  style={{
-                    borderBottom:
-                      '1px solid var(--border)'
-                  }}
-                >
-                  <td
+              {filteredItems.map(roadmap => {
+                const currentEnrollment =
+                  enrollmentCounts[roadmap.id] || 0;
+
+                return (
+                  <tr
+                    key={roadmap.id}
                     style={{
-                      padding: '10px',
-                      fontWeight: 'bold'
+                      borderBottom:
+                        '1px solid var(--border)'
                     }}
                   >
-                    #{roadmap.id}
-                  </td>
-
-                  <td style={{ padding: '10px' }}>
-                    {roadmap.title}
-                  </td>
-
-                  <td style={{ padding: '10px' }}>
-                    <span
+                    <td
                       style={{
-                        padding: '4px 8px',
-                        borderRadius: '4px',
-                        fontSize: '12px',
-                        fontWeight: '500',
-                        backgroundColor:
-                          roadmap.status === 'PUBLISHED'
-                            ? '#dcfce7'
-                            : '#f1f5f9',
-                        color:
-                          roadmap.status === 'PUBLISHED'
-                            ? '#166534'
-                            : '#475569'
+                        padding: '10px',
+                        fontWeight: 'bold'
                       }}
                     >
-                      {roadmap.status}
-                    </span>
-                  </td>
+                      #{roadmap.id}
+                    </td>
 
-                  <td style={{ padding: '10px' }}>
-                    <CapacityBar
-                      current={0}
-                      max={roadmap.maxCapacity}
-                    />
-                  </td>
+                    <td style={{ padding: '10px' }}>
+                      {roadmap.title}
+                    </td>
 
-                  <td
-                    style={{
-                      padding: '10px',
-                      display: 'flex',
-                      gap: '10px',
-                      alignItems: 'center',
-                      flexWrap: 'wrap'
-                    }}
-                  >
-                    {roadmap.status === 'PUBLISHED' &&
-                      (
-                        user?.role === 'STUDENT' ||
-                        user?.role === 'LEARNING_MANAGER'
-                      ) && (
-                        <button
-                          className="btn-primary"
-                          style={{
-                            padding: '5px 10px',
-                            fontSize: '12px',
-                            minWidth: 'auto'
-                          }}
-                          onClick={() =>
-                            handleEnroll(roadmap.id)
-                          }
-                        >
-                          Enroll
-                        </button>
-                      )}
+                    <td style={{ padding: '10px' }}>
+                      <span
+                        style={{
+                          padding: '4px 8px',
+                          borderRadius: '4px',
+                          fontSize: '12px',
+                          fontWeight: '500',
+                          backgroundColor:
+                            roadmap.status === 'PUBLISHED'
+                              ? '#dcfce7'
+                              : '#f1f5f9',
+                          color:
+                            roadmap.status === 'PUBLISHED'
+                              ? '#166534'
+                              : '#475569'
+                        }}
+                      >
+                        {roadmap.status}
+                      </span>
+                    </td>
 
-                    {isAdmin && (
-                      <>
-                        {/* NEW: Milestone management */}
-                        {roadmap.status === 'DRAFT' && (
+                    <td style={{ padding: '10px' }}>
+                      <CapacityBar
+                        current={currentEnrollment}
+                        max={roadmap.maxCapacity}
+                      />
+                    </td>
+
+                    <td
+                      style={{
+                        padding: '10px',
+                        display: 'flex',
+                        gap: '10px',
+                        alignItems: 'center'
+                      }}
+                    >
+                      {roadmap.status === 'PUBLISHED' &&
+                        (
+                          user?.role === 'STUDENT' ||
+                          user?.role === 'LEARNING_MANAGER'
+                        ) && (
+                          <button
+                            className="btn-primary"
+                            style={{
+                              padding: '5px 10px',
+                              fontSize: '12px',
+                              minWidth: 'auto'
+                            }}
+                            onClick={() =>
+                              handleEnroll(roadmap.id)
+                            }
+                          >
+                            Enroll
+                          </button>
+                        )}
+
+                      {isAdmin && (
+                        <>
+                          {roadmap.status === 'DRAFT' && (
+                            <button
+                              style={{
+                                color: '#16a34a',
+                                border:
+                                  '1px solid #16a34a',
+                                padding: '4px 8px',
+                                borderRadius: '4px',
+                                background: 'none',
+                                cursor: 'pointer',
+                                fontSize: '12px'
+                              }}
+                              onClick={() =>
+                                handlePublish(roadmap.id)
+                              }
+                            >
+                              Publish
+                            </button>
+                          )}
+
                           <button
                             style={{
                               color: 'var(--primary)',
-                              border:
-                                '1px solid var(--primary)',
-                              padding: '4px 8px',
-                              borderRadius: '4px',
+                              border: 'none',
                               background: 'none',
-                              cursor: 'pointer',
-                              fontSize: '12px'
+                              cursor: 'pointer'
                             }}
-                            onClick={() =>
-                              setSelectedRoadmap(roadmap)
-                            }
+                            onClick={() => {
+                              setEditingItem(roadmap);
+                              setShowModal(true);
+                            }}
                           >
-                            Milestones
+                            Edit
                           </button>
-                        )}
 
-                        {/* Existing Publish action */}
-                        {roadmap.status === 'DRAFT' && (
                           <button
                             style={{
-                              color: '#16a34a',
-                              border:
-                                '1px solid #16a34a',
-                              padding: '4px 8px',
-                              borderRadius: '4px',
+                              color: 'var(--danger)',
+                              border: 'none',
                               background: 'none',
-                              cursor: 'pointer',
-                              fontSize: '12px'
+                              cursor: 'pointer'
                             }}
                             onClick={() =>
-                              handlePublish(roadmap.id)
+                              handleDelete(roadmap.id)
                             }
                           >
-                            Publish
+                            Delete
                           </button>
-                        )}
-
-                        {/* Existing Edit action */}
-                        <button
-                          style={{
-                            color: 'var(--primary)',
-                            border: 'none',
-                            background: 'none',
-                            cursor: 'pointer'
-                          }}
-                          onClick={() => {
-                            setEditingItem(roadmap);
-                            setShowModal(true);
-                          }}
-                        >
-                          Edit
-                        </button>
-
-                        {/* Existing Delete action */}
-                        <button
-                          style={{
-                            color: 'var(--danger)',
-                            border: 'none',
-                            background: 'none',
-                            cursor: 'pointer'
-                          }}
-                          onClick={() =>
-                            handleDelete(roadmap.id)
-                          }
-                        >
-                          Delete
-                        </button>
-                      </>
-                    )}
-                  </td>
-                </tr>
-              ))}
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}
       </div>
 
-      {/* Existing Roadmap Form */}
       {showModal && (
         <RoadmapForm
           item={editingItem}
-          onClose={() => setShowModal(false)}
+          onClose={() =>
+            setShowModal(false)
+          }
           onSuccess={() => {
             setShowModal(false);
+
             dispatch(
               fetchRoadmaps({
                 page: 0,
                 size: 20
               })
             );
-          }}
-        />
-      )}
 
-      {/* NEW: Milestone List */}
-      {selectedRoadmap && (
-        <MilestoneList
-          roadmapId={selectedRoadmap.id}
-          roadmapTitle={selectedRoadmap.title}
-          roadmapStatus={selectedRoadmap.status}
-          onClose={() => setSelectedRoadmap(null)}
+            loadEnrollmentCounts();
+          }}
         />
       )}
     </div>
