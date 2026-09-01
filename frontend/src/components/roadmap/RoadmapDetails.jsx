@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import roadmapService from '../../services/roadmapService';
 import api from '../../services/api';
 
 const RoadmapDetails = () => {
@@ -17,13 +16,14 @@ const RoadmapDetails = () => {
         setLoading(true);
         setError('');
 
-        // Get roadmap
-        const roadmapResponse =
-          await roadmapService.getById(id);
+        // Get roadmap by ID
+        const roadmapResponse = await api.get(
+          `/roadmaps/${id}`
+        );
 
         setRoadmap(roadmapResponse.data);
 
-        // Get milestones
+        // Get milestones for this roadmap
         const milestoneResponse = await api.get(
           `/milestones?roadmapId=${id}&page=0&size=100`
         );
@@ -34,7 +34,6 @@ const RoadmapDetails = () => {
           [];
 
         setMilestones(milestoneData);
-
       } catch (err) {
         console.error(
           'Failed to load roadmap:',
@@ -67,7 +66,6 @@ const RoadmapDetails = () => {
     return (
       <div className="page-container">
         <div className="card">
-
           <h2>Roadmap</h2>
 
           <p
@@ -90,7 +88,6 @@ const RoadmapDetails = () => {
           >
             ← Back to Roadmaps
           </Link>
-
         </div>
       </div>
     );
@@ -98,10 +95,9 @@ const RoadmapDetails = () => {
 
   return (
     <div className="page-container">
-
       <div className="card">
 
-        {/* BACK */}
+        {/* Back */}
         <Link
           to="/roadmaps"
           style={{
@@ -113,7 +109,7 @@ const RoadmapDetails = () => {
           ← Back to Roadmaps
         </Link>
 
-        {/* HEADER */}
+        {/* Roadmap Header */}
         <div
           style={{
             display: 'flex',
@@ -125,9 +121,7 @@ const RoadmapDetails = () => {
           }}
         >
           <div>
-            <h1>
-              {roadmap?.title}
-            </h1>
+            <h1>{roadmap?.title}</h1>
 
             <p
               style={{
@@ -160,7 +154,7 @@ const RoadmapDetails = () => {
           </span>
         </div>
 
-        {/* INFO CARDS */}
+        {/* Info Cards */}
         <div
           style={{
             display: 'grid',
@@ -170,13 +164,11 @@ const RoadmapDetails = () => {
             marginBottom: '2rem'
           }}
         >
-
           <div
             style={{
               padding: '1rem',
               background: '#f8fafc',
-              border:
-                '1px solid var(--border)',
+              border: '1px solid var(--border)',
               borderRadius: '8px'
             }}
           >
@@ -191,8 +183,7 @@ const RoadmapDetails = () => {
             style={{
               padding: '1rem',
               background: '#f8fafc',
-              border:
-                '1px solid var(--border)',
+              border: '1px solid var(--border)',
               borderRadius: '8px'
             }}
           >
@@ -207,8 +198,7 @@ const RoadmapDetails = () => {
             style={{
               padding: '1rem',
               background: '#f8fafc',
-              border:
-                '1px solid var(--border)',
+              border: '1px solid var(--border)',
               borderRadius: '8px'
             }}
           >
@@ -218,13 +208,10 @@ const RoadmapDetails = () => {
               {milestones.length}
             </div>
           </div>
-
         </div>
 
-        {/* MILESTONES */}
-        <h2>
-          Learning Milestones
-        </h2>
+        {/* Milestones */}
+        <h2>Learning Milestones</h2>
 
         <p
           style={{
@@ -238,65 +225,51 @@ const RoadmapDetails = () => {
         </p>
 
         {milestones.length === 0 ? (
-
           <div
             style={{
               padding: '2rem',
               textAlign: 'center',
-              border:
-                '1px dashed var(--border)',
+              border: '1px dashed var(--border)',
               borderRadius: '8px',
               color: 'var(--text-muted)'
             }}
           >
             No milestones available yet.
           </div>
-
         ) : (
-
           milestones.map((milestone, index) => (
-
             <div
               key={milestone.id}
               style={{
                 padding: '1.25rem',
                 marginBottom: '1rem',
-                border:
-                  '1px solid var(--border)',
+                border: '1px solid var(--border)',
                 borderRadius: '10px',
                 background: '#fff'
               }}
             >
-
               <div
                 style={{
                   display: 'flex',
-                  justifyContent:
-                    'space-between',
+                  justifyContent: 'space-between',
                   alignItems: 'center',
                   gap: '1rem'
                 }}
               >
-
                 <div>
-
                   <h3>
-                    {index + 1}.{' '}
-                    {milestone.title}
+                    {index + 1}. {milestone.title}
                   </h3>
 
                   <p
                     style={{
-                      color:
-                        'var(--text-muted)',
+                      color: 'var(--text-muted)',
                       marginTop: '6px'
                     }}
                   >
                     Milestone ID: #{milestone.id}
                   </p>
-
                 </div>
-
               </div>
 
               <div
@@ -308,33 +281,23 @@ const RoadmapDetails = () => {
                   fontSize: '14px'
                 }}
               >
-
                 <span>
-                  <strong>
-                    Duration:
-                  </strong>{' '}
+                  <strong>Duration:</strong>{' '}
                   {milestone.expectedDurationDays ||
                     'N/A'}{' '}
                   days
                 </span>
 
                 <span>
-                  <strong>
-                    Passing Score:
-                  </strong>{' '}
+                  <strong>Passing Score:</strong>{' '}
                   {milestone.passingScore ||
                     'N/A'}
                 </span>
-
               </div>
-
             </div>
-
           ))
         )}
-
       </div>
-
     </div>
   );
 };
