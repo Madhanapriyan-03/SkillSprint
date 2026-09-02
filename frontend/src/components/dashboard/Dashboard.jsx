@@ -82,10 +82,8 @@ const Dashboard = () => {
 
       {/* Welcome Section */}
       <div
-        className="card"
+        className="card dashboard-hero"
         style={{
-          backgroundColor: 'var(--primary)',
-          color: 'white',
           marginBottom: '2rem'
         }}
       >
