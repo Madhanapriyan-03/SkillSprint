@@ -527,27 +527,8 @@ input[placeholder*="Search"] {
 
 /* Overrides the current inline hero color */
 
-.page-container > .card:first-child {
-  position: relative;
-  overflow: hidden;
-
-  background:
-    linear-gradient(
-      135deg,
-      #2563eb 0%,
-      #315fe8 48%,
-      #4338ca 100%
-    ) !important;
-
-  border: none;
-
-  color: #ffffff;
-
-  padding: 2.5rem;
-
-  box-shadow:
-    0 15px 35px rgba(37, 99, 235, 0.22);
-}
+/* Dashboard gradient is handled only by .dashboard-hero.
+   Do not apply the hero style to the first card on every page. */
 
 .page-container > .card:first-child::before {
   content: "";
@@ -1171,4 +1152,129 @@ form {
 .page-container > .card:not(.dashboard-hero):hover {
   box-shadow:
     0 12px 35px rgba(15, 23, 42, 0.10) !important;
+}
+
+/* =========================================================
+   FINAL CLEAN UI OVERRIDES
+   ========================================================= */
+
+/* Normal pages: white, readable cards */
+.page-container > .card:not(.dashboard-hero) {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Dashboard hero only */
+.page-container > .dashboard-hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #2563eb 0%, #315fe8 50%, #4338ca 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 15px 35px rgba(37, 99, 235, 0.22) !important;
+}
+
+.page-container > .dashboard-hero h1,
+.page-container > .dashboard-hero h2 {
+  color: #ffffff !important;
+}
+
+.page-container > .dashboard-hero p {
+  color: rgba(255, 255, 255, 0.94) !important;
+  opacity: 1 !important;
+  font-weight: 500 !important;
+}
+
+.page-container > .dashboard-hero .btn-primary {
+  background: #ffffff !important;
+  color: #2563eb !important;
+  border: none !important;
+}
+
+.page-container > .dashboard-hero .btn-primary:hover {
+  background: #f8fafc !important;
+  color: #1d4ed8 !important;
+}
+
+/* Readable tables */
+.page-container > .card table {
+  background: #ffffff !important;
+}
+
+.page-container > .card table thead tr,
+.page-container > .card table th {
+  background: #f8fafc !important;
+  color: #172033 !important;
+}
+
+.page-container > .card table td {
+  background: #ffffff !important;
+  color: #334155 !important;
+}
+
+.page-container > .card table tbody tr:hover td {
+  background: #f8fbff !important;
+}
+
+/* Progress bars */
+.page-container div[style*="height: 8px"] {
+  background: #e5e7eb !important;
+  border-radius: 999px !important;
+  overflow: hidden;
+}
+
+.page-container div[style*="height: 100%"] {
+  border-radius: 999px !important;
+  background: linear-gradient(90deg, #2563eb, #3b82f6) !important;
+}
+
+/* Completed progress */
+.page-container .card div[style*="height: 100%"] {
+  background: linear-gradient(90deg, #10b981, #059669) !important;
+}
+
+/* Buttons */
+.btn-primary {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+/* Better search */
+.page-container input[placeholder*="Search"] {
+  max-width: 450px !important;
+  background: #ffffff !important;
+  color: #172033 !important;
+}
+
+/* Better stat cards */
+.page-container .card[style*="border-left"] {
+  background: #ffffff !important;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .page-container > .dashboard-hero {
+    padding: 1.7rem !important;
+  }
+
+  .page-container > .dashboard-hero h1 {
+    font-size: 1.75rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container > .dashboard-hero {
+    padding: 1.4rem !important;
+  }
+
+  .page-container > .dashboard-hero h1 {
+    font-size: 1.55rem !important;
+  }
 }
