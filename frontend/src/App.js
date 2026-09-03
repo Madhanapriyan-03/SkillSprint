@@ -10,51 +10,55 @@ import { useSelector } from 'react-redux';
 
 import Navbar from './components/layout/Navbar';
 import Login from './components/Login';
+import Register from './components/Register';
+
 import ErrorHandler from './components/ErrorHandler';
 import NotificationStack from './components/NotificationStack';
 
 import Dashboard from './components/dashboard/Dashboard';
 import RoadmapList from './components/roadmap/RoadmapList';
-import RoadmapDetails from './components/roadmap/RoadmapDetails';
-
 import EnrollmentList from './components/enrollment/EnrollmentList';
 import SubmissionList from './components/submission/SubmissionList';
 
-function PrivateRoute({ children }) {
-  const { user } = useSelector(
-    (state) => state.auth
-  );
 
-  return user
-    ? children
-    : <Navigate to="/login" />;
+function PrivateRoute({ children }) {
+  const { user } = useSelector((state) => state.auth);
+
+  return user ? children : <Navigate to="/login" />;
 }
 
+
 function App() {
-  const { user } = useSelector(
-    (state) => state.auth
-  );
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <Router>
 
       <div className="app">
 
+        {/* Navbar only for logged-in users */}
         {user && <Navbar />}
 
         <ErrorHandler />
-
         <NotificationStack />
 
         <Routes>
 
-          {/* LOGIN */}
+          {/* ================= PUBLIC ROUTES ================= */}
+
           <Route
             path="/login"
             element={<Login />}
           />
 
-          {/* HOME */}
+          <Route
+            path="/register"
+            element={<Register />}
+          />
+
+
+          {/* ================= PROTECTED ROUTES ================= */}
+
           <Route
             path="/"
             element={
@@ -64,7 +68,6 @@ function App() {
             }
           />
 
-          {/* ROADMAP LIST */}
           <Route
             path="/roadmaps"
             element={
@@ -74,17 +77,6 @@ function App() {
             }
           />
 
-          {/* ROADMAP DETAILS */}
-          <Route
-            path="/roadmaps/:id"
-            element={
-              <PrivateRoute>
-                <RoadmapDetails />
-              </PrivateRoute>
-            }
-          />
-
-          {/* ENROLLMENTS */}
           <Route
             path="/enrollments"
             element={
@@ -94,7 +86,6 @@ function App() {
             }
           />
 
-          {/* SUBMISSIONS */}
           <Route
             path="/submissions"
             element={
@@ -102,6 +93,14 @@ function App() {
                 <SubmissionList />
               </PrivateRoute>
             }
+          />
+
+
+          {/* ================= FALLBACK ================= */}
+
+          <Route
+            path="*"
+            element={<Navigate to="/" />}
           />
 
         </Routes>
