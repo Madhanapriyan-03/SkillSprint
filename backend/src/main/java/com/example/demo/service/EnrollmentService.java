@@ -34,12 +34,28 @@ public class EnrollmentService {
 
     @Transactional(readOnly = true)
     public PageResponseDto<EnrollmentResponseDto> getAllEnrollments(Pageable pageable) {
-        Page<RoadmapEnrollment> page = repository.findAll(pageable);
+
+        String email = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        SprintAccount student = accountRepository
+                .findByEmail(email)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Student not found"));
+
+        Page<RoadmapEnrollment> page =
+                repository.findByStudentId(student.getId(), pageable);
+
         return new PageResponseDto<>(
-            page.getContent().stream().map(this::mapToDto).collect(Collectors.toList()),
-            page.getNumber(),
-            page.getTotalElements(),
-            page.getTotalPages()
+                page.getContent()
+                        .stream()
+                        .map(this::mapToDto)
+                        .collect(Collectors.toList()),
+                page.getNumber(),
+                page.getTotalElements(),
+                page.getTotalPages()
         );
     }
 
