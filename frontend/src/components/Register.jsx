@@ -67,6 +67,7 @@ const Register = () => {
       }}
     >
       <div className="card">
+
         <h2>Create SkillSprint Account</h2>
 
         <p
@@ -101,6 +102,8 @@ const Register = () => {
             marginTop: '20px'
           }}
         >
+
+          {/* Email */}
           <div>
             <label>Email</label>
 
@@ -119,6 +122,7 @@ const Register = () => {
             />
           </div>
 
+          {/* Password */}
           <div>
             <label>Password</label>
 
@@ -138,6 +142,7 @@ const Register = () => {
             />
           </div>
 
+          {/* Confirm Password */}
           <div>
             <label>Confirm Password</label>
 
@@ -156,6 +161,7 @@ const Register = () => {
             />
           </div>
 
+          {/* Role */}
           <div>
             <label>Register As</label>
 
@@ -163,6 +169,7 @@ const Register = () => {
               name="role"
               value={formData.role}
               onChange={handleChange}
+              required
               style={{
                 width: '100%',
                 padding: '9px',
@@ -176,9 +183,14 @@ const Register = () => {
               <option value="MENTOR">
                 Mentor
               </option>
+
+              <option value="LEARNING_MANAGER">
+                Learning Manager
+              </option>
             </select>
           </div>
 
+          {/* Register Button */}
           <button
             type="submit"
             className="btn-primary"
@@ -188,8 +200,10 @@ const Register = () => {
               ? 'Creating Account...'
               : 'Register'}
           </button>
+
         </form>
 
+        {/* Login Link */}
         <div
           style={{
             textAlign: 'center',
@@ -203,6 +217,7 @@ const Register = () => {
             Login
           </Link>
         </div>
+
       </div>
     </div>
   );
