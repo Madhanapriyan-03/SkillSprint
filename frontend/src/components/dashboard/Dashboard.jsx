@@ -12,10 +12,15 @@ import { fetchSubmissions } from '../../store/slices/submissionSlice';
 
 const Dashboard = () => {
   const { user } = useSelector((state) => state.auth);
-  const { items: roadmaps } = useSelector((state) => state.roadmaps);
+
+  const { items: roadmaps } = useSelector(
+    (state) => state.roadmaps
+  );
+
   const { items: enrollments } = useSelector(
     (state) => state.enrollments
   );
+
   const { items: submissions } = useSelector(
     (state) => state.submissions
   );
@@ -73,53 +78,130 @@ const Dashboard = () => {
       : 0;
 
   const recentSubmissions = [...submissions]
-    .filter((submission) => submission.score !== null && submission.score !== undefined)
+    .filter(
+      (submission) =>
+        submission.score !== null &&
+        submission.score !== undefined
+    )
     .slice(-3)
     .reverse();
 
   return (
-    <div className="page-container">
+    <div className="page-container dashboard-page">
 
-      {/* Welcome Section */}
+      {/* Decorative background elements */}
+      <div className="dashboard-decoration dashboard-decoration-one"></div>
+      <div className="dashboard-decoration dashboard-decoration-two"></div>
+      <div className="dashboard-decoration dashboard-decoration-three"></div>
+
+      {/* Small learning notes */}
+      <div className="dashboard-note dashboard-note-left">
+        Learn
+        <br />
+        Build
+        <br />
+        Grow
+        <span>↗</span>
+      </div>
+
+      <div className="dashboard-note dashboard-note-right">
+        Small
+        <br />
+        Steps
+        <br />
+        Big Progress
+        <span>↗</span>
+      </div>
+
+      {/* =====================================================
+          WELCOME SECTION
+          ===================================================== */}
+
       <div
         className="card dashboard-hero"
         style={{
           marginBottom: '2rem'
         }}
       >
-        <h1>
-          Welcome back, {user?.role}!
-        </h1>
 
-        <p
-          style={{
-            marginTop: '0.5rem',
-            opacity: 0.9
-          }}
-        >
-          Here's what's happening with your
-          learning roadmaps today.
-        </p>
+        <div className="dashboard-hero-content">
 
-        <Link
-          to="/roadmaps"
-          className="btn-primary"
-          style={{
-            display: 'inline-block',
-            backgroundColor: 'white',
-            color: 'var(--primary)',
-            marginTop: '1rem',
-            textDecoration: 'none'
-          }}
-        >
-          Explore Roadmaps
-        </Link>
+          <div className="dashboard-hero-badge">
+            <span>S</span>
+          </div>
+
+          <div className="dashboard-hero-text">
+
+            <h1>
+              Welcome back, {user?.role}!
+            </h1>
+
+            <p
+              style={{
+                marginTop: '0.5rem',
+                opacity: 0.9
+              }}
+            >
+              Here's what's happening with your
+              learning roadmaps today.
+            </p>
+
+            <Link
+              to="/roadmaps"
+              className="btn-primary dashboard-explore-btn"
+              style={{
+                display: 'inline-block',
+                backgroundColor: 'white',
+                color: 'var(--primary)',
+                marginTop: '1rem',
+                textDecoration: 'none'
+              }}
+            >
+              Explore Roadmaps
+              <span className="dashboard-btn-arrow">
+                →
+              </span>
+            </Link>
+
+          </div>
+
+        </div>
+
+        {/* Hero decorative artwork */}
+
+        <div className="dashboard-hero-circle hero-circle-one"></div>
+        <div className="dashboard-hero-circle hero-circle-two"></div>
+
+        <div className="dashboard-mountains">
+          <div className="dashboard-mountain mountain-one"></div>
+          <div className="dashboard-mountain mountain-two"></div>
+          <div className="dashboard-mountain mountain-three"></div>
+
+          <div className="dashboard-learning-path"></div>
+        </div>
+
+        <div className="dashboard-quote">
+          <span>"</span>
+          Progress is a series
+          <br />
+          of small wins.
+          <div></div>
+        </div>
+
       </div>
 
-      {/* ================= STUDENT DASHBOARD ================= */}
+
+      {/* =====================================================
+          STUDENT DASHBOARD
+          ===================================================== */}
+
       {user?.role === 'STUDENT' && (
         <>
-          {/* Statistics */}
+
+          {/* =================================================
+              STATISTICS
+              ================================================= */}
+
           <div
             className="dashboard-stats"
             style={{
@@ -129,6 +211,7 @@ const Dashboard = () => {
               marginBottom: '2rem'
             }}
           >
+
             <StatCards
               title="My Enrollments"
               value={enrollments.length}
@@ -145,41 +228,65 @@ const Dashboard = () => {
               value={`${averageScore}%`}
               color="#8b5cf6"
             />
+
           </div>
 
-          {/* Learning Progress */}
+
+          {/* =================================================
+              LEARNING PROGRESS
+              ================================================= */}
+
           <div
-            className="card"
+            className="card dashboard-section-card"
             style={{
               marginBottom: '2rem'
             }}
           >
-            <h2
-              style={{
-                marginBottom: '0.4rem'
-              }}
-            >
-              Your Learning Progress
-            </h2>
 
-            <p
-              style={{
-                color: 'var(--text-muted)',
-                marginBottom: '1.5rem'
-              }}
-            >
-              Track your progress across enrolled
-              roadmaps.
-            </p>
+            <div className="dashboard-section-heading">
+
+              <div>
+                <div className="section-icon">
+                  ✦
+                </div>
+
+                <h2
+                  style={{
+                    marginBottom: '0.4rem'
+                  }}
+                >
+                  Your Learning Progress
+                </h2>
+
+                <p
+                  style={{
+                    color: 'var(--text-muted)',
+                    marginBottom: '1.5rem'
+                  }}
+                >
+                  Track your progress across enrolled
+                  roadmaps.
+                </p>
+              </div>
+
+            </div>
+
 
             {enrollments.length === 0 ? (
+
               <div
+                className="dashboard-empty"
                 style={{
                   textAlign: 'center',
                   padding: '2rem',
                   color: 'var(--text-muted)'
                 }}
               >
+
+                <div className="dashboard-empty-icon">
+                  ○
+                </div>
+
                 <p>
                   You haven't enrolled in any
                   roadmaps yet.
@@ -196,9 +303,13 @@ const Dashboard = () => {
                 >
                   Explore Roadmaps
                 </Link>
+
               </div>
+
             ) : (
+
               enrollments.map((enrollment) => {
+
                 const progress = Math.min(
                   100,
                   Math.max(
@@ -212,18 +323,23 @@ const Dashboard = () => {
                 return (
                   <div
                     key={enrollment.id}
+                    className="dashboard-progress-item"
                     style={{
                       marginBottom: '1.25rem'
                     }}
                   >
+
                     <div
+                      className="dashboard-progress-header"
                       style={{
                         display: 'flex',
                         justifyContent: 'space-between',
                         marginBottom: '6px'
                       }}
                     >
+
                       <div>
+
                         <strong>
                           Roadmap #{enrollment.roadmapId}
                         </strong>
@@ -237,6 +353,7 @@ const Dashboard = () => {
                         >
                           {enrollment.status}
                         </div>
+
                       </div>
 
                       <strong
@@ -249,9 +366,12 @@ const Dashboard = () => {
                       >
                         {progress}%
                       </strong>
+
                     </div>
 
+
                     <div
+                      className="dashboard-progress-track"
                       style={{
                         width: '100%',
                         height: '10px',
@@ -260,7 +380,13 @@ const Dashboard = () => {
                         overflow: 'hidden'
                       }}
                     >
+
                       <div
+                        className={
+                          progress === 100
+                            ? 'dashboard-progress-fill completed'
+                            : 'dashboard-progress-fill'
+                        }
                         style={{
                           width: `${progress}%`,
                           height: '100%',
@@ -269,19 +395,28 @@ const Dashboard = () => {
                               ? '#10b981'
                               : '#3b82f6',
                           borderRadius: '999px',
-                          transition:
-                            'width 0.4s ease'
+                          transition: 'width 0.4s ease'
                         }}
                       />
+
                     </div>
+
                   </div>
                 );
               })
+
             )}
+
           </div>
 
-          {/* Bottom Sections */}
+
+          {/* =================================================
+              BOTTOM SECTIONS
+              Existing order preserved
+              ================================================= */}
+
           <div
+            className="dashboard-bottom-sections"
             style={{
               display: 'flex',
               gap: '1.5rem',
@@ -289,14 +424,24 @@ const Dashboard = () => {
             }}
           >
 
-            {/* Continue Learning */}
+            {/* =================================================
+                CONTINUE LEARNING
+                ================================================= */}
+
             <div
-              className="card"
+              className="card dashboard-feature-card"
               style={{
                 flex: '1',
                 minWidth: '300px'
               }}
             >
+
+              <div className="feature-card-top">
+                <div className="feature-icon">
+                  ▶
+                </div>
+              </div>
+
               <h2>
                 Continue Learning
               </h2>
@@ -311,9 +456,13 @@ const Dashboard = () => {
                 Pick up where you left off.
               </p>
 
+
               {activeEnrollment ? (
+
                 <>
+
                   <div
+                    className="continue-roadmap-box"
                     style={{
                       padding: '1rem',
                       backgroundColor: '#f8fafc',
@@ -322,6 +471,7 @@ const Dashboard = () => {
                         '1px solid var(--border)'
                     }}
                   >
+
                     <strong
                       style={{
                         fontSize: '1.05rem'
@@ -343,7 +493,9 @@ const Dashboard = () => {
                       )}
                       %
                     </p>
+
                   </div>
+
 
                   <Link
                     to="/enrollments"
@@ -354,10 +506,13 @@ const Dashboard = () => {
                       textDecoration: 'none'
                     }}
                   >
-                    View Enrollments
+                    View Enrollments →
                   </Link>
+
                 </>
+
               ) : (
+
                 <div
                   style={{
                     color: 'var(--text-muted)',
@@ -366,17 +521,30 @@ const Dashboard = () => {
                 >
                   No active roadmap right now.
                 </div>
+
               )}
+
             </div>
 
-            {/* Recent Performance */}
+
+            {/* =================================================
+                RECENT PERFORMANCE
+                ================================================= */}
+
             <div
-              className="card"
+              className="card dashboard-feature-card"
               style={{
                 flex: '1',
                 minWidth: '300px'
               }}
             >
+
+              <div className="feature-card-top">
+                <div className="feature-icon score-icon">
+                  ★
+                </div>
+              </div>
+
               <h2>
                 Recent Performance
               </h2>
@@ -391,7 +559,9 @@ const Dashboard = () => {
                 Your latest graded submissions.
               </p>
 
+
               {recentSubmissions.length === 0 ? (
+
                 <div
                   style={{
                     color: 'var(--text-muted)',
@@ -400,22 +570,27 @@ const Dashboard = () => {
                 >
                   No graded submissions yet.
                 </div>
+
               ) : (
+
                 recentSubmissions.map(
                   (submission) => (
+
                     <div
                       key={submission.id}
+                      className="performance-item"
                       style={{
                         display: 'flex',
-                        justifyContent:
-                          'space-between',
+                        justifyContent: 'space-between',
                         alignItems: 'center',
                         padding: '0.8rem 0',
                         borderBottom:
                           '1px solid var(--border)'
                       }}
                     >
+
                       <div>
+
                         <strong>
                           Milestone #
                           {submission.milestoneId}
@@ -424,17 +599,19 @@ const Dashboard = () => {
                         <div
                           style={{
                             fontSize: '0.8rem',
-                            color:
-                              'var(--text-muted)',
+                            color: 'var(--text-muted)',
                             marginTop: '2px'
                           }}
                         >
                           Submission #
                           {submission.id}
                         </div>
+
                       </div>
 
+
                       <strong
+                        className="performance-score"
                         style={{
                           color:
                             Number(
@@ -446,13 +623,18 @@ const Dashboard = () => {
                       >
                         {submission.score}/100
                       </strong>
+
                     </div>
+
                   )
                 )
+
               )}
+
 
               <Link
                 to="/submissions"
+                className="dashboard-view-link"
                 style={{
                   display: 'inline-block',
                   marginTop: '1rem'
@@ -460,17 +642,25 @@ const Dashboard = () => {
               >
                 View All Submissions →
               </Link>
+
             </div>
 
           </div>
+
         </>
       )}
 
-      {/* ================= MANAGER / MENTOR DASHBOARD ================= */}
+
+      {/* =====================================================
+          MANAGER / MENTOR DASHBOARD
+          ===================================================== */}
+
       {(user?.role === 'LEARNING_MANAGER' ||
         user?.role === 'MENTOR') && (
         <>
+
           <div
+            className="dashboard-stats"
             style={{
               display: 'flex',
               gap: '1rem',
@@ -478,6 +668,7 @@ const Dashboard = () => {
               marginBottom: '2rem'
             }}
           >
+
             <StatCards
               title="Total Roadmaps"
               value={roadmaps.length}
@@ -494,18 +685,25 @@ const Dashboard = () => {
               value="12"
               color="#f59e0b"
             />
+
           </div>
 
+
           <div
+            className="dashboard-manager-bottom"
             style={{
               display: 'flex',
               gap: '1rem',
               flexWrap: 'wrap'
             }}
           >
+
             <StatusDistributionDonut />
+
             <RecentActivity />
+
           </div>
+
         </>
       )}
 

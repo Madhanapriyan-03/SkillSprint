@@ -2332,3 +2332,835 @@ input[placeholder*="Search"] {
     animation: none !important;
   }
 }
+/* =========================================================
+   DASHBOARD - LOGIN PAGE VISUAL LANGUAGE
+   ========================================================= */
+
+.dashboard-page {
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   BACKGROUND DECORATIONS
+   ========================================================= */
+
+.dashboard-decoration {
+  position: fixed;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+.dashboard-decoration-one {
+  width: 480px;
+  height: 480px;
+
+  top: 80px;
+  left: -280px;
+
+  border:
+    75px solid rgba(59, 130, 246, 0.045);
+}
+
+.dashboard-decoration-two {
+  width: 360px;
+  height: 360px;
+
+  right: -210px;
+  top: 300px;
+
+  background:
+    rgba(96, 165, 250, 0.055);
+}
+
+.dashboard-decoration-three {
+  width: 260px;
+  height: 260px;
+
+  left: 45%;
+  bottom: -180px;
+
+  background:
+    rgba(99, 102, 241, 0.045);
+}
+
+
+/* =========================================================
+   DASHBOARD NOTE
+   ========================================================= */
+
+.dashboard-note {
+  position: fixed;
+
+  z-index: 0;
+
+  color: #7892c7;
+
+  font-family: cursive;
+
+  font-size: 17px;
+
+  line-height: 1.35;
+
+  font-weight: 600;
+
+  opacity: 0.55;
+
+  pointer-events: none;
+}
+
+.dashboard-note span {
+  display: block;
+
+  margin-top: 6px;
+
+  font-size: 28px;
+}
+
+.dashboard-note-left {
+  left: 20px;
+  top: 42%;
+
+  transform: rotate(-7deg);
+}
+
+.dashboard-note-right {
+  right: 18px;
+  top: 34%;
+
+  text-align: center;
+
+  transform: rotate(6deg);
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.dashboard-hero {
+  position: relative;
+
+  z-index: 2;
+
+  min-height: 270px;
+
+  overflow: hidden;
+
+  padding: 42px 48px !important;
+
+  border: none !important;
+
+  border-radius: 18px !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #2563eb 0%,
+      #315fe8 48%,
+      #4338ca 100%
+    ) !important;
+
+  color: white !important;
+
+  box-shadow:
+    0 18px 45px rgba(37, 99, 235, 0.22) !important;
+}
+
+
+/* Hero content */
+
+.dashboard-hero-content {
+  position: relative;
+
+  z-index: 5;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 22px;
+}
+
+
+/* Hero small S icon */
+
+.dashboard-hero-badge {
+  width: 58px;
+  height: 58px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+
+  background:
+    rgba(255, 255, 255, 0.14);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.15);
+
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.dashboard-hero-badge span {
+  color: white;
+
+  font-size: 29px;
+
+  font-weight: 800;
+}
+
+
+/* Hero text */
+
+.dashboard-hero-text h1 {
+  margin: 0;
+
+  color: white !important;
+
+  font-size: 2.25rem;
+
+  font-weight: 800;
+
+  letter-spacing: -0.8px;
+}
+
+.dashboard-hero-text p {
+  color:
+    rgba(255, 255, 255, 0.9) !important;
+}
+
+
+/* Explore button */
+
+.dashboard-explore-btn {
+  position: relative;
+
+  z-index: 8;
+
+  border-radius: 8px !important;
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.12) !important;
+}
+
+.dashboard-btn-arrow {
+  margin-left: 10px;
+
+  font-size: 18px;
+
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   HERO CIRCLES
+   ========================================================= */
+
+.dashboard-hero-circle {
+  position: absolute;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+.hero-circle-one {
+  width: 280px;
+  height: 280px;
+
+  right: -90px;
+  top: -145px;
+
+  background:
+    rgba(255, 255, 255, 0.075);
+}
+
+.hero-circle-two {
+  width: 180px;
+  height: 180px;
+
+  right: 160px;
+  bottom: -115px;
+
+  background:
+    rgba(255, 255, 255, 0.06);
+}
+
+
+/* =========================================================
+   HERO MOUNTAINS
+   ========================================================= */
+
+.dashboard-mountains {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 145px;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+.dashboard-mountain {
+  position: absolute;
+
+  bottom: -80px;
+
+  width: 0;
+  height: 0;
+
+  border-left:
+    170px solid transparent;
+
+  border-right:
+    170px solid transparent;
+
+  border-bottom:
+    190px solid rgba(20, 50, 125, 0.34);
+}
+
+.mountain-one {
+  left: 30%;
+
+  border-bottom-color:
+    rgba(59, 130, 246, 0.32);
+}
+
+.mountain-two {
+  left: 48%;
+
+  border-left-width: 220px;
+
+  border-right-width: 220px;
+
+  border-bottom-width: 205px;
+
+  border-bottom-color:
+    rgba(30, 64, 175, 0.38);
+}
+
+.mountain-three {
+  right: -70px;
+
+  border-left-width: 230px;
+
+  border-right-width: 230px;
+
+  border-bottom-width: 210px;
+
+  border-bottom-color:
+    rgba(23, 37, 84, 0.28);
+}
+
+
+/* Learning path */
+
+.dashboard-learning-path {
+  position: absolute;
+
+  width: 260px;
+  height: 100px;
+
+  right: 110px;
+  bottom: -8px;
+
+  border:
+    16px solid rgba(147, 197, 253, 0.34);
+
+  border-left-color: transparent;
+
+  border-bottom-color: transparent;
+
+  border-radius: 50%;
+
+  transform:
+    rotate(-25deg);
+}
+
+
+/* Quote */
+
+.dashboard-quote {
+  position: absolute;
+
+  z-index: 7;
+
+  left: 48px;
+  bottom: 20px;
+
+  color:
+    rgba(255, 255, 255, 0.88);
+
+  font-size: 12px;
+
+  line-height: 1.45;
+}
+
+.dashboard-quote span {
+  font-size: 20px;
+}
+
+.dashboard-quote div {
+  width: 28px;
+  height: 2px;
+
+  margin-top: 7px;
+
+  background:
+    rgba(255, 255, 255, 0.75);
+}
+
+
+/* =========================================================
+   STATISTICS
+   ========================================================= */
+
+.dashboard-stats {
+  position: relative;
+
+  z-index: 2;
+}
+
+.dashboard-stats > .card {
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 13px;
+
+  border:
+    1px solid #e2e8f0;
+
+  background:
+    rgba(255, 255, 255, 0.97);
+
+  box-shadow:
+    0 7px 22px rgba(15, 23, 42, 0.065);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dashboard-stats > .card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 13px 30px rgba(15, 23, 42, 0.10);
+}
+
+
+/* =========================================================
+   NORMAL DASHBOARD SECTION
+   ========================================================= */
+
+.dashboard-section-card {
+  position: relative;
+
+  z-index: 2;
+
+  border-radius: 16px !important;
+
+  box-shadow:
+    0 8px 28px rgba(15, 23, 42, 0.07) !important;
+}
+
+.dashboard-section-heading {
+  position: relative;
+}
+
+.section-icon {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 9px;
+
+  border-radius: 9px;
+
+  background:
+    #eff6ff;
+
+  color:
+    #2563eb;
+
+  font-size: 16px;
+}
+
+
+/* =========================================================
+   PROGRESS ITEMS
+   ========================================================= */
+
+.dashboard-progress-item {
+  position: relative;
+
+  padding: 12px 14px 15px;
+
+  border:
+    1px solid transparent;
+
+  border-radius: 10px;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.dashboard-progress-item:hover {
+  background:
+    #f8faff;
+
+  border-color:
+    #e5edf9;
+}
+
+.dashboard-progress-header strong {
+  color: #172033;
+}
+
+.dashboard-progress-track {
+  box-shadow:
+    inset 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+.dashboard-progress-fill {
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #60a5fa
+    ) !important;
+}
+
+.dashboard-progress-fill.completed {
+  background:
+    linear-gradient(
+      90deg,
+      #10b981,
+      #34d399
+    ) !important;
+}
+
+
+/* =========================================================
+   BOTTOM CARDS
+   ========================================================= */
+
+.dashboard-bottom-sections {
+  position: relative;
+
+  z-index: 2;
+}
+
+.dashboard-feature-card {
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 15px !important;
+
+  box-shadow:
+    0 8px 26px rgba(15, 23, 42, 0.07) !important;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dashboard-feature-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 14px 35px rgba(15, 23, 42, 0.10) !important;
+}
+
+
+/* Decorative top line */
+
+.dashboard-feature-card::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  top: 0;
+
+  height: 3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #6366f1
+    );
+}
+
+
+/* Feature icon */
+
+.feature-card-top {
+  margin-bottom: 13px;
+}
+
+.feature-icon {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background:
+    #eff6ff;
+
+  color:
+    #2563eb;
+
+  font-size: 15px;
+
+  font-weight: 800;
+}
+
+.score-icon {
+  background:
+    #f5f3ff;
+
+  color:
+    #7c3aed;
+}
+
+
+/* Continue roadmap */
+
+.continue-roadmap-box {
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f8faff,
+      #eff6ff
+    ) !important;
+
+  border:
+    1px solid #dbeafe !important;
+}
+
+.continue-roadmap-box::after {
+  content: "";
+
+  position: absolute;
+
+  width: 90px;
+  height: 90px;
+
+  right: -35px;
+  top: -45px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(37, 99, 235, 0.06);
+}
+
+
+/* =========================================================
+   PERFORMANCE
+   ========================================================= */
+
+.performance-item {
+  transition:
+    background 0.2s ease,
+    padding 0.2s ease;
+}
+
+.performance-item:hover {
+  background:
+    #f8faff;
+}
+
+.performance-score {
+  font-size: 1rem;
+}
+
+.dashboard-view-link {
+  color:
+    #2563eb;
+
+  font-size: 0.88rem;
+
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+.dashboard-view-link:hover {
+  color:
+    #1d4ed8;
+}
+
+
+/* =========================================================
+   EMPTY
+   ========================================================= */
+
+.dashboard-empty-icon {
+  width: 55px;
+  height: 55px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 14px;
+
+  border-radius: 50%;
+
+  background:
+    #eff6ff;
+
+  color:
+    #2563eb;
+
+  font-size: 26px;
+}
+
+
+/* =========================================================
+   MANAGER / MENTOR
+   ========================================================= */
+
+.dashboard-manager-bottom {
+  position: relative;
+
+  z-index: 2;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .dashboard-note {
+    display: none;
+  }
+
+  .dashboard-hero {
+    padding: 35px !important;
+  }
+
+  .dashboard-hero-text h1 {
+    font-size: 2rem;
+  }
+
+  .dashboard-mountains {
+    opacity: 0.7;
+  }
+}
+
+
+@media (max-width: 650px) {
+
+  .dashboard-hero {
+    min-height: 290px;
+
+    padding: 28px !important;
+  }
+
+  .dashboard-hero-content {
+    gap: 14px;
+  }
+
+  .dashboard-hero-badge {
+    width: 48px;
+    height: 48px;
+  }
+
+  .dashboard-hero-badge span {
+    font-size: 24px;
+  }
+
+  .dashboard-hero-text h1 {
+    font-size: 1.65rem;
+  }
+
+  .dashboard-quote {
+    left: 28px;
+  }
+
+  .dashboard-learning-path {
+    right: -30px;
+  }
+
+  .dashboard-mountain {
+    opacity: 0.7;
+  }
+}
+
+
+@media (max-width: 500px) {
+
+  .dashboard-hero {
+    min-height: 270px;
+
+    padding: 25px !important;
+  }
+
+  .dashboard-hero-content {
+    display: block;
+  }
+
+  .dashboard-hero-badge {
+    margin-bottom: 14px;
+  }
+
+  .dashboard-hero-text h1 {
+    font-size: 1.5rem;
+  }
+
+  .dashboard-hero-text p {
+    font-size: 0.86rem;
+  }
+
+  .dashboard-quote {
+    display: none;
+  }
+
+  .hero-circle-one {
+    right: -130px;
+  }
+
+  .dashboard-feature-card {
+    min-width: 100% !important;
+  }
+}
