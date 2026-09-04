@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -16,20 +17,31 @@ import ErrorHandler from './components/ErrorHandler';
 import NotificationStack from './components/NotificationStack';
 
 import Dashboard from './components/dashboard/Dashboard';
+
 import RoadmapList from './components/roadmap/RoadmapList';
+import RoadmapDetails from './components/roadmap/RoadmapDetails';
+
 import EnrollmentList from './components/enrollment/EnrollmentList';
 import SubmissionList from './components/submission/SubmissionList';
 
 
 function PrivateRoute({ children }) {
-  const { user } = useSelector((state) => state.auth);
 
-  return user ? children : <Navigate to="/login" />;
+  const { user } = useSelector(
+    (state) => state.auth
+  );
+
+  return user
+    ? children
+    : <Navigate to="/login" />;
 }
 
 
 function App() {
-  const { user } = useSelector((state) => state.auth);
+
+  const { user } = useSelector(
+    (state) => state.auth
+  );
 
   return (
     <Router>
@@ -40,6 +52,7 @@ function App() {
         {user && <Navbar />}
 
         <ErrorHandler />
+
         <NotificationStack />
 
         <Routes>
@@ -59,6 +72,7 @@ function App() {
 
           {/* ================= PROTECTED ROUTES ================= */}
 
+          {/* Dashboard */}
           <Route
             path="/"
             element={
@@ -68,6 +82,8 @@ function App() {
             }
           />
 
+
+          {/* Roadmap List */}
           <Route
             path="/roadmaps"
             element={
@@ -77,6 +93,19 @@ function App() {
             }
           />
 
+
+          {/* Roadmap Details */}
+          <Route
+            path="/roadmaps/:id"
+            element={
+              <PrivateRoute>
+                <RoadmapDetails />
+              </PrivateRoute>
+            }
+          />
+
+
+          {/* Enrollments */}
           <Route
             path="/enrollments"
             element={
@@ -86,6 +115,8 @@ function App() {
             }
           />
 
+
+          {/* Submissions */}
           <Route
             path="/submissions"
             element={
@@ -100,7 +131,9 @@ function App() {
 
           <Route
             path="*"
-            element={<Navigate to="/" />}
+            element={
+              <Navigate to="/" />
+            }
           />
 
         </Routes>
