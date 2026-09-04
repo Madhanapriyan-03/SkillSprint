@@ -1,11 +1,12 @@
 /* =========================================================
-   SKILLSPRINT
-   FINAL CLEAN DESIGN SYSTEM
+   SKILLSPRINT - FINAL UI
+   Visual redesign only.
+   Existing JSX layout / content / functionality preserved.
    ========================================================= */
 
 
 /* =========================================================
-   VARIABLES
+   ROOT
    ========================================================= */
 
 :root {
@@ -24,8 +25,7 @@
   --danger-dark: #dc2626;
   --danger-light: #fef2f2;
 
-  --bg-color: #f3f6fc;
-
+  --bg: #f3f6fc;
   --surface: #ffffff;
   --surface-soft: #f8faff;
 
@@ -36,12 +36,10 @@
   --border: #dbe3ef;
   --border-light: #e9eef5;
 
-  --white: #ffffff;
-
   --nav-bg: #17182b;
 
   --shadow-sm:
-    0 2px 8px rgba(15, 23, 42, 0.06);
+    0 2px 8px rgba(15, 23, 42, 0.05);
 
   --shadow-md:
     0 8px 28px rgba(15, 23, 42, 0.08);
@@ -61,8 +59,6 @@
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
@@ -70,6 +66,8 @@ html {
 }
 
 body {
+  margin: 0;
+
   min-height: 100vh;
 
   font-family:
@@ -84,12 +82,12 @@ body {
 
   background:
     radial-gradient(
-      circle at 8% 5%,
+      circle at 10% 5%,
       rgba(37, 99, 235, 0.07),
-      transparent 27%
+      transparent 28%
     ),
     radial-gradient(
-      circle at 92% 85%,
+      circle at 90% 85%,
       rgba(99, 102, 241, 0.06),
       transparent 25%
     ),
@@ -108,14 +106,6 @@ select {
   font-family: inherit;
 }
 
-button {
-  cursor: pointer;
-}
-
-a {
-  color: var(--primary);
-}
-
 
 /* =========================================================
    APP
@@ -123,8 +113,6 @@ a {
 
 .app {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 
@@ -135,15 +123,11 @@ a {
 .navbar {
   min-height: 72px;
 
-  position: sticky;
-  top: 0;
-  z-index: 900;
+  padding: 0.85rem 2.25rem;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  padding: 0.85rem 2.25rem;
 
   background:
     linear-gradient(
@@ -157,6 +141,11 @@ a {
 
   box-shadow:
     0 4px 18px rgba(15, 23, 42, 0.18);
+
+  position: sticky;
+  top: 0;
+
+  z-index: 900;
 }
 
 
@@ -184,16 +173,13 @@ a {
 }
 
 .navbar-links a {
-  display: inline-flex;
-  align-items: center;
-
-  padding: 0.62rem 0.9rem;
-
-  border-radius: 9px;
-
   color: #e7eaf1;
 
   text-decoration: none;
+
+  padding: 0.6rem 0.9rem;
+
+  border-radius: 8px;
 
   font-size: 0.92rem;
   font-weight: 600;
@@ -201,7 +187,7 @@ a {
   transition:
     background 0.2s ease,
     color 0.2s ease,
-    transform 0.2s ease;
+    box-shadow 0.2s ease;
 }
 
 .navbar-links a:hover {
@@ -209,8 +195,6 @@ a {
 
   background:
     rgba(255, 255, 255, 0.08);
-
-  transform: translateY(-1px);
 }
 
 .navbar-links a.active {
@@ -224,11 +208,11 @@ a {
     );
 
   box-shadow:
-    0 6px 16px rgba(37, 99, 235, 0.3);
+    0 6px 18px rgba(37, 99, 235, 0.28);
 }
 
 
-/* Right side */
+/* Right section */
 
 .navbar-right {
   display: flex;
@@ -236,9 +220,9 @@ a {
 
   gap: 1rem;
 
-  color: #eef2f7;
+  color: #f1f5f9;
 
-  font-size: 0.88rem;
+  font-size: 0.92rem;
 }
 
 
@@ -246,155 +230,144 @@ a {
 
 .btn-logout {
   border: none;
-  border-radius: 8px;
 
   padding: 9px 16px;
 
-  background: var(--danger);
+  border-radius: 8px;
+
+  background: #ef4444;
 
   color: white;
 
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   font-weight: 700;
 
   transition:
     background 0.2s ease,
-    transform 0.2s ease;
+    box-shadow 0.2s ease;
 }
 
 .btn-logout:hover {
-  background: var(--danger-dark);
+  background: #dc2626;
 
-  transform: translateY(-1px);
+  box-shadow:
+    0 6px 16px rgba(239, 68, 68, 0.25);
 }
 
 
 /* =========================================================
-   PAGE CONTAINER
+   MAIN PAGE
    ========================================================= */
 
 .page-container {
   width: 100%;
+
   max-width: 1180px;
 
-  min-height: calc(100vh - 72px);
+  margin: 2.25rem auto;
 
-  margin: 0 auto;
-
-  padding: 38px 24px 70px;
-
-  position: relative;
+  padding: 0 1.25rem;
 }
 
 
 /* =========================================================
-   COMMON CARD
+   CARDS
    ========================================================= */
 
 .card {
-  position: relative;
-  z-index: 1;
-
-  width: 100%;
-
-  margin-bottom: 1rem;
-
-  padding: 1.7rem;
+  background: white;
 
   border:
-    1px solid rgba(219, 227, 239, 0.95);
+    1px solid #e2e8f0;
 
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
 
-  background:
-    rgba(255, 255, 255, 0.97);
+  padding: 1.75rem;
 
-  box-shadow: var(--shadow-md);
+  box-shadow:
+    0 8px 30px rgba(15, 23, 42, 0.07);
 
-  color: var(--text-dark);
-
-  transition:
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+  margin-bottom: 1.25rem;
 }
 
-.card:hover {
-  box-shadow: var(--shadow-lg);
-}
+
+/*
+   IMPORTANT:
+   No display:flex here.
+   No position changes here.
+   Existing JSX layout remains untouched.
+*/
 
 
 /* =========================================================
-   TYPOGRAPHY
+   HEADINGS
    ========================================================= */
 
 h1,
 h2,
 h3,
-h4,
-h5 {
+h4 {
   color: var(--text-dark);
+
+  letter-spacing: -0.4px;
 }
 
 h1 {
   font-size: 2rem;
+
   font-weight: 800;
-  letter-spacing: -0.7px;
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.55rem;
+
   font-weight: 800;
-  letter-spacing: -0.4px;
 }
 
 h3 {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+
   font-weight: 700;
 }
 
 p {
   color: var(--text-muted);
+
   line-height: 1.6;
 }
 
 
 /* =========================================================
-   PRIMARY BUTTON
+   BUTTONS
    ========================================================= */
 
 .btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  min-height: 42px;
-
-  padding: 0 17px;
-
-  border: none;
-  border-radius: 8px;
-
   background:
     linear-gradient(
       135deg,
-      var(--primary),
-      var(--primary-dark)
+      #2563eb,
+      #1d4ed8
     );
 
   color: white;
 
-  font-size: 0.88rem;
-  font-weight: 700;
+  border: none;
 
-  text-decoration: none;
+  border-radius: 8px;
+
+  padding: 10px 18px;
+
+  font-size: 0.9rem;
+
+  font-weight: 700;
 
   box-shadow:
     0 6px 16px rgba(37, 99, 235, 0.18);
 
   transition:
-    transform 0.2s ease,
+    background 0.2s ease,
     box-shadow 0.2s ease,
-    background 0.2s ease;
+    transform 0.2s ease;
 }
 
 .btn-primary:hover {
@@ -405,41 +378,40 @@ p {
       #1e40af
     );
 
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 
   box-shadow:
-    0 9px 22px rgba(37, 99, 235, 0.25);
+    0 9px 22px rgba(37, 99, 235, 0.24);
 }
 
 .btn-primary:disabled {
   opacity: 0.6;
+
   cursor: not-allowed;
+
   transform: none;
 }
 
 
-/* =========================================================
-   SECONDARY BUTTON
-   ========================================================= */
-
 .btn-secondary {
-  min-height: 42px;
+  background: white;
 
-  padding: 0 16px;
+  color: var(--text);
 
   border:
     1px solid var(--border);
 
   border-radius: 8px;
 
-  background: white;
-
-  color: var(--text);
+  padding: 10px 16px;
 
   font-size: 0.88rem;
+
   font-weight: 600;
 
-  transition: 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .btn-secondary:hover {
@@ -460,7 +432,8 @@ label {
 
   color: var(--text-dark);
 
-  font-size: 0.84rem;
+  font-size: 0.86rem;
+
   font-weight: 700;
 }
 
@@ -476,20 +449,22 @@ select {
 
   border-radius: 8px;
 
-  outline: none;
+  background: white;
 
-  background:
-    var(--surface-soft);
-
-  color:
-    var(--text-dark);
+  color: var(--text-dark);
 
   font-size: 0.9rem;
 
+  outline: none;
+
   transition:
     border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
+    box-shadow 0.2s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94a3b8;
 }
 
 input:hover,
@@ -501,8 +476,6 @@ select:hover {
 input:focus,
 textarea:focus,
 select:focus {
-  background: white;
-
   border-color: var(--primary);
 
   box-shadow:
@@ -518,15 +491,22 @@ textarea {
    TABLES
    ========================================================= */
 
+/*
+   IMPORTANT:
+   Only visual styling.
+   No nth-child positioning.
+   No width manipulation.
+   No flex.
+*/
+
 table {
   width: 100%;
 
   margin-top: 1rem;
 
   border-collapse: separate;
-  border-spacing: 0;
 
-  overflow: hidden;
+  border-spacing: 0;
 
   background: white;
 
@@ -534,6 +514,8 @@ table {
     1px solid #e2e8f0;
 
   border-radius: 12px;
+
+  overflow: hidden;
 }
 
 thead tr {
@@ -546,38 +528,40 @@ thead tr {
 }
 
 th {
-  padding: 14px 13px;
+  padding: 13px 12px;
 
   border-bottom:
     1px solid var(--border);
 
-  color: #334155;
+  color: #172033;
 
-  font-size: 0.76rem;
+  font-size: 0.78rem;
+
   font-weight: 800;
 
   text-align: left;
 
-  text-transform: uppercase;
+  letter-spacing: 0.3px;
 
-  letter-spacing: 0.35px;
+  text-transform: uppercase;
 }
 
 td {
-  padding: 14px 13px;
+  padding: 14px 12px;
 
   border-bottom:
     1px solid #edf1f6;
 
-  background: white;
-
   color: #334155;
 
-  font-size: 0.88rem;
+  background: white;
+
+  font-size: 0.92rem;
 }
 
 tbody tr {
-  transition: background 0.15s ease;
+  transition:
+    background 0.15s ease;
 }
 
 tbody tr:hover td {
@@ -590,21 +574,16 @@ tbody tr:last-child td {
 
 
 /* =========================================================
-   TABLE LINKS
+   SEARCH
    ========================================================= */
 
-table a {
-  color: var(--text-dark);
+input[placeholder*="Search"] {
+  max-width: 450px;
 
-  font-weight: 600;
+  background: white;
 
-  text-decoration: none;
-
-  transition: color 0.2s ease;
-}
-
-table a:hover {
-  color: var(--primary);
+  box-shadow:
+    0 2px 7px rgba(15, 23, 42, 0.03);
 }
 
 
@@ -614,47 +593,34 @@ table a:hover {
 
 .status-badge {
   display: inline-flex;
+
   align-items: center;
 
   padding: 5px 10px;
 
   border-radius: 999px;
 
-  font-size: 0.7rem;
-  font-weight: 800;
+  font-size: 0.74rem;
 
-  letter-spacing: 0.2px;
+  font-weight: 800;
 }
 
 .status-completed {
   background: #dcfce7;
+
   color: #15803d;
 }
 
 .status-active {
   background: #dbeafe;
+
   color: #1d4ed8;
 }
 
 .status-dropped {
   background: #fee2e2;
+
   color: #dc2626;
-}
-
-
-/* =========================================================
-   SEARCH
-   ========================================================= */
-
-.page-container input[placeholder*="Search"] {
-  width: 100%;
-
-  max-width: 450px;
-
-  background: white;
-
-  box-shadow:
-    0 3px 10px rgba(15, 23, 42, 0.03);
 }
 
 
@@ -663,26 +629,28 @@ table a:hover {
    ========================================================= */
 
 .empty-state {
-  min-height: 230px;
+  min-height: 220px;
 
   display: flex;
+
   flex-direction: column;
 
   align-items: center;
+
   justify-content: center;
 
-  padding: 35px;
+  padding: 3rem 2rem;
 
   border:
     1px dashed #cbd5e1;
 
-  border-radius: 14px;
+  border-radius: 12px;
 
   background:
     linear-gradient(
       180deg,
       #ffffff,
-      #f8faff
+      #f8fafc
     );
 
   color: var(--text-muted);
@@ -695,18 +663,15 @@ table a:hover {
    DASHBOARD HERO
    ========================================================= */
 
+/*
+   ONLY Dashboard hero gets the blue gradient.
+   Normal pages stay white.
+*/
+
 .dashboard-hero {
   position: relative;
 
   overflow: hidden;
-
-  min-height: 260px;
-
-  padding: 44px !important;
-
-  border: none !important;
-
-  border-radius: 18px !important;
 
   background:
     linear-gradient(
@@ -716,30 +681,29 @@ table a:hover {
       #4338ca 100%
     ) !important;
 
+  border: none !important;
+
   color: white !important;
 
   box-shadow:
-    0 18px 40px rgba(37, 99, 235, 0.2) !important;
+    0 15px 35px rgba(37, 99, 235, 0.22) !important;
 }
-
-
-/* Hero decorative circle */
 
 .dashboard-hero::before {
   content: "";
 
   position: absolute;
 
-  width: 280px;
-  height: 280px;
+  width: 250px;
+  height: 250px;
 
   right: -75px;
-  top: -150px;
+  top: -105px;
 
   border-radius: 50%;
 
   background:
-    rgba(255, 255, 255, 0.09);
+    rgba(255, 255, 255, 0.08);
 }
 
 .dashboard-hero::after {
@@ -747,61 +711,48 @@ table a:hover {
 
   position: absolute;
 
-  width: 175px;
-  height: 175px;
+  width: 155px;
+  height: 155px;
 
-  right: 150px;
-  bottom: -120px;
+  right: 170px;
+  bottom: -100px;
 
   border-radius: 50%;
 
   background:
-    rgba(255, 255, 255, 0.07);
+    rgba(255, 255, 255, 0.06);
 }
-
-
-/* Hero text */
 
 .dashboard-hero h1 {
   position: relative;
+
   z-index: 2;
 
   color: white !important;
-
-  font-size: 2.35rem;
-
-  font-weight: 800;
-
-  letter-spacing: -0.8px;
 }
 
 .dashboard-hero p {
   position: relative;
+
   z-index: 2;
 
-  margin-top: 9px;
-
   color:
-    rgba(255, 255, 255, 0.9) !important;
+    rgba(255, 255, 255, 0.92) !important;
 
   opacity: 1 !important;
 }
 
-
-/* Hero button */
-
 .dashboard-hero .btn-primary {
   position: relative;
-  z-index: 3;
 
-  margin-top: 18px;
+  z-index: 3;
 
   background: white !important;
 
   color: var(--primary) !important;
 
   box-shadow:
-    0 7px 18px rgba(0, 0, 0, 0.12);
+    0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
 .dashboard-hero .btn-primary:hover {
@@ -815,59 +766,19 @@ table a:hover {
    DASHBOARD STAT CARDS
    ========================================================= */
 
-.dashboard-stats {
-  display: flex;
-
-  gap: 18px;
-
-  flex-wrap: wrap;
-
-  margin-bottom: 28px;
-}
-
-.dashboard-stats > * {
-  flex: 1;
-
-  min-width: 220px;
-}
-
-
-/* Existing StatCards */
-
-.dashboard-stats .card {
-  min-height: 125px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  border-left:
-    4px solid var(--primary);
-}
-
-.dashboard-stats .card:hover {
-  transform: translateY(-3px);
-}
-
-
-/* Also support inline border-left used by StatCards */
-
+.dashboard-stats .card,
 .page-container .card[style*="border-left"] {
   background: white;
-
-  border-radius: 12px;
 
   box-shadow:
     0 4px 15px rgba(15, 23, 42, 0.06);
 }
 
 
-/* =========================================================
-   DASHBOARD CONTENT CARDS
-   ========================================================= */
+/* Preserve existing border-left positioning */
 
-.dashboard-stats + .card {
-  margin-bottom: 28px;
+.page-container .card[style*="border-left"] {
+  border-radius: 12px;
 }
 
 
@@ -876,17 +787,21 @@ table a:hover {
    ========================================================= */
 
 .page-container div[style*="height: 8px"],
-.page-container div[style*="height: 9px"],
 .page-container div[style*="height: 10px"] {
-  background: #e5eaf2 !important;
-
   border-radius: 999px !important;
 
   overflow: hidden;
 }
 
 
-/* Progress fill */
+/* Empty progress */
+
+.page-container div[style*="height: 8px"] {
+  background: #e5eaf2 !important;
+}
+
+
+/* Filled progress */
 
 .page-container div[style*="height: 100%"] {
   border-radius: 999px !important;
@@ -895,104 +810,31 @@ table a:hover {
     linear-gradient(
       90deg,
       #2563eb,
-      #60a5fa
-    ) !important;
-
-  transition:
-    width 0.4s ease;
-}
-
-
-/* Completed */
-
-.page-container div[style*="height: 100%"][style*="10b981"] {
-  background:
-    linear-gradient(
-      90deg,
-      #10b981,
-      #059669
+      #3b82f6
     ) !important;
 }
 
 
 /* =========================================================
-   ROADMAP PAGE
+   ENROLLMENT PROGRESS
    ========================================================= */
 
-.page-container > .card {
-  background:
-    rgba(255, 255, 255, 0.97);
-
-  border:
-    1px solid #e2e8f0;
-
-  box-shadow:
-    0 8px 30px rgba(15, 23, 42, 0.07);
-}
-
-
-/* Roadmap ID */
-
-.page-container > .card table td:first-child {
-  color: #475569;
-
-  font-weight: 700;
-}
-
-
-/* Roadmap title */
-
-.page-container > .card table td:nth-child(2) {
-  color: var(--text-dark);
-
-  font-weight: 600;
-}
-
-
-/* Roadmap status */
-
-.page-container > .card table td span {
-  white-space: nowrap;
-}
-
-
-/* Roadmap buttons */
-
-.page-container > .card table button {
-  font-family: inherit;
-
-  transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
-}
-
-.page-container > .card table button:hover {
-  transform: translateY(-1px);
+.page-container div[style*="backgroundColor: '#e5e7eb'"] {
+  border-radius: 999px;
 }
 
 
 /* =========================================================
-   ENROLLMENT PAGE
+   NORMAL PAGE HEADINGS
    ========================================================= */
 
-.page-container table td {
-  vertical-align: middle;
+.page-container > .card:not(.dashboard-hero) h2,
+.page-container > .card:not(.dashboard-hero) h3 {
+  color: #172033;
 }
 
-
-/* Enrollment progress */
-
-.page-container table td:last-child {
-  min-width: 190px;
-}
-
-
-/* =========================================================
-   SUBMISSION PAGE
-   ========================================================= */
-
-.page-container table td {
-  line-height: 1.4;
+.page-container > .card:not(.dashboard-hero) p {
+  color: #64748b;
 }
 
 
@@ -1008,7 +850,9 @@ table a:hover {
   z-index: 1000;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   padding: 20px;
@@ -1016,7 +860,7 @@ table a:hover {
   background:
     rgba(15, 23, 42, 0.62);
 
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(4px);
 }
 
 .modal-card {
@@ -1033,7 +877,7 @@ table a:hover {
   border:
     1px solid #e2e8f0;
 
-  border-radius: 16px;
+  border-radius: 15px;
 
   background: white;
 
@@ -1056,7 +900,9 @@ table a:hover {
   overflow: hidden;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   padding: 110px 40px 150px;
@@ -1077,7 +923,7 @@ table a:hover {
 
 
 /* =========================================================
-   LOGIN BACKGROUND
+   LOGIN BACKGROUND DECORATION
    ========================================================= */
 
 .login-bg-circle {
@@ -1135,7 +981,9 @@ table a:hover {
   z-index: 5;
 
   display: flex;
+
   flex-wrap: wrap;
+
   align-items: center;
 
   width: 230px;
@@ -1184,6 +1032,7 @@ table a:hover {
   right: 7%;
 
   display: flex;
+
   flex-direction: column;
 
   gap: 3px;
@@ -1197,6 +1046,7 @@ table a:hover {
 
 .login-top-message i {
   width: 35px;
+
   height: 2px;
 
   margin-top: 8px;
@@ -1206,7 +1056,7 @@ table a:hover {
 
 
 /* =========================================================
-   LOGIN MAIN LAYOUT
+   LOGIN CARD
    ========================================================= */
 
 .login-layout {
@@ -1304,7 +1154,9 @@ table a:hover {
   height: 62px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   margin-bottom: 24px;
@@ -1324,9 +1176,6 @@ table a:hover {
   font-weight: 800;
 }
 
-
-/* Brand heading */
-
 .login-brand-panel h1 {
   position: relative;
 
@@ -1344,9 +1193,6 @@ table a:hover {
 
   font-weight: 800;
 }
-
-
-/* Tagline */
 
 .brand-tagline {
   position: relative;
@@ -1431,9 +1277,6 @@ table a:hover {
     rgba(23, 37, 84, 0.32);
 }
 
-
-/* Learning path */
-
 .learning-path {
   position: absolute;
 
@@ -1452,11 +1295,14 @@ table a:hover {
 
   border-bottom-color: transparent;
 
-  transform: rotate(-28deg);
+  transform:
+    rotate(-28deg);
 }
 
 
-/* Quote */
+/* =========================================================
+   LOGIN QUOTE
+   ========================================================= */
 
 .brand-quote {
   position: absolute;
@@ -1480,6 +1326,7 @@ table a:hover {
 
 .quote-line {
   width: 32px;
+
   height: 2px;
 
   margin-top: 10px;
@@ -1505,9 +1352,6 @@ table a:hover {
 
   justify-content: center;
 }
-
-
-/* Header */
 
 .login-header {
   margin-bottom: 32px;
@@ -1535,6 +1379,30 @@ table a:hover {
 
 
 /* =========================================================
+   LOGIN ERROR
+   ========================================================= */
+
+.login-error {
+  margin-bottom: 18px;
+
+  padding: 11px 14px;
+
+  border:
+    1px solid #fecaca;
+
+  border-radius: 8px;
+
+  background:
+    #fef2f2;
+
+  color:
+    #dc2626;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
    LOGIN FORM
    ========================================================= */
 
@@ -1557,9 +1425,6 @@ table a:hover {
 
   font-weight: 700;
 }
-
-
-/* Login input wrapper */
 
 .login-input-wrapper {
   position: relative;
@@ -1587,6 +1452,11 @@ table a:hover {
   color: #0f172a;
 
   font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .login-input-wrapper input::placeholder {
@@ -1602,15 +1472,13 @@ table a:hover {
     0 0 0 4px rgba(37, 99, 235, 0.09);
 }
 
-
-/* Input icon */
-
 .input-icon {
   position: absolute;
 
   z-index: 2;
 
   left: 16px;
+
   top: 50%;
 
   transform:
@@ -1625,15 +1493,13 @@ table a:hover {
   font-size: 21px;
 }
 
-
-/* Password toggle */
-
 .password-toggle {
   position: absolute;
 
   z-index: 3;
 
   right: 12px;
+
   top: 50%;
 
   transform:
@@ -1650,30 +1516,6 @@ table a:hover {
   font-size: 12px;
 
   font-weight: 700;
-}
-
-
-/* =========================================================
-   LOGIN ERROR
-   ========================================================= */
-
-.login-error {
-  margin-bottom: 18px;
-
-  padding: 11px 14px;
-
-  border:
-    1px solid #fecaca;
-
-  border-radius: 8px;
-
-  background:
-    #fef2f2;
-
-  color:
-    #dc2626;
-
-  font-size: 13px;
 }
 
 
@@ -1703,7 +1545,7 @@ table a:hover {
 
 
 /* =========================================================
-   LOGIN SUBMIT
+   LOGIN BUTTON
    ========================================================= */
 
 .login-submit {
@@ -1738,10 +1580,8 @@ table a:hover {
 
   font-weight: 700;
 
-  cursor: pointer;
-
   box-shadow:
-    0 8px 20px rgba(37, 99, 235, 0.2);
+    0 8px 20px rgba(37, 99, 235, 0.20);
 
   transition:
     transform 0.2s ease,
@@ -1788,35 +1628,32 @@ table a:hover {
 
   height: 1px;
 
-  background:
-    #e2e8f0;
+  background: #e2e8f0;
 }
 
 .login-divider p {
   margin: 0;
 
-  color:
-    #94a3b8;
+  color: #94a3b8;
 
   font-size: 12px;
 }
 
 
 /* =========================================================
-   LOGIN REGISTER
+   REGISTER LINK
    ========================================================= */
 
 .login-register {
   display: flex;
 
-  justify-content: center;
-
   align-items: center;
+
+  justify-content: center;
 
   gap: 6px;
 
-  color:
-    #64748b;
+  color: #64748b;
 
   font-size: 13px;
 }
@@ -1883,6 +1720,7 @@ table a:hover {
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   color: #2563eb;
@@ -1914,7 +1752,7 @@ table a:hover {
 
 
 /* =========================================================
-   LOGIN DECORATIVE BOOKS
+   LOGIN DECORATIONS
    ========================================================= */
 
 .decor-books {
@@ -1982,9 +1820,7 @@ table a:hover {
 }
 
 
-/* =========================================================
-   LOGIN PLANT
-   ========================================================= */
+/* Plant */
 
 .decor-plant {
   position: absolute;
@@ -1996,6 +1832,7 @@ table a:hover {
   left: 145px;
 
   width: 80px;
+
   height: 100px;
 }
 
@@ -2003,18 +1840,17 @@ table a:hover {
   position: absolute;
 
   bottom: 0;
+
   left: 23px;
 
   width: 42px;
+
   height: 42px;
 
   border-radius:
     4px 4px 12px 12px;
 
   background: #dce3e8;
-
-  box-shadow:
-    0 7px 10px rgba(15, 23, 42, 0.08);
 }
 
 .plant-leaf {
@@ -2023,6 +1859,7 @@ table a:hover {
   bottom: 35px;
 
   width: 25px;
+
   height: 40px;
 
   border-radius:
@@ -2053,9 +1890,7 @@ table a:hover {
 }
 
 
-/* =========================================================
-   LOGIN LAPTOP
-   ========================================================= */
+/* Laptop */
 
 .decor-laptop {
   position: absolute;
@@ -2123,9 +1958,7 @@ table a:hover {
 }
 
 
-/* =========================================================
-   LOGIN NOTES
-   ========================================================= */
+/* Notes */
 
 .learning-note {
   position: absolute;
@@ -2175,7 +2008,7 @@ table a:hover {
 
 
 /* =========================================================
-   REGISTER PAGE SUPPORT
+   REGISTER PAGE
    ========================================================= */
 
 .register-page {
@@ -2184,11 +2017,17 @@ table a:hover {
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   padding: 40px 20px;
 
   background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(59, 130, 246, 0.12),
+      transparent 35%
+    ),
     linear-gradient(
       135deg,
       #f8faff,
@@ -2211,12 +2050,12 @@ table a:hover {
   background: white;
 
   box-shadow:
-    0 18px 45px rgba(15, 23, 42, 0.1);
+    0 18px 45px rgba(15, 23, 42, 0.10);
 }
 
 
 /* =========================================================
-   RESPONSIVE - 1200
+   RESPONSIVE
    ========================================================= */
 
 @media (max-width: 1200px) {
@@ -2243,10 +2082,6 @@ table a:hover {
 }
 
 
-/* =========================================================
-   RESPONSIVE - 900
-   ========================================================= */
-
 @media (max-width: 900px) {
 
   .navbar {
@@ -2260,9 +2095,9 @@ table a:hover {
 
   .navbar-links a {
     padding:
-      0.55rem 0.65rem;
+      0.52rem 0.65rem;
 
-    font-size: 0.82rem;
+    font-size: 0.84rem;
   }
 
   .navbar-right span {
@@ -2270,23 +2105,14 @@ table a:hover {
   }
 
   .page-container {
-    padding:
-      28px 18px 55px;
+    margin-top: 1.5rem;
   }
 
   .dashboard-hero {
-    padding: 36px !important;
-  }
-
-  .dashboard-hero h1 {
-    font-size: 2rem;
+    padding: 1.7rem !important;
   }
 }
 
-
-/* =========================================================
-   RESPONSIVE - 800
-   ========================================================= */
 
 @media (max-width: 800px) {
 
@@ -2342,20 +2168,16 @@ table a:hover {
 }
 
 
-/* =========================================================
-   RESPONSIVE - 700
-   ========================================================= */
-
 @media (max-width: 700px) {
 
   .navbar {
     flex-wrap: wrap;
 
-    gap: 8px;
+    gap: 0.7rem;
   }
 
   .navbar-brand {
-    width: auto;
+    width: 100%;
   }
 
   .navbar-links {
@@ -2369,81 +2191,71 @@ table a:hover {
   }
 
   .navbar-right {
-    margin-left: auto;
-  }
+    position: absolute;
 
-  .dashboard-hero {
-    min-height: 290px;
+    right: 1rem;
 
-    padding: 30px !important;
-  }
-
-  .dashboard-hero h1 {
-    font-size: 1.8rem;
-  }
-
-  .dashboard-stats {
-    flex-direction: column;
-  }
-
-  .dashboard-stats > * {
-    width: 100%;
-  }
-}
-
-
-/* =========================================================
-   RESPONSIVE - 500
-   ========================================================= */
-
-@media (max-width: 500px) {
-
-  .navbar {
-    min-height: 65px;
-  }
-
-  .navbar-brand {
-    font-size: 1.15rem;
-  }
-
-  .navbar-links a {
-    padding:
-      0.48rem 0.52rem;
-
-    font-size: 0.74rem;
+    top: 0.85rem;
   }
 
   .page-container {
     padding:
-      20px 12px 40px;
+      0 0.75rem;
+
+    margin:
+      1rem auto;
   }
 
   .card {
     padding: 1.2rem;
+
+    border-radius: 12px;
   }
 
   .dashboard-hero {
-    padding: 27px !important;
+    padding: 1.7rem !important;
+  }
+
+  .dashboard-hero h1 {
+    font-size: 1.75rem;
+  }
+
+  /*
+     Mobile table remains a table.
+     Only horizontal scrolling is allowed.
+     Column order stays exactly the same.
+  */
+
+  .page-container {
+    overflow-x: hidden;
+  }
+}
+
+
+@media (max-width: 500px) {
+
+  .navbar-links a {
+    font-size: 0.78rem;
+
+    padding:
+      0.48rem 0.52rem;
+  }
+
+  .page-container {
+    padding:
+      0 0.6rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .dashboard-hero {
+    padding: 1.4rem !important;
   }
 
   .dashboard-hero h1 {
     font-size: 1.55rem;
-  }
-
-  table {
-    display: block;
-
-    overflow-x: auto;
-
-    white-space: nowrap;
-  }
-
-  .modal-overlay {
-    padding: 12px;
-  }
-
-  .modal-card {
-    padding: 1.25rem;
   }
 
   .login-page {
@@ -2453,6 +2265,7 @@ table a:hover {
 
   .login-top-brand {
     top: 20px;
+
     left: 20px;
   }
 
@@ -2499,5 +2312,23 @@ table a:hover {
 
   .login-header p {
     font-size: 13px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+
+    transition: none !important;
+
+    animation: none !important;
   }
 }
