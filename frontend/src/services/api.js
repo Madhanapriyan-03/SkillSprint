@@ -1,118 +1,27 @@
-import React from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate
-} from 'react-router-dom';
+import axios from 'axios';
 
-import { useSelector } from 'react-redux';
+const api = axios.create({
+  baseURL: 'http://localhost:8080/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-import Navbar from './components/layout/Navbar';
-import Login from './components/Login';
-import ErrorHandler from './components/ErrorHandler';
-import NotificationStack from './components/NotificationStack';
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('sprint_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, (error) => Promise.reject(error));
 
-import Dashboard from './components/dashboard/Dashboard';
+api.interceptors.response.use((response) => response, (error) => {
+  if (error.response && error.response.status === 401) {
+    localStorage.removeItem('sprint_token');
+    localStorage.removeItem('sprint_role');
+    window.location.href = '/login';
+  }
+  return Promise.reject(error);
+});
 
-import RoadmapList from './components/roadmap/RoadmapList';
-import RoadmapDetails from './components/roadmap/RoadmapDetails';
-
-import EnrollmentList from './components/enrollment/EnrollmentList';
-import SubmissionList from './components/submission/SubmissionList';
-
-
-function PrivateRoute({ children }) {
-  const { user } = useSelector(
-    (state) => state.auth
-  );
-
-  return user
-    ? children
-    : <Navigate to="/login" />;
-}
-
-
-function App() {
-  const { user } = useSelector(
-    (state) => state.auth
-  );
-
-  return (
-    <Router>
-
-      <div className="app">
-
-        {user && <Navbar />}
-
-        <ErrorHandler />
-
-        <NotificationStack />
-
-        <Routes>
-
-          {/* Login */}
-          <Route
-            path="/login"
-            element={<Login />}
-          />
-
-          {/* Home */}
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-
-          {/* Roadmap List */}
-          <Route
-            path="/roadmaps"
-            element={
-              <PrivateRoute>
-                <RoadmapList />
-              </PrivateRoute>
-            }
-          />
-
-          {/* Roadmap Details */}
-          <Route
-            path="/roadmaps/:id"
-            element={
-              <PrivateRoute>
-                <RoadmapDetails />
-              </PrivateRoute>
-            }
-          />
-
-          {/* Enrollments */}
-          <Route
-            path="/enrollments"
-            element={
-              <PrivateRoute>
-                <EnrollmentList />
-              </PrivateRoute>
-            }
-          />
-
-          {/* Submissions */}
-          <Route
-            path="/submissions"
-            element={
-              <PrivateRoute>
-                <SubmissionList />
-              </PrivateRoute>
-            }
-          />
-
-        </Routes>
-
-      </div>
-
-    </Router>
-  );
-}
-
-export default App;
+export default api;
