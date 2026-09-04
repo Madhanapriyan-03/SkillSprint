@@ -130,22 +130,24 @@ const RoadmapForm = ({ item, onClose, onSuccess }) => {
           {/* Description */}
           <div className="modern-form-group">
 
-            <label>
-              Description
-              <span>*</span>
-            </label>
+            <label>Description</label>
 
             <textarea
-              value={formData.description}
-              onChange={(e) =>
+              value={formData.description || ''}
+              onChange={e =>
                 setFormData({
                   ...formData,
                   description: e.target.value
                 })
               }
-              placeholder="Describe what learners will achieve..."
-              rows="4"
-              required
+              style={{
+                width: '100%',
+                padding: '8px',
+                border: '1px solid var(--border)',
+                borderRadius: '4px'
+              }}
+              placeholder="Detailed course description..."
+              rows="3"
             />
 
             <small>
