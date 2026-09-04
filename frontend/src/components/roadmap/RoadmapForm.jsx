@@ -2,14 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import roadmapService from '../../services/roadmapService';
 
 const RoadmapForm = ({ item, onClose, onSuccess }) => {
-  const [formData, setFormData] = useState(
-    item || {
-      title: '',
-      description: '',
-      maxCapacity: 10,
-      status: 'DRAFT'
-    }
-  );
+  const [formData, setFormData] = useState({
+    title: item?.title || '',
+    description: item?.description || '',
+    maxCapacity: item?.maxCapacity || 10,
+    status: item?.status || 'DRAFT'
+  });
 
   const [loading, setLoading] = useState(false);
 
