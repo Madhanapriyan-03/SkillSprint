@@ -224,11 +224,7 @@ const RoadmapForm = ({ item, onClose, onSuccess }) => {
               className="modern-submit-btn"
               disabled={loading}
             >
-              {loading
-                ? 'Saving...'
-                : item
-                ? 'Save Changes'
-                : 'Create Roadmap'}
+              {loading ? 'Saving...' : 'Save Roadmap'}
 
               {!loading && (
                 <span>→</span>
