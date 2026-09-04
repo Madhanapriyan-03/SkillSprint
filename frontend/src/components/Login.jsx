@@ -171,18 +171,18 @@ const Login = () => {
 
             {/* Login */}
             <button
-              type="submit"
-              className="login-submit"
-              disabled={isLoading}
-            >
-              <span>
-                {isLoading ? 'Signing in...' : 'Sign In'}
-              </span>
+  type="submit"
+  className="login-submit"
+  disabled={isLoading}
+>
+  <span>
+    {isLoading ? 'Loading...' : 'Login'}
+  </span>
 
-              {!isLoading && (
-                <span className="login-arrow">→</span>
-              )}
-            </button>
+  {!isLoading && (
+    <span className="login-arrow">→</span>
+  )}
+</button>
 
           </form>
 
