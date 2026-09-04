@@ -346,7 +346,83 @@ const RoadmapList = () => {
           </table>
         )}
       </div>
-      
+      {/* =====================================================
+    LEARNING INSPIRATION SECTION
+    ===================================================== */}
+
+    <div className="roadmap-inspiration">
+
+      {/* Decorative Books */}
+
+      <div className="books-illustration">
+
+        <div className="book book-blue">
+          <div className="book-page"></div>
+          <span>LEARN</span>
+        </div>
+
+        <div className="book book-purple">
+          <div className="book-page"></div>
+          <span>GROW</span>
+        </div>
+
+        <div className="book book-yellow">
+          <div className="book-page"></div>
+          <span>BUILD</span>
+        </div>
+
+        <div className="book-shadow"></div>
+
+        <div className="floating-star star-one">✦</div>
+        <div className="floating-star star-two">✧</div>
+        <div className="floating-star star-three">✦</div>
+
+      </div>
+
+
+      {/* Quote */}
+
+      <div className="roadmap-quote">
+
+        <div className="quote-mark">“</div>
+
+        <h2>
+          Every expert was once
+          <span> a beginner.</span>
+        </h2>
+
+        <p>
+          Choose a roadmap, build your skills,
+          and keep moving forward one milestone at a time.
+        </p>
+
+        <div className="quote-line"></div>
+
+        <div className="quote-label">
+          YOUR NEXT SKILL STARTS HERE
+        </div>
+
+      </div>
+
+
+      {/* Small Learning Notes */}
+
+      <div className="learning-pill pill-one">
+        <span>✦</span>
+        Learn
+      </div>
+
+      <div className="learning-pill pill-two">
+        <span>✓</span>
+        Practice
+      </div>
+
+      <div className="learning-pill pill-three">
+        <span>↗</span>
+        Grow
+      </div>
+
+    </div>
 
       {/* ROADMAP FORM MODAL */}
       {showModal && (
