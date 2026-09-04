@@ -204,7 +204,76 @@ const SubmissionList = () => {
           </table>
         )}
       </div>
+      {/* =====================================================
+    SUBMISSION ACHIEVEMENT SECTION
+    ===================================================== */}
 
+    <div className="submission-inspiration">
+
+      <div className="submission-message">
+
+        <div className="small-label submission-label">
+          SHOW WHAT YOU LEARNED
+        </div>
+
+        <h2>
+          Learn it.
+          <span> Build it. Submit it.</span>
+        </h2>
+
+        <p>
+          Every submission is proof of your progress.
+          Keep practicing, complete your milestones,
+          and turn your learning into achievements.
+        </p>
+
+        <div className="submission-quote">
+          “Small progress is still progress.”
+        </div>
+
+        <div className="submission-line"></div>
+
+      </div>
+
+
+      <div className="achievement-visual">
+
+        <div className="achievement-circle">
+
+          <div className="trophy">
+            ★
+          </div>
+
+          <strong>ACHIEVE</strong>
+
+          <span>KEEP GOING</span>
+
+        </div>
+
+
+        <div className="achievement-badge badge-one">
+          ✓ Passed
+        </div>
+
+        <div className="achievement-badge badge-two">
+          ★ Score
+        </div>
+
+        <div className="achievement-badge badge-three">
+          ↗ Progress
+        </div>
+
+        <div className="achievement-star achievement-star-one">
+          ✦
+        </div>
+
+        <div className="achievement-star achievement-star-two">
+          ✧
+        </div>
+
+      </div>
+
+    </div>
       {/* Existing submission modal */}
       {showModal && (
         <SubmissionForm

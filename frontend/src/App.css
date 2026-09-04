@@ -5212,3 +5212,1355 @@ input[placeholder*="Search"] {
       650px;
   }
 }
+/* =========================================================
+   SKILLSPRINT
+   ENROLLMENTS + SUBMISSIONS
+   LEARNING / ACHIEVEMENT SECTIONS
+   ========================================================= */
+
+
+/* =========================================================
+   COMMON PAGE DECORATION
+   ========================================================= */
+
+.enrollments-page,
+.submissions-page {
+  position: relative;
+  isolation: isolate;
+
+  min-height:
+    calc(100vh - 120px);
+
+  background:
+    radial-gradient(
+      circle at 7% 25%,
+      rgba(37, 99, 235, 0.14),
+      transparent 23%
+    ),
+    radial-gradient(
+      circle at 94% 65%,
+      rgba(124, 58, 237, 0.13),
+      transparent 25%
+    );
+}
+
+
+/* =========================================================
+   LEFT CIRCLE
+   ========================================================= */
+
+.enrollments-page::before,
+.submissions-page::before {
+  content: "";
+
+  position: fixed;
+
+  width: 520px;
+  height: 520px;
+
+  left: -310px;
+  top: 170px;
+
+  border-radius: 50%;
+
+  border:
+    90px solid rgba(37, 99, 235, 0.17);
+
+  background:
+    rgba(96, 165, 250, 0.045);
+
+  pointer-events: none;
+
+  z-index: -2;
+}
+
+
+/* =========================================================
+   RIGHT CIRCLE
+   ========================================================= */
+
+.enrollments-page::after,
+.submissions-page::after {
+  content: "";
+
+  position: fixed;
+
+  width: 430px;
+  height: 430px;
+
+  right: -245px;
+  top: 350px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(124, 58, 237, 0.14);
+
+  border:
+    55px solid rgba(139, 92, 246, 0.10);
+
+  pointer-events: none;
+
+  z-index: -2;
+}
+
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+
+.enrollments-page > .card,
+.submissions-page > .card {
+  position: relative;
+
+  z-index: 3;
+
+  background:
+    rgba(255, 255, 255, 0.975) !important;
+
+  border:
+    1px solid rgba(219, 227, 239, 0.95) !important;
+
+  border-radius:
+    17px !important;
+
+  box-shadow:
+    0 12px 35px rgba(15, 23, 42, 0.075) !important;
+
+  overflow:
+    hidden;
+}
+
+
+/* =========================================================
+   TOP GRADIENT LINE
+   ========================================================= */
+
+.enrollments-page > .card::before,
+.submissions-page > .card::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  top: 0;
+
+  height: 4px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #4f7df0,
+      #7c3aed
+    );
+
+  z-index: 5;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.enrollments-page table,
+.submissions-page table {
+  border-collapse:
+    separate !important;
+
+  border-spacing:
+    0;
+
+  border-radius:
+    10px;
+
+  overflow:
+    hidden;
+}
+
+
+.enrollments-page table thead tr,
+.submissions-page table thead tr {
+  background:
+    linear-gradient(
+      135deg,
+      #f4f7ff,
+      #edf3ff
+    ) !important;
+}
+
+
+.enrollments-page table th,
+.submissions-page table th {
+  color:
+    #243657 !important;
+
+  background:
+    transparent !important;
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.035em;
+}
+
+
+.enrollments-page table td,
+.submissions-page table td {
+  background:
+    #ffffff !important;
+
+  color:
+    #334155 !important;
+}
+
+
+.enrollments-page table tbody tr,
+.submissions-page table tbody tr {
+  transition:
+    background 0.18s ease;
+}
+
+
+.enrollments-page table tbody tr:hover td,
+.submissions-page table tbody tr:hover td {
+  background:
+    #f8fbff !important;
+}
+
+
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
+
+.enrollments-page .btn-primary,
+.submissions-page .btn-primary {
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #1d4ed8
+    ) !important;
+
+  color:
+    #ffffff !important;
+
+  border:
+    none !important;
+
+  border-radius:
+    8px !important;
+
+  font-weight:
+    700 !important;
+
+  box-shadow:
+    0 7px 18px rgba(37, 99, 235, 0.20);
+
+  transition:
+    all 0.2s ease;
+}
+
+
+.enrollments-page .btn-primary:hover,
+.submissions-page .btn-primary:hover {
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 10px 24px rgba(37, 99, 235, 0.25);
+}
+
+
+/* =========================================================
+   ENROLLMENT INSPIRATION
+   ========================================================= */
+
+.enrollment-inspiration {
+  position:
+    relative;
+
+  min-height:
+    310px;
+
+  margin-top:
+    1.5rem;
+
+  margin-bottom:
+    2rem;
+
+  padding:
+    2.5rem 3.5rem;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    3rem;
+
+  overflow:
+    hidden;
+
+  border:
+    1px solid rgba(219, 227, 239, 0.9);
+
+  border-radius:
+    18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.97),
+      rgba(247, 249, 255, 0.96)
+    );
+
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.055);
+
+  z-index:
+    2;
+}
+
+
+/* Decorative glow */
+
+.enrollment-inspiration::before {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  width:
+    330px;
+
+  height:
+    330px;
+
+  right:
+    -120px;
+
+  bottom:
+    -180px;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(124, 58, 237, 0.09);
+}
+
+
+.enrollment-inspiration::after {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  width:
+    220px;
+
+  height:
+    220px;
+
+  left:
+    -110px;
+
+  top:
+    -120px;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(37, 99, 235, 0.07);
+}
+
+
+/* =========================================================
+   ENROLLMENT VISUAL
+   ========================================================= */
+
+.enrollment-visual {
+  position:
+    relative;
+
+  width:
+    330px;
+
+  height:
+    245px;
+
+  flex-shrink:
+    0;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+}
+
+
+/* Main progress ring */
+
+.progress-ring {
+  width:
+    180px;
+
+  height:
+    180px;
+
+  border-radius:
+    50%;
+
+  background:
+    conic-gradient(
+      #2563eb 0deg,
+      #6366f1 230deg,
+      #dbeafe 230deg,
+      #dbeafe 360deg
+    );
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  box-shadow:
+    0 15px 35px rgba(37, 99, 235, 0.17);
+
+  transform:
+    rotate(-20deg);
+}
+
+
+.progress-ring-inner {
+  width:
+    125px;
+
+  height:
+    125px;
+
+  border-radius:
+    50%;
+
+  background:
+    #ffffff;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  transform:
+    rotate(20deg);
+
+  box-shadow:
+    inset 0 0 0 1px #edf2f8;
+}
+
+
+.progress-ring-inner span {
+  font-size:
+    30px;
+
+  color:
+    #2563eb;
+
+  line-height:
+    1;
+}
+
+
+.progress-ring-inner strong {
+  margin-top:
+    7px;
+
+  color:
+    #172033;
+
+  font-size:
+    14px;
+
+  letter-spacing:
+    0.1em;
+}
+
+
+/* =========================================================
+   FLOATING ENROLLMENT CARDS
+   ========================================================= */
+
+.floating-card {
+  position:
+    absolute;
+
+  padding:
+    10px 15px;
+
+  border-radius:
+    10px;
+
+  background:
+    rgba(255, 255, 255, 0.96);
+
+  border:
+    1px solid #e0e8f5;
+
+  box-shadow:
+    0 8px 22px rgba(15, 23, 42, 0.09);
+
+  color:
+    #475569;
+
+  font-size:
+    12px;
+
+  font-weight:
+    750;
+
+  backdrop-filter:
+    blur(5px);
+}
+
+
+.floating-card span {
+  color:
+    #2563eb;
+
+  margin-right:
+    6px;
+}
+
+
+.enrollment-card-one {
+  top:
+    28px;
+
+  left:
+    15px;
+
+  transform:
+    rotate(-6deg);
+}
+
+
+.enrollment-card-two {
+  bottom:
+    28px;
+
+  right:
+    12px;
+
+  transform:
+    rotate(5deg);
+}
+
+
+.enrollment-card-two span {
+  color:
+    #7c3aed;
+}
+
+
+/* =========================================================
+   FLOATING DOTS
+   ========================================================= */
+
+.floating-dot {
+  position:
+    absolute;
+
+  width:
+    11px;
+
+  height:
+    11px;
+
+  border-radius:
+    50%;
+
+  background:
+    #60a5fa;
+
+  box-shadow:
+    0 0 0 6px rgba(96, 165, 250, 0.10);
+}
+
+
+.enrollment-dot-one {
+  top:
+    20px;
+
+  right:
+    50px;
+}
+
+
+.enrollment-dot-two {
+  bottom:
+    38px;
+
+  left:
+    35px;
+
+  background:
+    #a78bfa;
+}
+
+
+.enrollment-dot-three {
+  top:
+    95px;
+
+  right:
+    8px;
+
+  width:
+    7px;
+
+  height:
+    7px;
+}
+
+
+/* =========================================================
+   ENROLLMENT MESSAGE
+   ========================================================= */
+
+.enrollment-message {
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  max-width:
+    570px;
+
+  padding:
+    0 1rem;
+}
+
+
+.small-label {
+  color:
+    #2563eb;
+
+  font-size:
+    0.7rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.15em;
+
+  margin-bottom:
+    12px;
+}
+
+
+.enrollment-message h2 {
+  margin:
+    0;
+
+  color:
+    #172033 !important;
+
+  font-size:
+    2rem;
+
+  font-weight:
+    800;
+
+  line-height:
+    1.2;
+}
+
+
+.enrollment-message h2 span {
+  color:
+    #2563eb;
+}
+
+
+.enrollment-message p {
+  margin-top:
+    15px;
+
+  max-width:
+    510px;
+
+  color:
+    #64748b !important;
+
+  font-size:
+    0.97rem;
+
+  line-height:
+    1.7;
+}
+
+
+.enrollment-quote {
+  margin-top:
+    17px;
+
+  color:
+    #475569;
+
+  font-size:
+    0.9rem;
+
+  font-style:
+    italic;
+}
+
+
+.enrollment-line {
+  width:
+    60px;
+
+  height:
+    4px;
+
+  margin-top:
+    17px;
+
+  border-radius:
+    999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #7c3aed
+    );
+}
+
+
+/* =========================================================
+   SUBMISSION INSPIRATION
+   ========================================================= */
+
+.submission-inspiration {
+  position:
+    relative;
+
+  min-height:
+    310px;
+
+  margin-top:
+    1.5rem;
+
+  margin-bottom:
+    2rem;
+
+  padding:
+    2.5rem 3.5rem;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    3rem;
+
+  overflow:
+    hidden;
+
+  border:
+    1px solid rgba(219, 227, 239, 0.9);
+
+  border-radius:
+    18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.97),
+      rgba(247, 249, 255, 0.96)
+    );
+
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.055);
+
+  z-index:
+    2;
+}
+
+
+.submission-inspiration::before {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  width:
+    340px;
+
+  height:
+    340px;
+
+  left:
+    -150px;
+
+  bottom:
+    -190px;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(37, 99, 235, 0.075);
+}
+
+
+.submission-inspiration::after {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  width:
+    250px;
+
+  height:
+    250px;
+
+  right:
+    -110px;
+
+  top:
+    -130px;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(124, 58, 237, 0.08);
+}
+
+
+/* =========================================================
+   SUBMISSION MESSAGE
+   ========================================================= */
+
+.submission-message {
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  max-width:
+    580px;
+
+  padding:
+    0 1rem;
+}
+
+
+.submission-label {
+  color:
+    #7c3aed;
+}
+
+
+.submission-message h2 {
+  margin:
+    0;
+
+  color:
+    #172033 !important;
+
+  font-size:
+    2rem;
+
+  font-weight:
+    800;
+
+  line-height:
+    1.2;
+}
+
+
+.submission-message h2 span {
+  color:
+    #7c3aed;
+}
+
+
+.submission-message p {
+  margin-top:
+    15px;
+
+  max-width:
+    520px;
+
+  color:
+    #64748b !important;
+
+  font-size:
+    0.97rem;
+
+  line-height:
+    1.7;
+}
+
+
+.submission-quote {
+  margin-top:
+    17px;
+
+  color:
+    #475569;
+
+  font-size:
+    0.9rem;
+
+  font-style:
+    italic;
+}
+
+
+.submission-line {
+  width:
+    60px;
+
+  height:
+    4px;
+
+  margin-top:
+    17px;
+
+  border-radius:
+    999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #7c3aed,
+      #2563eb
+    );
+}
+
+
+/* =========================================================
+   ACHIEVEMENT VISUAL
+   ========================================================= */
+
+.achievement-visual {
+  position:
+    relative;
+
+  width:
+    330px;
+
+  height:
+    245px;
+
+  flex-shrink:
+    0;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+}
+
+
+/* Main circle */
+
+.achievement-circle {
+  width:
+    175px;
+
+  height:
+    175px;
+
+  border-radius:
+    50%;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #eef2ff,
+      #ffffff
+    );
+
+  border:
+    10px solid rgba(124, 58, 237, 0.15);
+
+  box-shadow:
+    0 15px 35px rgba(124, 58, 237, 0.15);
+
+  position:
+    relative;
+}
+
+
+.achievement-circle::before {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  inset:
+    -10px;
+
+  border-radius:
+    50%;
+
+  border:
+    2px dashed rgba(124, 58, 237, 0.38);
+
+  animation:
+    achievementRotate 18s linear infinite;
+}
+
+
+@keyframes achievementRotate {
+  from {
+    transform:
+      rotate(0deg);
+  }
+
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+
+.trophy {
+  font-size:
+    42px;
+
+  color:
+    #f59e0b;
+
+  line-height:
+    1;
+
+  text-shadow:
+    0 4px 8px rgba(245, 158, 11, 0.18);
+}
+
+
+.achievement-circle strong {
+  margin-top:
+    8px;
+
+  color:
+    #172033;
+
+  font-size:
+    14px;
+
+  letter-spacing:
+    0.1em;
+}
+
+
+.achievement-circle span {
+  margin-top:
+    4px;
+
+  color:
+    #94a3b8;
+
+  font-size:
+    9px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.12em;
+}
+
+
+/* =========================================================
+   ACHIEVEMENT BADGES
+   ========================================================= */
+
+.achievement-badge {
+  position:
+    absolute;
+
+  padding:
+    9px 14px;
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(255, 255, 255, 0.96);
+
+  border:
+    1px solid #e0e8f5;
+
+  box-shadow:
+    0 7px 18px rgba(15, 23, 42, 0.08);
+
+  font-size:
+    11px;
+
+  font-weight:
+    750;
+
+  color:
+    #475569;
+
+  z-index:
+    4;
+}
+
+
+.badge-one {
+  top:
+    30px;
+
+  left:
+    8px;
+
+  color:
+    #059669;
+}
+
+
+.badge-two {
+  top:
+    75px;
+
+  right:
+    5px;
+
+  color:
+    #7c3aed;
+}
+
+
+.badge-three {
+  bottom:
+    30px;
+
+  left:
+    15px;
+
+  color:
+    #2563eb;
+}
+
+
+/* =========================================================
+   ACHIEVEMENT STARS
+   ========================================================= */
+
+.achievement-star {
+  position:
+    absolute;
+
+  color:
+    #8b5cf6;
+
+  font-size:
+    23px;
+
+  animation:
+    achievementFloat 3s ease-in-out infinite;
+}
+
+
+.achievement-star-one {
+  top:
+    10px;
+
+  right:
+    70px;
+}
+
+
+.achievement-star-two {
+  bottom:
+    30px;
+
+  right:
+    65px;
+
+  font-size:
+    16px;
+
+  animation-delay:
+    1s;
+}
+
+
+@keyframes achievementFloat {
+
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      rotate(0deg);
+
+    opacity:
+      0.65;
+  }
+
+  50% {
+    transform:
+      translateY(-8px)
+      rotate(8deg);
+
+    opacity:
+      1;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .enrollment-inspiration,
+  .submission-inspiration {
+    min-height:
+      560px;
+
+    flex-direction:
+      column;
+
+    justify-content:
+      center;
+
+    text-align:
+      center;
+
+    padding:
+      2rem;
+
+    gap:
+      1rem;
+  }
+
+
+  .enrollment-message,
+  .submission-message {
+    max-width:
+      540px;
+  }
+
+
+  .enrollment-message h2,
+  .submission-message h2 {
+    font-size:
+      1.65rem;
+  }
+
+
+  .enrollment-line,
+  .submission-line {
+    margin-left:
+      auto;
+
+    margin-right:
+      auto;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .enrollments-page,
+  .submissions-page {
+    padding:
+      0 0.75rem;
+  }
+
+
+  .enrollment-inspiration,
+  .submission-inspiration {
+    padding:
+      1.5rem;
+
+    min-height:
+      520px;
+  }
+
+
+  .enrollment-visual,
+  .achievement-visual {
+    transform:
+      scale(0.82);
+  }
+
+
+  .enrollment-message h2,
+  .submission-message h2 {
+    font-size:
+      1.45rem;
+  }
+
+
+  .enrollment-message p,
+  .submission-message p {
+    font-size:
+      0.9rem;
+  }
+}
