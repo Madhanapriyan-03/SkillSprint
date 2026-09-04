@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import milestoneService from '../../../services/milestoneService';
+import milestoneService from '../../services/milestoneService';
 
 const MilestoneForm = ({ roadmapId, item, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
