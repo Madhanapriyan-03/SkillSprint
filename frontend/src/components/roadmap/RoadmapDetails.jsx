@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import api from '../../services/api';
 import SubmissionForm from '../submission/SubmissionForm';
-import MilestoneList from './MilestoneList';
+import MilestoneList from './milestone/MilestoneList';
 
 const RoadmapDetails = () => {
   const { id } = useParams();
