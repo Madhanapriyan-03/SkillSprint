@@ -321,6 +321,65 @@ const EnrollmentList = () => {
           </div>
         )}
       </div>
+      {/* =====================================================
+    ENROLLMENT LEARNING SECTION
+    ===================================================== */}
+
+    <div className="enrollment-inspiration">
+
+      <div className="enrollment-visual">
+
+        <div className="progress-ring">
+          <div className="progress-ring-inner">
+            <span>↗</span>
+            <strong>GROW</strong>
+          </div>
+        </div>
+
+        <div className="floating-card enrollment-card-one">
+          <span>✓</span>
+          Roadmap
+        </div>
+
+        <div className="floating-card enrollment-card-two">
+          <span>★</span>
+          Progress
+        </div>
+
+        <div className="floating-dot enrollment-dot-one"></div>
+        <div className="floating-dot enrollment-dot-two"></div>
+        <div className="floating-dot enrollment-dot-three"></div>
+
+      </div>
+
+
+      <div className="enrollment-message">
+
+        <div className="small-label">
+          YOUR LEARNING JOURNEY
+        </div>
+
+        <h2>
+          Keep learning.
+          <span> Keep growing.</span>
+        </h2>
+
+        <p>
+          Every enrollment is a new opportunity to build
+          knowledge, complete milestones, and move closer
+          to your goals.
+        </p>
+
+        <div className="enrollment-quote">
+          “Success is the sum of small efforts,
+          repeated day in and day out.”
+        </div>
+
+        <div className="enrollment-line"></div>
+
+      </div>
+
+    </div>
 
       {/* Enrollment Modal */}
       {showModal && (
