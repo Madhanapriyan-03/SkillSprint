@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import api from '../../services/api';
 import SubmissionForm from '../submission/SubmissionForm';
+import MilestoneList from './MilestoneList';
 
 const RoadmapDetails = () => {
   const { id } = useParams();
@@ -17,6 +18,10 @@ const RoadmapDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedMilestone, setSelectedMilestone] = useState(null);
+
+  // Milestone manager modal
+  const [showMilestoneManager, setShowMilestoneManager] =
+    useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -41,10 +46,7 @@ const RoadmapDetails = () => {
 
         setMilestones(milestoneData);
       } catch (err) {
-        console.error(
-          'Failed to load roadmap:',
-          err
-        );
+        console.error('Failed to load roadmap:', err);
 
         setError(
           err.response?.data?.message ||
@@ -69,6 +71,10 @@ const RoadmapDetails = () => {
   );
 
   const isStudent = user?.role === 'STUDENT';
+
+  const isAdmin =
+    user?.role === 'MENTOR' ||
+    user?.role === 'LEARNING_MANAGER';
 
   const canSubmit =
     isStudent && !!currentEnrollment;
@@ -155,24 +161,48 @@ const RoadmapDetails = () => {
             </p>
           </div>
 
-          <span
+          {/* Header Actions */}
+          <div
             style={{
-              padding: '6px 12px',
-              borderRadius: '999px',
-              fontSize: '12px',
-              fontWeight: '600',
-              backgroundColor:
-                roadmap?.status === 'PUBLISHED'
-                  ? '#dcfce7'
-                  : '#f1f5f9',
-              color:
-                roadmap?.status === 'PUBLISHED'
-                  ? '#166534'
-                  : '#475569'
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              flexWrap: 'wrap'
             }}
           >
-            {roadmap?.status}
-          </span>
+            {/* Manage Milestones */}
+            {isAdmin &&
+              roadmap?.status === 'DRAFT' && (
+                <button
+                  className="btn-primary"
+                  onClick={() =>
+                    setShowMilestoneManager(true)
+                  }
+                >
+                  + Manage Milestones
+                </button>
+              )}
+
+            {/* Roadmap Status */}
+            <span
+              style={{
+                padding: '6px 12px',
+                borderRadius: '999px',
+                fontSize: '12px',
+                fontWeight: '600',
+                backgroundColor:
+                  roadmap?.status === 'PUBLISHED'
+                    ? '#dcfce7'
+                    : '#f1f5f9',
+                color:
+                  roadmap?.status === 'PUBLISHED'
+                    ? '#166534'
+                    : '#475569'
+              }}
+            >
+              {roadmap?.status}
+            </span>
+          </div>
         </div>
 
         {/* Info Cards */}
@@ -282,7 +312,18 @@ const RoadmapDetails = () => {
               color: 'var(--text-muted)'
             }}
           >
-            No milestones available yet.
+            <p>No milestones available yet.</p>
+
+            {isAdmin &&
+              roadmap?.status === 'DRAFT' && (
+                <p>
+                  Use{' '}
+                  <strong>
+                    + Manage Milestones
+                  </strong>{' '}
+                  above to create one.
+                </p>
+              )}
           </div>
         ) : (
           milestones.map((milestone, index) => (
@@ -360,7 +401,23 @@ const RoadmapDetails = () => {
         )}
       </div>
 
-      {/* Submission Modal */}
+      {/* =====================================================
+          MILESTONE MANAGEMENT MODAL
+          ===================================================== */}
+      {showMilestoneManager && roadmap && (
+        <MilestoneList
+          roadmapId={roadmap.id}
+          roadmapTitle={roadmap.title}
+          roadmapStatus={roadmap.status}
+          onClose={() =>
+            setShowMilestoneManager(false)
+          }
+        />
+      )}
+
+      {/* =====================================================
+          SUBMISSION MODAL
+          ===================================================== */}
       {selectedMilestone && currentEnrollment && (
         <SubmissionForm
           item={{
