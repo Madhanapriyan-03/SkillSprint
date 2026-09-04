@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import milestoneService from '../../services/milestoneService';
+import milestoneService from '../../../services/milestoneService';
 import MilestoneForm from './MilestoneForm';
 
 const MilestoneList = ({ roadmapId, roadmapTitle, roadmapStatus, onClose }) => {
@@ -26,8 +26,7 @@ const MilestoneList = ({ roadmapId, roadmapTitle, roadmapStatus, onClose }) => {
 
   useEffect(() => {
     loadMilestones();
-  }, [roadmapId]);
-
+  }, [roadmapId, loadMilestones]);
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this milestone?')) {
       return;
