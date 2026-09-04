@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import authService from '../services/authService';
 
 const Register = () => {
@@ -12,8 +12,10 @@ const Register = () => {
     role: 'STUDENT'
   });
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -36,7 +38,7 @@ const Register = () => {
       return;
     }
 
-    setIsLoading(true);
+    setLoading(true);
 
     try {
       await authService.register({
@@ -45,179 +47,185 @@ const Register = () => {
         role: formData.role
       });
 
-      alert('Registration successful!');
-
+      alert('Registration successful! Please login.');
       navigate('/login');
     } catch (err) {
       setError(
         err.response?.data?.message ||
+        err.message ||
         'Registration failed'
       );
-    } finally {
-      setIsLoading(false);
     }
+
+    setLoading(false);
   };
 
   return (
-    <div
-      className="page-container"
-      style={{
-        maxWidth: '430px',
-        marginTop: '70px'
-      }}
-    >
-      <div className="card">
+    <div className="register-page">
 
-        <h2>Create SkillSprint Account</h2>
+      <div className="register-bg-circle register-circle-one"></div>
+      <div className="register-bg-circle register-circle-two"></div>
+      <div className="register-bg-circle register-circle-three"></div>
 
-        <p
-          style={{
-            color: 'var(--text-muted)',
-            marginTop: '5px'
-          }}
-        >
-          Create your account to get started.
-        </p>
+      <div className="register-top-brand">
+        <span className="brand-skill">Skill</span>
+        <span className="brand-sprint">Sprint</span>
+        <small>LEARN · BUILD · ACHIEVE</small>
+      </div>
 
-        {error && (
-          <div
-            style={{
-              color: 'var(--danger)',
-              backgroundColor: '#fee2e2',
-              padding: '10px',
-              borderRadius: '6px',
-              marginTop: '15px'
-            }}
-          >
-            {error}
-          </div>
-        )}
+      <div className="register-card">
 
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '15px',
-            marginTop: '20px'
-          }}
-        >
+        {/* LEFT */}
+        <div className="register-brand-panel">
 
-          {/* Email */}
-          <div>
-            <label>Email</label>
-
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              style={{
-                width: '100%',
-                padding: '9px',
-                marginTop: '5px'
-              }}
-              placeholder="Enter your email"
-            />
+          <div className="register-brand-icon">
+            S
           </div>
 
-          {/* Password */}
-          <div>
-            <label>Password</label>
+          <h1>Start Your Journey</h1>
 
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              minLength="6"
-              style={{
-                width: '100%',
-                padding: '9px',
-                marginTop: '5px'
-              }}
-              placeholder="Minimum 6 characters"
-            />
+          <p>
+            Create your SkillSprint account and
+            start building skills that move you forward.
+          </p>
+
+          <div className="register-feature-list">
+            <div>
+              <span>✓</span>
+              <p>Personalized learning roadmaps</p>
+            </div>
+
+            <div>
+              <span>✓</span>
+              <p>Track your learning progress</p>
+            </div>
+
+            <div>
+              <span>✓</span>
+              <p>Build skills step by step</p>
+            </div>
           </div>
 
-          {/* Confirm Password */}
-          <div>
-            <label>Confirm Password</label>
+          <div className="register-landscape"></div>
 
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-              style={{
-                width: '100%',
-                padding: '9px',
-                marginTop: '5px'
-              }}
-              placeholder="Confirm your password"
-            />
-          </div>
-
-          {/* Role */}
-          <div>
-            <label>Register As</label>
-
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              required
-              style={{
-                width: '100%',
-                padding: '9px',
-                marginTop: '5px'
-              }}
-            >
-              <option value="STUDENT">
-                Student
-              </option>
-
-              <option value="MENTOR">
-                Mentor
-              </option>
-
-              <option value="LEARNING_MANAGER">
-                Learning Manager
-              </option>
-            </select>
-          </div>
-
-          {/* Register Button */}
-          <button
-            type="submit"
-            className="btn-primary"
-            disabled={isLoading}
-          >
-            {isLoading
-              ? 'Creating Account...'
-              : 'Register'}
-          </button>
-
-        </form>
-
-        {/* Login Link */}
-        <div
-          style={{
-            textAlign: 'center',
-            marginTop: '20px',
-            color: 'var(--text-muted)'
-          }}
-        >
-          Already have an account?{' '}
-
-          <Link to="/login">
-            Login
-          </Link>
         </div>
 
+        {/* RIGHT */}
+        <div className="register-form-panel">
+
+          <div className="register-header">
+            <h2>Create Account</h2>
+            <p>Join SkillSprint and start learning today</p>
+          </div>
+
+          {error && (
+            <div className="register-error">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="register-form">
+
+            <div className="register-field">
+              <label>Email</label>
+
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div className="register-field">
+              <label>Password</label>
+
+              <div className="register-password-wrapper">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Create a password"
+                  required
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? 'Hide' : 'Show'}
+                </button>
+              </div>
+            </div>
+
+            <div className="register-field">
+              <label>Confirm Password</label>
+
+              <div className="register-password-wrapper">
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Confirm your password"
+                  required
+                />
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setShowConfirmPassword(!showConfirmPassword)
+                  }
+                >
+                  {showConfirmPassword ? 'Hide' : 'Show'}
+                </button>
+              </div>
+            </div>
+
+            <div className="register-field">
+              <label>Account Type</label>
+
+              <select
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+              >
+                <option value="STUDENT">Student</option>
+                <option value="MENTOR">Mentor</option>
+                <option value="LEARNING_MANAGER">
+                  Learning Manager
+                </option>
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              className="register-submit"
+              disabled={loading}
+            >
+              {loading ? 'Creating Account...' : 'Create Account'}
+              {!loading && <span>→</span>}
+            </button>
+
+          </form>
+
+          <div className="register-divider">
+            <span></span>
+            <p>Already have an account?</p>
+            <span></span>
+          </div>
+
+          <button
+            className="register-login-link"
+            onClick={() => navigate('/login')}
+          >
+            Back to Sign In
+          </button>
+
+        </div>
       </div>
     </div>
   );
