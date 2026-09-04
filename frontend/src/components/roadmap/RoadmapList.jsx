@@ -89,7 +89,7 @@ const RoadmapList = () => {
   };
 
   return (
-    <div className="page-container">
+    <div className="page-container roadmaps-page">
       <div className="card">
 
         {/* HEADER */}

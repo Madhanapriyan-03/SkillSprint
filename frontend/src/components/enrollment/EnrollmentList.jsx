@@ -85,7 +85,7 @@ const EnrollmentList = () => {
   };
 
   return (
-    <div className="page-container">
+    <div className="page-container enrollments-page">
       <div className="card">
 
         {/* Header */}

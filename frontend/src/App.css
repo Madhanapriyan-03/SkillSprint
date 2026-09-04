@@ -3409,3 +3409,778 @@ input[placeholder*="Search"] {
     display: none !important;
   }
 }
+/* =========================================================
+   SKILLSPRINT
+   ROADMAPS / ENROLLMENTS / SUBMISSIONS
+   SAME VISUAL LANGUAGE AS LOGIN + DASHBOARD
+   UI ONLY - NO DATA / POSITION CHANGES
+   ========================================================= */
+
+
+/* =========================================================
+   COMMON PAGE BACKGROUND
+   ========================================================= */
+
+.roadmaps-page,
+.enrollments-page,
+.submissions-page {
+  position: relative;
+
+  min-height: calc(100vh - 120px);
+
+  isolation: isolate;
+}
+
+
+/* Light blue/purple background glow */
+
+.roadmaps-page::before,
+.enrollments-page::before,
+.submissions-page::before {
+  content: "";
+
+  position: fixed;
+
+  width: 520px;
+  height: 520px;
+
+  left: -300px;
+  top: 150px;
+
+  border-radius: 50%;
+
+  border:
+    90px solid rgba(37, 99, 235, 0.19);
+
+  background:
+    rgba(96, 165, 250, 0.055);
+
+  pointer-events: none;
+
+  z-index: -2;
+}
+
+
+/* Right purple circle */
+
+.roadmaps-page::after,
+.enrollments-page::after,
+.submissions-page::after {
+  content: "";
+
+  position: fixed;
+
+  width: 430px;
+  height: 430px;
+
+  right: -240px;
+  top: 320px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(124, 58, 237, 0.15);
+
+  border:
+    55px solid rgba(139, 92, 246, 0.11);
+
+  pointer-events: none;
+
+  z-index: -2;
+}
+
+
+/* =========================================================
+   PAGE BACKGROUND GLOW
+   ========================================================= */
+
+.roadmaps-page,
+.enrollments-page,
+.submissions-page {
+  background:
+    radial-gradient(
+      circle at 8% 20%,
+      rgba(37, 99, 235, 0.14),
+      transparent 23%
+    ),
+    radial-gradient(
+      circle at 92% 65%,
+      rgba(124, 58, 237, 0.12),
+      transparent 24%
+    );
+}
+
+
+/* =========================================================
+   MAIN WHITE CARD
+   ========================================================= */
+
+.roadmaps-page > .card,
+.enrollments-page > .card,
+.submissions-page > .card {
+  position: relative;
+
+  z-index: 3;
+
+  background:
+    rgba(255, 255, 255, 0.97) !important;
+
+  border:
+    1px solid rgba(219, 227, 239, 0.95) !important;
+
+  border-radius:
+    17px !important;
+
+  box-shadow:
+    0 12px 35px rgba(15, 23, 42, 0.075) !important;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   TOP BLUE ACCENT
+   ========================================================= */
+
+.roadmaps-page > .card::before,
+.enrollments-page > .card::before,
+.submissions-page > .card::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  top: 0;
+
+  height: 4px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb 0%,
+      #4f7df0 50%,
+      #7c3aed 100%
+    );
+
+  z-index: 5;
+}
+
+
+/* =========================================================
+   HEADINGS
+   ========================================================= */
+
+.roadmaps-page > .card h2,
+.enrollments-page > .card h2,
+.submissions-page > .card h2 {
+  color:
+    #172033 !important;
+
+  font-weight:
+    800 !important;
+
+  letter-spacing:
+    -0.5px;
+}
+
+
+/* =========================================================
+   DESCRIPTION TEXT
+   ========================================================= */
+
+.roadmaps-page > .card > div > p,
+.enrollments-page > .card p,
+.submissions-page > .card p {
+  color:
+    #64748b !important;
+}
+
+
+/* =========================================================
+   SEARCH BAR - ROADMAP
+   ========================================================= */
+
+.roadmaps-page input[placeholder*="Search"] {
+  background:
+    #f8faff !important;
+
+  border:
+    1px solid #d7e2f2 !important;
+
+  border-radius:
+    9px !important;
+
+  color:
+    #172033 !important;
+
+  box-shadow:
+    inset 0 1px 2px rgba(15, 23, 42, 0.025);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.roadmaps-page input[placeholder*="Search"]:focus {
+  background:
+    #ffffff !important;
+
+  border-color:
+    #60a5fa !important;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.10) !important;
+
+  outline:
+    none !important;
+}
+
+
+/* =========================================================
+   ALL NORMAL INPUTS
+   ========================================================= */
+
+.roadmaps-page input,
+.enrollments-page input,
+.submissions-page input,
+.roadmaps-page textarea,
+.enrollments-page textarea,
+.submissions-page textarea,
+.roadmaps-page select,
+.enrollments-page select,
+.submissions-page select {
+  color:
+    #172033;
+
+  background:
+    #ffffff;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.roadmaps-page table,
+.enrollments-page table,
+.submissions-page table {
+  width: 100%;
+
+  border-collapse:
+    separate !important;
+
+  border-spacing:
+    0;
+
+  overflow: hidden;
+
+  border-radius:
+    10px;
+}
+
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+.roadmaps-page table thead tr,
+.enrollments-page table thead tr,
+.submissions-page table thead tr {
+  background:
+    linear-gradient(
+      135deg,
+      #f4f7ff,
+      #edf3ff
+    ) !important;
+
+  border-bottom:
+    1px solid #d7e2f2 !important;
+}
+
+
+.roadmaps-page table th,
+.enrollments-page table th,
+.submissions-page table th {
+  color:
+    #243657 !important;
+
+  background:
+    transparent !important;
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.035em;
+
+  text-transform:
+    uppercase;
+}
+
+
+/* =========================================================
+   TABLE BODY
+   ========================================================= */
+
+.roadmaps-page table td,
+.enrollments-page table td,
+.submissions-page table td {
+  background:
+    #ffffff !important;
+
+  color:
+    #334155 !important;
+
+  border-bottom:
+    1px solid #e8edf5;
+}
+
+
+/* =========================================================
+   TABLE ROW HOVER
+   ========================================================= */
+
+.roadmaps-page table tbody tr,
+.enrollments-page table tbody tr,
+.submissions-page table tbody tr {
+  transition:
+    background 0.18s ease;
+}
+
+
+.roadmaps-page table tbody tr:hover td,
+.enrollments-page table tbody tr:hover td,
+.submissions-page table tbody tr:hover td {
+  background:
+    #f8fbff !important;
+}
+
+
+/* =========================================================
+   ROADMAP TITLE
+   ========================================================= */
+
+.roadmaps-page table td a {
+  color:
+    #172033 !important;
+
+  font-weight:
+    700 !important;
+
+  text-decoration:
+    none !important;
+
+  transition:
+    color 0.2s ease;
+}
+
+
+.roadmaps-page table td a:hover {
+  color:
+    #2563eb !important;
+}
+
+
+/* =========================================================
+   ID TEXT
+   ========================================================= */
+
+.roadmaps-page table td:first-child,
+.enrollments-page table td:first-child {
+  color:
+    #334155 !important;
+
+  font-weight:
+    700 !important;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+.roadmaps-page .status-badge,
+.enrollments-page .status-badge,
+.submissions-page .status-badge {
+  border-radius:
+    999px !important;
+
+  font-weight:
+    700 !important;
+}
+
+
+/* Published */
+
+.roadmaps-page span[style*="#dcfce7"] {
+  border-radius:
+    999px !important;
+
+  padding:
+    5px 11px !important;
+
+  font-weight:
+    700 !important;
+}
+
+
+/* =========================================================
+   PRIMARY BUTTONS
+   ========================================================= */
+
+.roadmaps-page .btn-primary,
+.enrollments-page .btn-primary,
+.submissions-page .btn-primary {
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #1d4ed8
+    ) !important;
+
+  color:
+    #ffffff !important;
+
+  border:
+    none !important;
+
+  border-radius:
+    8px !important;
+
+  font-weight:
+    700 !important;
+
+  box-shadow:
+    0 7px 18px rgba(37, 99, 235, 0.20);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.roadmaps-page .btn-primary:hover,
+.enrollments-page .btn-primary:hover,
+.submissions-page .btn-primary:hover {
+  background:
+    linear-gradient(
+      135deg,
+      #1d4ed8,
+      #1e40af
+    ) !important;
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 10px 24px rgba(37, 99, 235, 0.25);
+}
+
+
+/* =========================================================
+   SECONDARY BUTTON
+   ========================================================= */
+
+.roadmaps-page .btn-secondary,
+.enrollments-page .btn-secondary,
+.submissions-page .btn-secondary {
+  background:
+    #f1f5f9 !important;
+
+  color:
+    #334155 !important;
+
+  border:
+    1px solid #dbe3ef !important;
+
+  border-radius:
+    8px !important;
+
+  font-weight:
+    650;
+}
+
+
+.roadmaps-page .btn-secondary:hover,
+.enrollments-page .btn-secondary:hover,
+.submissions-page .btn-secondary:hover {
+  background:
+    #e8eef7 !important;
+}
+
+
+/* =========================================================
+   CAPACITY BAR
+   ========================================================= */
+
+.roadmaps-page div[style*="height: 8px"] {
+  background:
+    #e4eaf3 !important;
+
+  border-radius:
+    999px !important;
+}
+
+
+.roadmaps-page div[style*="height: 8px"] > div {
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #60a5fa
+    ) !important;
+
+  border-radius:
+    999px !important;
+}
+
+
+/* =========================================================
+   ENROLLMENT PROGRESS
+   ========================================================= */
+
+.enrollments-page div[style*="backgroundColor: '#e5e7eb'"] {
+  background:
+    #e4eaf3 !important;
+
+  border-radius:
+    999px !important;
+
+  box-shadow:
+    inset 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+
+.enrollments-page div[style*="backgroundColor: '#e5e7eb'"]
+  > div {
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #60a5fa
+    ) !important;
+
+  border-radius:
+    999px !important;
+}
+
+
+/* =========================================================
+   SUBMISSION SCORE
+   ========================================================= */
+
+.submissions-page table td:last-child {
+  font-weight:
+    650;
+}
+
+
+/* =========================================================
+   MODALS
+   ========================================================= */
+
+.roadmaps-page .modal-overlay,
+.enrollments-page .modal-overlay,
+.submissions-page .modal-overlay {
+  background:
+    rgba(15, 23, 42, 0.60) !important;
+
+  backdrop-filter:
+    blur(7px);
+}
+
+
+.roadmaps-page .modal-card,
+.enrollments-page .modal-card,
+.submissions-page .modal-card {
+  background:
+    #ffffff !important;
+
+  border:
+    1px solid #dbe3ef !important;
+
+  border-radius:
+    16px !important;
+
+  box-shadow:
+    0 25px 70px rgba(15, 23, 42, 0.25) !important;
+
+  position:
+    relative;
+
+  overflow:
+    hidden;
+}
+
+
+/* Modal blue top line */
+
+.roadmaps-page .modal-card::before,
+.enrollments-page .modal-card::before,
+.submissions-page .modal-card::before {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  left:
+    0;
+
+  right:
+    0;
+
+  top:
+    0;
+
+  height:
+    4px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #6366f1
+    );
+}
+
+
+/* =========================================================
+   MODAL INPUTS
+   ========================================================= */
+
+.roadmaps-page .modal-card input,
+.enrollments-page .modal-card input,
+.submissions-page .modal-card input,
+.roadmaps-page .modal-card textarea,
+.enrollments-page .modal-card textarea,
+.submissions-page .modal-card textarea,
+.roadmaps-page .modal-card select,
+.enrollments-page .modal-card select,
+.submissions-page .modal-card select {
+  background:
+    #f8faff !important;
+
+  border:
+    1px solid #d7e2f2 !important;
+
+  border-radius:
+    8px !important;
+
+  color:
+    #172033 !important;
+}
+
+
+.roadmaps-page .modal-card input:focus,
+.enrollments-page .modal-card input:focus,
+.submissions-page .modal-card input:focus,
+.roadmaps-page .modal-card textarea:focus,
+.enrollments-page .modal-card textarea:focus,
+.submissions-page .modal-card textarea:focus,
+.roadmaps-page .modal-card select:focus,
+.enrollments-page .modal-card select:focus,
+.submissions-page .modal-card select:focus {
+  outline:
+    none !important;
+
+  border-color:
+    #60a5fa !important;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.10) !important;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.roadmaps-page .empty-state,
+.enrollments-page .empty-state,
+.submissions-page .empty-state {
+  border:
+    1px dashed #cbd8eb !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff,
+      #f7faff
+    ) !important;
+
+  border-radius:
+    12px !important;
+}
+
+
+/* =========================================================
+   PAGE BOTTOM DECORATIVE GLOW
+   ========================================================= */
+
+.roadmaps-page,
+.enrollments-page,
+.submissions-page {
+  isolation:
+    isolate;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .roadmaps-page::before,
+  .enrollments-page::before,
+  .submissions-page::before {
+    width: 420px;
+    height: 420px;
+
+    left: -300px;
+
+    border-width: 70px;
+  }
+
+  .roadmaps-page::after,
+  .enrollments-page::after,
+  .submissions-page::after {
+    width: 350px;
+    height: 350px;
+
+    right: -250px;
+
+    border-width: 45px;
+  }
+}
+
+
+@media (max-width: 650px) {
+
+  .roadmaps-page,
+  .enrollments-page,
+  .submissions-page {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .roadmaps-page > .card,
+  .enrollments-page > .card,
+  .submissions-page > .card {
+    border-radius: 13px !important;
+  }
+
+  .roadmaps-page table,
+  .enrollments-page table,
+  .submissions-page table {
+    min-width: 650px;
+  }
+}

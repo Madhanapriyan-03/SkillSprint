@@ -85,7 +85,7 @@ const SubmissionList = () => {
   };
 
   return (
-    <div className="page-container">
+    <div className="page-container submissions-page">
       <div className="card">
 
         <div
