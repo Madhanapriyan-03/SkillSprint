@@ -23,7 +23,7 @@ const RoadmapList = () => {
 
   useEffect(() => {
     dispatch(fetchRoadmaps({ page: 0, size: 20 }));
-  }, [dispatch]);
+  }, [dispatch, searchQuery]);
 
   const filteredItems = items.filter((item) =>
     item.title?.toLowerCase().includes(searchQuery.toLowerCase())
