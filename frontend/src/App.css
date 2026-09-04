@@ -720,7 +720,7 @@ input[placeholder*="Search"] {
   border-radius: 50%;
 
   background:
-    rgba(255, 255, 255, 0.06);
+    rgba(255, 255, 255, 0.10);
 }
 
 .dashboard-hero h1 {
@@ -2364,7 +2364,7 @@ input[placeholder*="Search"] {
   left: -280px;
 
   border:
-    75px solid rgba(59, 130, 246, 0.045);
+    75px solid rgba(59, 130, 246, 0.10);
 }
 
 .dashboard-decoration-two {
@@ -2375,7 +2375,7 @@ input[placeholder*="Search"] {
   top: 300px;
 
   background:
-    rgba(96, 165, 250, 0.055);
+    rgba(96, 165, 250, 0.10);
 }
 
 .dashboard-decoration-three {
@@ -2386,7 +2386,7 @@ input[placeholder*="Search"] {
   bottom: -180px;
 
   background:
-    rgba(99, 102, 241, 0.045);
+    rgba(99, 102, 241, 0.08);
 }
 
 
@@ -2399,17 +2399,17 @@ input[placeholder*="Search"] {
 
   z-index: 0;
 
-  color: #7892c7;
+  color: #6688c7;
 
   font-family: cursive;
 
-  font-size: 17px;
+  font-size: 18px;
 
   line-height: 1.35;
 
-  font-weight: 600;
+  font-weight: 700;
 
-  opacity: 0.55;
+  opacity: 0.72;
 
   pointer-events: none;
 }
@@ -2584,7 +2584,7 @@ input[placeholder*="Search"] {
   top: -145px;
 
   background:
-    rgba(255, 255, 255, 0.075);
+    rgba(255, 255, 255, 0.13);
 }
 
 .hero-circle-two {
@@ -2639,7 +2639,7 @@ input[placeholder*="Search"] {
   left: 30%;
 
   border-bottom-color:
-    rgba(59, 130, 246, 0.32);
+    rgba(96, 165, 250, 0.42);
 }
 
 .mountain-two {
@@ -2652,7 +2652,7 @@ input[placeholder*="Search"] {
   border-bottom-width: 205px;
 
   border-bottom-color:
-    rgba(30, 64, 175, 0.38);
+    rgba(30, 64, 175, 0.48);
 }
 
 .mountain-three {
@@ -2665,7 +2665,7 @@ input[placeholder*="Search"] {
   border-bottom-width: 210px;
 
   border-bottom-color:
-    rgba(23, 37, 84, 0.28);
+    rgba(23, 37, 84, 0.38);
 }
 
 
@@ -2681,7 +2681,7 @@ input[placeholder*="Search"] {
   bottom: -8px;
 
   border:
-    16px solid rgba(147, 197, 253, 0.34);
+    16px solid rgba(191, 219, 254, 0.48);
 
   border-left-color: transparent;
 
