@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import authService from '../services/authService';
+import { register, reset } from '../store/slices/authSlice';
 
 const Register = () => {
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -12,17 +11,23 @@ const Register = () => {
     role: 'STUDENT'
   });
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // ================================
-  // HANDLE CHANGE
-  // ================================
+  const { user, isLoading, isError, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+
+    dispatch(reset());
+  }, [user, navigate, dispatch]);
 
   const handleChange = (e) => {
     setFormData({
@@ -31,129 +36,56 @@ const Register = () => {
     });
   };
 
-
-  // ================================
-  // HANDLE REGISTER
-  // ================================
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    setError('');
-
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      await authService.register({
+    dispatch(
+      register({
         email: formData.email,
         password: formData.password,
         role: formData.role
-      });
-
-      alert('Registration successful! Please login.');
-
-      navigate('/login');
-
-    } catch (err) {
-      setError(
-        err.response?.data?.message ||
-        err.message ||
-        'Registration failed'
-      );
-    }
-
-    setLoading(false);
+      })
+    );
   };
 
-
   return (
-    <div className="login-page">
+    <div className="login-page register-layout-page">
 
-
-      {/* =================================================
-          SAME LOGIN BACKGROUND
-          ================================================= */}
+      {/* ================= BACKGROUND ================= */}
 
       <div className="login-bg-circle circle-one"></div>
-
       <div className="login-bg-circle circle-two"></div>
-
       <div className="login-bg-circle circle-three"></div>
 
-
-      {/* =================================================
-          TOP LEFT BRAND
-          ================================================= */}
-
+      {/* Top brand */}
       <div className="login-top-brand">
-
-        <span className="brand-skill">
-          Skill
-        </span>
-
-        <span className="brand-sprint">
-          Sprint
-        </span>
-
-        <small>
-          LEARN · BUILD · ACHIEVE
-        </small>
-
+        <span className="brand-skill">Skill</span>
+        <span className="brand-sprint">Sprint</span>
+        <small>LEARN · BUILD · ACHIEVE</small>
       </div>
 
-
-      {/* =================================================
-          TOP RIGHT MESSAGE
-          SAME AS LOGIN
-          ================================================= */}
-
+      {/* Top right message */}
       <div className="login-top-message">
-
-        <span>
-          Your learning journey
-        </span>
-
-        <span>
-          starts here
-        </span>
-
+        <span>Your learning journey</span>
+        <span>starts here</span>
         <i></i>
-
       </div>
 
+      {/* ================= MAIN CARD ================= */}
 
-      {/* =================================================
-          MAIN CARD
-          ================================================= */}
+      <div className="login-layout register-main-layout">
 
-      <div className="login-layout">
-
-
-        {/* =================================================
-            LEFT BLUE PANEL
-            ================================================= */}
+        {/* ================= LEFT PANEL ================= */}
 
         <div className="login-brand-panel">
-
-
-          {/* S ICON */}
 
           <div className="brand-icon">
             S
           </div>
-
-
-          {/* HEADING */}
 
           <h1>
             Start Your
@@ -161,105 +93,58 @@ const Register = () => {
             Journey
           </h1>
 
-
-          {/* DESCRIPTION */}
-
           <p className="brand-tagline">
-
-            Create your SkillSprint account
-            and start building skills that
-            move you forward.
-
+            Create your SkillSprint account and start
+            <br />
+            building skills that move you forward.
           </p>
 
-
-          {/* =================================================
-              SAME LOGIN LANDSCAPE
-              ================================================= */}
-
+          {/* Mountains */}
           <div className="learning-landscape">
-
             <div className="mountain mountain-back"></div>
-
             <div className="mountain mountain-middle"></div>
-
             <div className="mountain mountain-front"></div>
 
             <div className="learning-path"></div>
-
           </div>
 
-
-          {/* =================================================
-              SAME LOGIN QUOTE
-              ================================================= */}
-
+          {/* Quote */}
           <div className="brand-quote">
-
-            <span className="quote-mark">
-              “
-            </span>
-
-            <div>
-              Progress is a series
-              <br />
-              of small wins.
-            </div>
-
+            <span className="quote-mark">“</span>
+            Small steps today,
+            <br />
+            big progress tomorrow.
             <div className="quote-line"></div>
-
           </div>
-
 
         </div>
 
+        {/* ================= RIGHT PANEL ================= */}
 
-        {/* =================================================
-            RIGHT REGISTER PANEL
-            ================================================= */}
-
-        <div className="login-form-panel">
-
-
-          {/* HEADER */}
+        <div className="login-form-panel register-form-panel">
 
           <div className="login-header">
-
-            <h2>
-              Create Account
-            </h2>
-
+            <h2>Create Account</h2>
             <p>
               Join SkillSprint and start learning today.
             </p>
-
           </div>
 
-
-          {/* ERROR */}
-
-          {error && (
+          {isError && (
             <div className="login-error">
-              {error}
+              {message}
             </div>
           )}
 
-
-          {/* =================================================
-              REGISTER FORM
-              ================================================= */}
-
           <form
-            className="login-form"
             onSubmit={handleSubmit}
+            className="login-form register-form"
           >
-
 
             {/* EMAIL */}
 
             <div className="login-field">
-
-              <label>
+              <label htmlFor="email">
                 Email
               </label>
 
@@ -270,6 +155,7 @@ const Register = () => {
                 </span>
 
                 <input
+                  id="email"
                   type="email"
                   name="email"
                   value={formData.email}
@@ -279,15 +165,12 @@ const Register = () => {
                 />
 
               </div>
-
             </div>
-
 
             {/* PASSWORD */}
 
             <div className="login-field">
-
-              <label>
+              <label htmlFor="password">
                 Password
               </label>
 
@@ -298,15 +181,12 @@ const Register = () => {
                 </span>
 
                 <input
-                  type={
-                    showPassword
-                      ? 'text'
-                      : 'password'
-                  }
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Create a password"
+                  placeholder="Enter your password"
                   required
                 />
 
@@ -321,15 +201,12 @@ const Register = () => {
                 </button>
 
               </div>
-
             </div>
-
 
             {/* CONFIRM PASSWORD */}
 
             <div className="login-field">
-
-              <label>
+              <label htmlFor="confirmPassword">
                 Confirm Password
               </label>
 
@@ -340,6 +217,7 @@ const Register = () => {
                 </span>
 
                 <input
+                  id="confirmPassword"
                   type={
                     showConfirmPassword
                       ? 'text'
@@ -367,15 +245,12 @@ const Register = () => {
                 </button>
 
               </div>
-
             </div>
-
 
             {/* ACCOUNT TYPE */}
 
             <div className="login-field">
-
-              <label>
+              <label htmlFor="role">
                 Account Type
               </label>
 
@@ -386,24 +261,13 @@ const Register = () => {
                 </span>
 
                 <select
+                  id="role"
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
+                  className="register-role-select"
                   required
-                  style={{
-                    width: '100%',
-                    height: '52px',
-                    padding: '0 40px 0 47px',
-                    border: '1px solid #d6deed',
-                    borderRadius: '9px',
-                    outline: 'none',
-                    background: '#f8faff',
-                    color: '#0f172a',
-                    fontSize: '14px',
-                    cursor: 'pointer'
-                  }}
                 >
-
                   <option value="STUDENT">
                     Student
                   </option>
@@ -415,126 +279,170 @@ const Register = () => {
                   <option value="LEARNING_MANAGER">
                     Learning Manager
                   </option>
-
                 </select>
 
               </div>
-
             </div>
 
-
-            {/* CREATE ACCOUNT BUTTON */}
+            {/* CREATE ACCOUNT */}
 
             <button
               type="submit"
-              className="login-submit"
-              disabled={loading}
+              className="login-submit register-submit"
+              disabled={isLoading}
             >
+              <span>
+                {isLoading
+                  ? 'Creating Account...'
+                  : 'Create Account'}
+              </span>
 
-              {loading
-                ? 'Creating Account...'
-                : 'Create Account'}
-
-              {!loading && (
+              {!isLoading && (
                 <span className="login-arrow">
                   →
                 </span>
               )}
-
             </button>
-
 
           </form>
 
+          {/* Divider */}
 
-          {/* =================================================
-              DIVIDER
-              ================================================= */}
-
-          <div className="login-divider">
-
+          <div className="login-divider register-divider">
             <span></span>
-
-            <p>
-              Already have an account?
-            </p>
-
+            <p>or</p>
             <span></span>
-
           </div>
 
-
-          {/* =================================================
-              BACK TO LOGIN
-              ================================================= */}
+          {/* LOGIN */}
 
           <div className="login-register">
-
             <span>
-              Already registered?
+              Already have an account?
             </span>
 
             <button
               type="button"
               onClick={() => navigate('/login')}
             >
-              Sign In
+              Login
             </button>
-
           </div>
-
 
         </div>
 
       </div>
 
-
-      {/* =================================================
-          SAME LOGIN BOTTOM BENEFITS
-          ================================================= */}
+      {/* ================= BOTTOM BENEFITS ================= */}
 
       <div className="login-benefits">
 
         <div className="benefit">
+          <div className="benefit-icon">
+            ⌂
+          </div>
 
-          <span>
-            ✓
-          </span>
-
-          <p>
-            Personalized Roadmaps
-          </p>
-
+          <div>
+            <strong>Learn from experts</strong>
+            <span>Build real-world skills</span>
+          </div>
         </div>
 
-
         <div className="benefit">
+          <div className="benefit-icon">
+            ▥
+          </div>
 
-          <span>
-            ✓
-          </span>
-
-          <p>
-            Track Your Progress
-          </p>
-
+          <div>
+            <strong>Track your progress</strong>
+            <span>Stay on your roadmap</span>
+          </div>
         </div>
 
-
         <div className="benefit">
+          <div className="benefit-icon">
+            ↗
+          </div>
 
-          <span>
-            ✓
-          </span>
-
-          <p>
-            Build Your Skills
-          </p>
-
+          <div>
+            <strong>Achieve your goals</strong>
+            <span>Grow one step at a time</span>
+          </div>
         </div>
 
       </div>
 
+      {/* ================= DECORATIVE BOOKS ================= */}
+
+      <div className="decor-books">
+        <div className="book book-one">
+          Plan
+        </div>
+
+        <div className="book book-two">
+          Learn
+        </div>
+
+        <div className="book book-three">
+          Build
+        </div>
+
+        <div className="book book-four">
+          Grow
+        </div>
+      </div>
+
+      {/* Plant */}
+
+      <div className="decor-plant">
+
+        <div className="plant-leaf leaf-one"></div>
+        <div className="plant-leaf leaf-two"></div>
+        <div className="plant-leaf leaf-three"></div>
+
+        <div className="plant-pot"></div>
+
+      </div>
+
+      {/* Laptop */}
+
+      <div className="decor-laptop">
+
+        <div className="laptop-screen">
+          <span>Good Skills</span>
+          <span>Brighter</span>
+          <span>Tomorrow</span>
+        </div>
+
+        <div className="laptop-base"></div>
+
+      </div>
+
+      {/* Left handwritten note */}
+
+      <div className="learning-note note-left">
+        Your Learning
+        <br />
+        Journey
+        <br />
+        Starts Here
+
+        <span>↗</span>
+      </div>
+
+      {/* Right handwritten note */}
+
+      <div className="learning-note note-right">
+        Small
+        <br />
+        Steps
+        <br />
+        Big
+        <br />
+        Progress
+
+        <span>↗</span>
+      </div>
 
     </div>
   );

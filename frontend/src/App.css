@@ -1408,3 +1408,248 @@ input[placeholder*="Search"] { max-width: 450px; background: white; box-shadow: 
   .modern-cancel-btn,
   .modern-submit-btn { width: 100%; }
 }
+/* =========================================================
+   REGISTER PAGE - SAME BACKGROUND AS LOGIN
+   ========================================================= */
+
+.register-layout-page {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 90px 40px 130px;
+
+  background:
+    radial-gradient(
+      circle at 50% -20%,
+      rgba(59, 130, 246, 0.18),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #f4f7ff 50%,
+      #eef3ff 100%
+    );
+}
+
+
+/* Register main card */
+
+.register-main-layout {
+  width: 100%;
+  max-width: 1100px;
+  min-height: 700px;
+
+  display: grid;
+  grid-template-columns: 40% 60%;
+
+  position: relative;
+  z-index: 3;
+
+  overflow: hidden;
+
+  border-radius: 18px;
+
+  background: white;
+
+  box-shadow:
+    0 25px 70px rgba(30, 64, 175, 0.14),
+    0 5px 20px rgba(15, 23, 42, 0.06);
+}
+
+
+/* Register left panel */
+
+.register-main-layout .login-brand-panel {
+  padding: 60px 50px;
+}
+
+
+/* Register heading */
+
+.register-main-layout .login-brand-panel h1 {
+  font-size: 38px;
+  line-height: 1.05;
+}
+
+
+/* Register description */
+
+.register-main-layout .brand-tagline {
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+
+/* Register right side */
+
+.register-form-panel {
+  padding: 55px 72px;
+  justify-content: center;
+}
+
+
+/* Register heading */
+
+.register-form-panel .login-header {
+  margin-bottom: 25px;
+}
+
+.register-form-panel .login-header h2 {
+  font-size: 32px;
+}
+
+.register-form-panel .login-header p {
+  margin-top: 8px;
+}
+
+
+/* Register form spacing */
+
+.register-form {
+  gap: 15px;
+}
+
+
+/* Select */
+
+.register-role-select {
+  height: 52px;
+
+  padding: 0 42px 0 47px;
+
+  border: 1px solid #d6deed;
+  border-radius: 9px;
+
+  outline: none;
+
+  background: #f8faff;
+
+  color: #0f172a;
+
+  font-size: 14px;
+
+  appearance: auto;
+}
+
+.register-role-select:focus {
+  background: white;
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 4px rgba(37, 99, 235, 0.09);
+}
+
+
+/* Create account button */
+
+.register-submit {
+  margin-top: 5px;
+}
+
+
+/* Divider */
+
+.register-divider {
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+
+/* Slightly smaller decorative elements */
+
+.register-layout-page .decor-books {
+  bottom: 55px;
+}
+
+.register-layout-page .decor-plant {
+  bottom: 58px;
+}
+
+.register-layout-page .decor-laptop {
+  bottom: 30px;
+}
+
+
+/* =========================================================
+   REGISTER RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1200px) {
+
+  .register-main-layout {
+    max-width: 950px;
+  }
+
+  .register-layout-page .note-left,
+  .register-layout-page .note-right,
+  .register-layout-page .decor-books,
+  .register-layout-page .decor-plant,
+  .register-layout-page .decor-laptop {
+    display: none;
+  }
+}
+
+
+@media (max-width: 900px) {
+
+  .register-main-layout {
+    max-width: 700px;
+    grid-template-columns: 1fr;
+  }
+
+  .register-main-layout .login-brand-panel {
+    min-height: 250px;
+  }
+
+  .register-form-panel {
+    padding: 45px 40px;
+  }
+
+  .register-layout-page {
+    padding: 90px 20px 40px;
+  }
+
+  .register-layout-page .login-benefits {
+    display: none;
+  }
+}
+
+
+@media (max-width: 500px) {
+
+  .register-layout-page {
+    padding: 75px 12px 25px;
+  }
+
+  .register-main-layout {
+    border-radius: 14px;
+  }
+
+  .register-main-layout .login-brand-panel {
+    min-height: 220px;
+    padding: 28px;
+  }
+
+  .register-main-layout .login-brand-panel h1 {
+    font-size: 28px;
+  }
+
+  .register-form-panel {
+    padding: 32px 22px;
+  }
+
+  .register-form-panel .login-header h2 {
+    font-size: 26px;
+  }
+
+  .register-layout-page .login-top-message {
+    display: none;
+  }
+}
