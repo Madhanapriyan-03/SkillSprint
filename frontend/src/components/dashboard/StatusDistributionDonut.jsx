@@ -60,9 +60,10 @@ const StatusDistributionDonut = ({
           width: '150px',
           height: '150px',
           borderRadius: '50%',
-          background,
+          background: background,
           margin: '20px auto',
-          position: 'relative'
+          position: 'relative',
+          flexShrink: 0
         }}
       >
 
