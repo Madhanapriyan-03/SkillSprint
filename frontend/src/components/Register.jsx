@@ -14,8 +14,17 @@ const Register = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [showPassword, setShowPassword] =
+    useState(false);
+
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState(false);
+
+
+  // =====================================================
+  // HANDLE INPUT CHANGE
+  // =====================================================
 
   const handleChange = (e) => {
     setFormData({
@@ -24,211 +33,656 @@ const Register = () => {
     });
   };
 
+
+  // =====================================================
+  // HANDLE REGISTER
+  // =====================================================
+
   const handleSubmit = async (e) => {
+
     e.preventDefault();
+
     setError('');
 
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+
+    // Password validation
+
+    if (
+      formData.password !==
+      formData.confirmPassword
+    ) {
+
+      setError(
+        'Passwords do not match'
+      );
+
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+
+    if (
+      formData.password.length < 6
+    ) {
+
+      setError(
+        'Password must be at least 6 characters'
+      );
+
       return;
     }
+
 
     setLoading(true);
 
+
     try {
+
       await authService.register({
-        email: formData.email,
-        password: formData.password,
-        role: formData.role
+
+        email:
+          formData.email,
+
+        password:
+          formData.password,
+
+        role:
+          formData.role
+
       });
 
-      alert('Registration successful! Please login.');
+
+      alert(
+        'Registration successful! Please login.'
+      );
+
+
       navigate('/login');
+
+
     } catch (err) {
+
       setError(
         err.response?.data?.message ||
         err.message ||
         'Registration failed'
       );
+
     }
 
+
     setLoading(false);
+
   };
 
+
   return (
-    <div className="register-page">
 
-      <div className="register-bg-circle register-circle-one"></div>
-      <div className="register-bg-circle register-circle-two"></div>
-      <div className="register-bg-circle register-circle-three"></div>
+    <div className="login-page">
 
-      <div className="register-top-brand">
-        <span className="brand-skill">Skill</span>
-        <span className="brand-sprint">Sprint</span>
-        <small>LEARN · BUILD · ACHIEVE</small>
+
+      {/* =================================================
+          BACKGROUND DECORATIONS
+          Same as Login page
+          ================================================= */}
+
+      <div className="login-bg-circle circle-one"></div>
+
+      <div className="login-bg-circle circle-two"></div>
+
+      <div className="login-bg-circle circle-three"></div>
+
+
+      {/* =================================================
+          TOP BRAND
+          ================================================= */}
+
+      <div className="login-top-brand">
+
+        <span className="brand-skill">
+          Skill
+        </span>
+
+        <span className="brand-sprint">
+          Sprint
+        </span>
+
+        <small>
+          LEARN · BUILD · ACHIEVE
+        </small>
+
       </div>
 
-      <div className="register-card">
 
-        {/* LEFT */}
-        <div className="register-brand-panel">
+      {/* =================================================
+          TOP RIGHT MESSAGE
+          ================================================= */}
 
-          <div className="register-brand-icon">
+      <div className="login-top-message">
+
+        <span>
+          Your learning journey
+        </span>
+
+        <span>
+          starts here
+        </span>
+
+        <i></i>
+
+      </div>
+
+
+      {/* =================================================
+          MAIN LAYOUT
+          Same structure as Login
+          ================================================= */}
+
+      <div className="login-layout">
+
+
+        {/* =================================================
+            LEFT BRAND PANEL
+            ================================================= */}
+
+        <div className="login-brand-panel">
+
+
+          {/* Brand Icon */}
+
+          <div className="brand-icon">
             S
           </div>
 
-          <h1>Start Your Journey</h1>
 
-          <p>
-            Create your SkillSprint account and
-            start building skills that move you forward.
+          {/* Main Heading */}
+
+          <h1>
+            Start Your Journey
+          </h1>
+
+
+          {/* Tagline */}
+
+          <p className="brand-tagline">
+            Create your SkillSprint account
+            and start building skills that
+            move you forward.
           </p>
 
-          <div className="register-feature-list">
-            <div>
-              <span>✓</span>
-              <p>Personalized learning roadmaps</p>
-            </div>
 
-            <div>
-              <span>✓</span>
-              <p>Track your learning progress</p>
-            </div>
+          {/* =================================================
+              LEARNING LANDSCAPE
+              Same Login design
+              ================================================= */}
 
-            <div>
-              <span>✓</span>
-              <p>Build skills step by step</p>
-            </div>
+          <div className="learning-landscape">
+
+            <div className="mountain mountain-back"></div>
+
+            <div className="mountain mountain-middle"></div>
+
+            <div className="mountain mountain-front"></div>
+
+            <div className="learning-path"></div>
+
           </div>
 
-          <div className="register-landscape"></div>
+
+          {/* =================================================
+              BRAND QUOTE
+              ================================================= */}
+
+          <div className="brand-quote">
+
+            <span className="quote-mark">
+              "
+            </span>
+
+            Learn.
+            <br />
+            Build.
+            <br />
+            Achieve.
+
+            <div className="quote-line"></div>
+
+          </div>
+
 
         </div>
 
-        {/* RIGHT */}
-        <div className="register-form-panel">
 
-          <div className="register-header">
-            <h2>Create Account</h2>
-            <p>Join SkillSprint and start learning today</p>
+        {/* =================================================
+            RIGHT REGISTER FORM
+            ================================================= */}
+
+        <div className="login-form-panel">
+
+
+          {/* =================================================
+              HEADER
+              ================================================= */}
+
+          <div className="login-header">
+
+            <h2>
+              Create Account
+            </h2>
+
+            <p>
+              Join SkillSprint and start
+              learning today.
+            </p>
+
           </div>
 
+
+          {/* =================================================
+              ERROR
+              ================================================= */}
+
           {error && (
-            <div className="register-error">
+
+            <div className="login-error">
               {error}
             </div>
+
           )}
 
-          <form onSubmit={handleSubmit} className="register-form">
 
-            <div className="register-field">
-              <label>Email</label>
+          {/* =================================================
+              REGISTER FORM
+              ================================================= */}
 
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Enter your email"
-                required
-              />
-            </div>
+          <form
+            onSubmit={handleSubmit}
+            className="login-form"
+          >
 
-            <div className="register-field">
-              <label>Password</label>
 
-              <div className="register-password-wrapper">
+            {/* =================================================
+                EMAIL
+                ================================================= */}
+
+            <div className="login-field">
+
+              <label>
+                Email
+              </label>
+
+
+              <div className="login-input-wrapper">
+
+                <span className="input-icon">
+                  ✉
+                </span>
+
+
                 <input
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Create a password"
-                  required
-                />
 
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? 'Hide' : 'Show'}
-                </button>
-              </div>
-            </div>
+                  type="email"
 
-            <div className="register-field">
-              <label>Confirm Password</label>
+                  name="email"
 
-              <div className="register-password-wrapper">
-                <input
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="Confirm your password"
-                  required
-                />
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    setShowConfirmPassword(!showConfirmPassword)
+                  value={
+                    formData.email
                   }
-                >
-                  {showConfirmPassword ? 'Hide' : 'Show'}
-                </button>
+
+                  onChange={
+                    handleChange
+                  }
+
+                  placeholder="Enter your email"
+
+                  required
+
+                />
+
               </div>
+
             </div>
 
-            <div className="register-field">
-              <label>Account Type</label>
 
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-              >
-                <option value="STUDENT">Student</option>
-                <option value="MENTOR">Mentor</option>
-                <option value="LEARNING_MANAGER">
-                  Learning Manager
-                </option>
-              </select>
+            {/* =================================================
+                PASSWORD
+                ================================================= */}
+
+            <div className="login-field">
+
+              <label>
+                Password
+              </label>
+
+
+              <div className="login-input-wrapper">
+
+                <span className="input-icon lock-icon">
+                  🔒
+                </span>
+
+
+                <input
+
+                  type={
+                    showPassword
+                      ? 'text'
+                      : 'password'
+                  }
+
+                  name="password"
+
+                  value={
+                    formData.password
+                  }
+
+                  onChange={
+                    handleChange
+                  }
+
+                  placeholder="Create a password"
+
+                  required
+
+                />
+
+
+                <button
+
+                  type="button"
+
+                  className="password-toggle"
+
+                  onClick={() =>
+                    setShowPassword(
+                      !showPassword
+                    )
+                  }
+
+                >
+
+                  {showPassword
+                    ? 'Hide'
+                    : 'Show'}
+
+                </button>
+
+              </div>
+
             </div>
+
+
+            {/* =================================================
+                CONFIRM PASSWORD
+                ================================================= */}
+
+            <div className="login-field">
+
+              <label>
+                Confirm Password
+              </label>
+
+
+              <div className="login-input-wrapper">
+
+                <span className="input-icon lock-icon">
+                  🔒
+                </span>
+
+
+                <input
+
+                  type={
+                    showConfirmPassword
+                      ? 'text'
+                      : 'password'
+                  }
+
+                  name="confirmPassword"
+
+                  value={
+                    formData.confirmPassword
+                  }
+
+                  onChange={
+                    handleChange
+                  }
+
+                  placeholder="Confirm your password"
+
+                  required
+
+                />
+
+
+                <button
+
+                  type="button"
+
+                  className="password-toggle"
+
+                  onClick={() =>
+                    setShowConfirmPassword(
+                      !showConfirmPassword
+                    )
+                  }
+
+                >
+
+                  {showConfirmPassword
+                    ? 'Hide'
+                    : 'Show'}
+
+                </button>
+
+              </div>
+
+            </div>
+
+
+            {/* =================================================
+                ACCOUNT TYPE
+                ================================================= */}
+
+            <div className="login-field">
+
+              <label>
+                Account Type
+              </label>
+
+
+              <div className="login-input-wrapper">
+
+                <span className="input-icon">
+                  👤
+                </span>
+
+
+                <select
+
+                  name="role"
+
+                  value={
+                    formData.role
+                  }
+
+                  onChange={
+                    handleChange
+                  }
+
+                  required
+
+                  style={{
+                    width: '100%',
+                    height: '52px',
+                    padding:
+                      '0 45px 0 47px',
+                    border:
+                      '1px solid #d6deed',
+                    borderRadius: '9px',
+                    outline: 'none',
+                    background:
+                      '#f8faff',
+                    color: '#0f172a',
+                    fontSize: '14px',
+                    cursor: 'pointer'
+                  }}
+
+                >
+
+                  <option value="STUDENT">
+                    Student
+                  </option>
+
+                  <option value="MENTOR">
+                    Mentor
+                  </option>
+
+                  <option value="LEARNING_MANAGER">
+                    Learning Manager
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+
+            {/* =================================================
+                CREATE ACCOUNT BUTTON
+                ================================================= */}
 
             <button
+
               type="submit"
-              className="register-submit"
+
+              className="login-submit"
+
               disabled={loading}
+
             >
-              {loading ? 'Creating Account...' : 'Create Account'}
-              {!loading && <span>→</span>}
+
+              {loading
+                ? 'Creating Account...'
+                : 'Create Account'}
+
+              {!loading && (
+
+                <span className="login-arrow">
+                  →
+                </span>
+
+              )}
+
             </button>
+
 
           </form>
 
-          <div className="register-divider">
+
+          {/* =================================================
+              DIVIDER
+              ================================================= */}
+
+          <div className="login-divider">
+
             <span></span>
-            <p>Already have an account?</p>
+
+            <p>
+              Already have an account?
+            </p>
+
             <span></span>
+
           </div>
 
-          <button
-            className="register-login-link"
-            onClick={() => navigate('/login')}
-          >
-            Back to Sign In
-          </button>
+
+          {/* =================================================
+              BACK TO LOGIN
+              ================================================= */}
+
+          <div className="login-register">
+
+            <span>
+              Already registered?
+            </span>
+
+
+            <button
+
+              type="button"
+
+              onClick={() =>
+                navigate('/login')
+              }
+
+            >
+
+              Sign In
+
+            </button>
+
+          </div>
+
 
         </div>
+
+
       </div>
+
+
+      {/* =================================================
+          BOTTOM BENEFITS
+          Same Login visual
+          ================================================= */}
+
+      <div className="login-benefits">
+
+        <div className="benefit">
+
+          <span>
+            ✓
+          </span>
+
+          <p>
+            Personalized Roadmaps
+          </p>
+
+        </div>
+
+
+        <div className="benefit">
+
+          <span>
+            ✓
+          </span>
+
+          <p>
+            Track Your Progress
+          </p>
+
+        </div>
+
+
+        <div className="benefit">
+
+          <span>
+            ✓
+          </span>
+
+          <p>
+            Build Skills
+          </p>
+
+        </div>
+
+      </div>
+
+
     </div>
+
   );
+
 };
 
 export default Register;
