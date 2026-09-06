@@ -15,16 +15,14 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const [showPassword, setShowPassword] =
-    useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState(false);
 
 
-  // =====================================================
-  // HANDLE INPUT CHANGE
-  // =====================================================
+  // ================================
+  // HANDLE CHANGE
+  // ================================
 
   const handleChange = (e) => {
     setFormData({
@@ -34,95 +32,56 @@ const Register = () => {
   };
 
 
-  // =====================================================
+  // ================================
   // HANDLE REGISTER
-  // =====================================================
+  // ================================
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
     setError('');
 
-
-    // Password validation
-
-    if (
-      formData.password !==
-      formData.confirmPassword
-    ) {
-
-      setError(
-        'Passwords do not match'
-      );
-
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
       return;
     }
 
-
-    if (
-      formData.password.length < 6
-    ) {
-
-      setError(
-        'Password must be at least 6 characters'
-      );
-
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters');
       return;
     }
-
 
     setLoading(true);
 
-
     try {
-
       await authService.register({
-
-        email:
-          formData.email,
-
-        password:
-          formData.password,
-
-        role:
-          formData.role
-
+        email: formData.email,
+        password: formData.password,
+        role: formData.role
       });
 
-
-      alert(
-        'Registration successful! Please login.'
-      );
-
+      alert('Registration successful! Please login.');
 
       navigate('/login');
 
-
     } catch (err) {
-
       setError(
         err.response?.data?.message ||
         err.message ||
         'Registration failed'
       );
-
     }
 
-
     setLoading(false);
-
   };
 
 
   return (
-
     <div className="login-page">
 
 
       {/* =================================================
-          BACKGROUND DECORATIONS
-          Same as Login page
+          SAME LOGIN BACKGROUND
           ================================================= */}
 
       <div className="login-bg-circle circle-one"></div>
@@ -133,7 +92,7 @@ const Register = () => {
 
 
       {/* =================================================
-          TOP BRAND
+          TOP LEFT BRAND
           ================================================= */}
 
       <div className="login-top-brand">
@@ -155,6 +114,7 @@ const Register = () => {
 
       {/* =================================================
           TOP RIGHT MESSAGE
+          SAME AS LOGIN
           ================================================= */}
 
       <div className="login-top-message">
@@ -173,46 +133,48 @@ const Register = () => {
 
 
       {/* =================================================
-          MAIN LAYOUT
-          Same structure as Login
+          MAIN CARD
           ================================================= */}
 
       <div className="login-layout">
 
 
         {/* =================================================
-            LEFT BRAND PANEL
+            LEFT BLUE PANEL
             ================================================= */}
 
         <div className="login-brand-panel">
 
 
-          {/* Brand Icon */}
+          {/* S ICON */}
 
           <div className="brand-icon">
             S
           </div>
 
 
-          {/* Main Heading */}
+          {/* HEADING */}
 
           <h1>
-            Start Your Journey
+            Start Your
+            <br />
+            Journey
           </h1>
 
 
-          {/* Tagline */}
+          {/* DESCRIPTION */}
 
           <p className="brand-tagline">
+
             Create your SkillSprint account
             and start building skills that
             move you forward.
+
           </p>
 
 
           {/* =================================================
-              LEARNING LANDSCAPE
-              Same Login design
+              SAME LOGIN LANDSCAPE
               ================================================= */}
 
           <div className="learning-landscape">
@@ -229,20 +191,20 @@ const Register = () => {
 
 
           {/* =================================================
-              BRAND QUOTE
+              SAME LOGIN QUOTE
               ================================================= */}
 
           <div className="brand-quote">
 
             <span className="quote-mark">
-              "
+              “
             </span>
 
-            Learn.
-            <br />
-            Build.
-            <br />
-            Achieve.
+            <div>
+              Progress is a series
+              <br />
+              of small wins.
+            </div>
 
             <div className="quote-line"></div>
 
@@ -253,15 +215,13 @@ const Register = () => {
 
 
         {/* =================================================
-            RIGHT REGISTER FORM
+            RIGHT REGISTER PANEL
             ================================================= */}
 
         <div className="login-form-panel">
 
 
-          {/* =================================================
-              HEADER
-              ================================================= */}
+          {/* HEADER */}
 
           <div className="login-header">
 
@@ -270,23 +230,18 @@ const Register = () => {
             </h2>
 
             <p>
-              Join SkillSprint and start
-              learning today.
+              Join SkillSprint and start learning today.
             </p>
 
           </div>
 
 
-          {/* =================================================
-              ERROR
-              ================================================= */}
+          {/* ERROR */}
 
           {error && (
-
             <div className="login-error">
               {error}
             </div>
-
           )}
 
 
@@ -295,14 +250,12 @@ const Register = () => {
               ================================================= */}
 
           <form
-            onSubmit={handleSubmit}
             className="login-form"
+            onSubmit={handleSubmit}
           >
 
 
-            {/* =================================================
-                EMAIL
-                ================================================= */}
+            {/* EMAIL */}
 
             <div className="login-field">
 
@@ -310,32 +263,19 @@ const Register = () => {
                 Email
               </label>
 
-
               <div className="login-input-wrapper">
 
                 <span className="input-icon">
                   ✉
                 </span>
 
-
                 <input
-
                   type="email"
-
                   name="email"
-
-                  value={
-                    formData.email
-                  }
-
-                  onChange={
-                    handleChange
-                  }
-
+                  value={formData.email}
+                  onChange={handleChange}
                   placeholder="Enter your email"
-
                   required
-
                 />
 
               </div>
@@ -343,9 +283,7 @@ const Register = () => {
             </div>
 
 
-            {/* =================================================
-                PASSWORD
-                ================================================= */}
+            {/* PASSWORD */}
 
             <div className="login-field">
 
@@ -353,57 +291,33 @@ const Register = () => {
                 Password
               </label>
 
-
               <div className="login-input-wrapper">
 
                 <span className="input-icon lock-icon">
                   🔒
                 </span>
 
-
                 <input
-
                   type={
                     showPassword
                       ? 'text'
                       : 'password'
                   }
-
                   name="password"
-
-                  value={
-                    formData.password
-                  }
-
-                  onChange={
-                    handleChange
-                  }
-
+                  value={formData.password}
+                  onChange={handleChange}
                   placeholder="Create a password"
-
                   required
-
                 />
 
-
                 <button
-
                   type="button"
-
                   className="password-toggle"
-
                   onClick={() =>
-                    setShowPassword(
-                      !showPassword
-                    )
+                    setShowPassword(!showPassword)
                   }
-
                 >
-
-                  {showPassword
-                    ? 'Hide'
-                    : 'Show'}
-
+                  {showPassword ? 'Hide' : 'Show'}
                 </button>
 
               </div>
@@ -411,9 +325,7 @@ const Register = () => {
             </div>
 
 
-            {/* =================================================
-                CONFIRM PASSWORD
-                ================================================= */}
+            {/* CONFIRM PASSWORD */}
 
             <div className="login-field">
 
@@ -421,57 +333,37 @@ const Register = () => {
                 Confirm Password
               </label>
 
-
               <div className="login-input-wrapper">
 
                 <span className="input-icon lock-icon">
                   🔒
                 </span>
 
-
                 <input
-
                   type={
                     showConfirmPassword
                       ? 'text'
                       : 'password'
                   }
-
                   name="confirmPassword"
-
-                  value={
-                    formData.confirmPassword
-                  }
-
-                  onChange={
-                    handleChange
-                  }
-
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
                   placeholder="Confirm your password"
-
                   required
-
                 />
 
-
                 <button
-
                   type="button"
-
                   className="password-toggle"
-
                   onClick={() =>
                     setShowConfirmPassword(
                       !showConfirmPassword
                     )
                   }
-
                 >
-
                   {showConfirmPassword
                     ? 'Hide'
                     : 'Show'}
-
                 </button>
 
               </div>
@@ -479,9 +371,7 @@ const Register = () => {
             </div>
 
 
-            {/* =================================================
-                ACCOUNT TYPE
-                ================================================= */}
+            {/* ACCOUNT TYPE */}
 
             <div className="login-field">
 
@@ -489,44 +379,29 @@ const Register = () => {
                 Account Type
               </label>
 
-
               <div className="login-input-wrapper">
 
                 <span className="input-icon">
                   👤
                 </span>
 
-
                 <select
-
                   name="role"
-
-                  value={
-                    formData.role
-                  }
-
-                  onChange={
-                    handleChange
-                  }
-
+                  value={formData.role}
+                  onChange={handleChange}
                   required
-
                   style={{
                     width: '100%',
                     height: '52px',
-                    padding:
-                      '0 45px 0 47px',
-                    border:
-                      '1px solid #d6deed',
+                    padding: '0 40px 0 47px',
+                    border: '1px solid #d6deed',
                     borderRadius: '9px',
                     outline: 'none',
-                    background:
-                      '#f8faff',
+                    background: '#f8faff',
                     color: '#0f172a',
                     fontSize: '14px',
                     cursor: 'pointer'
                   }}
-
                 >
 
                   <option value="STUDENT">
@@ -548,18 +423,12 @@ const Register = () => {
             </div>
 
 
-            {/* =================================================
-                CREATE ACCOUNT BUTTON
-                ================================================= */}
+            {/* CREATE ACCOUNT BUTTON */}
 
             <button
-
               type="submit"
-
               className="login-submit"
-
               disabled={loading}
-
             >
 
               {loading
@@ -567,11 +436,9 @@ const Register = () => {
                 : 'Create Account'}
 
               {!loading && (
-
                 <span className="login-arrow">
                   →
                 </span>
-
               )}
 
             </button>
@@ -607,19 +474,11 @@ const Register = () => {
               Already registered?
             </span>
 
-
             <button
-
               type="button"
-
-              onClick={() =>
-                navigate('/login')
-              }
-
+              onClick={() => navigate('/login')}
             >
-
               Sign In
-
             </button>
 
           </div>
@@ -627,13 +486,11 @@ const Register = () => {
 
         </div>
 
-
       </div>
 
 
       {/* =================================================
-          BOTTOM BENEFITS
-          Same Login visual
+          SAME LOGIN BOTTOM BENEFITS
           ================================================= */}
 
       <div className="login-benefits">
@@ -671,7 +528,7 @@ const Register = () => {
           </span>
 
           <p>
-            Build Skills
+            Build Your Skills
           </p>
 
         </div>
@@ -680,9 +537,7 @@ const Register = () => {
 
 
     </div>
-
   );
-
 };
 
 export default Register;
