@@ -11,7 +11,10 @@ import { fetchEnrollments } from '../../store/slices/enrollmentSlice';
 import { fetchSubmissions } from '../../store/slices/submissionSlice';
 
 const Dashboard = () => {
-  const { user } = useSelector((state) => state.auth);
+
+  const { user } = useSelector(
+    (state) => state.auth
+  );
 
   const { items: roadmaps } = useSelector(
     (state) => state.roadmaps
@@ -27,17 +30,31 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
 
+
+  // =====================================================
+  // LOAD ROADMAPS
+  // =====================================================
+
   useEffect(() => {
+
     dispatch(
       fetchRoadmaps({
         page: 0,
         size: 100
       })
     );
+
   }, [dispatch]);
 
+
+  // =====================================================
+  // LOAD STUDENT DATA
+  // =====================================================
+
   useEffect(() => {
+
     if (user?.role === 'STUDENT') {
+
       dispatch(
         fetchEnrollments({
           page: 0,
@@ -51,67 +68,155 @@ const Dashboard = () => {
           size: 100
         })
       );
+
     }
+
   }, [dispatch, user]);
 
-  const activeRoadmaps = roadmaps.filter(
-    (r) => r.status === 'PUBLISHED'
-  ).length;
 
-  const completedEnrollments = enrollments.filter(
-    (e) => e.status === 'COMPLETED'
-  ).length;
+  // =====================================================
+  // LOAD SUBMISSIONS FOR MENTOR / MANAGER
+  // =====================================================
 
-  const activeEnrollment = enrollments.find(
-    (e) => e.status === 'ACTIVE'
-  );
+  useEffect(() => {
+
+    if (
+      user?.role === 'MENTOR' ||
+      user?.role === 'LEARNING_MANAGER'
+    ) {
+
+      dispatch(
+        fetchSubmissions({
+          page: 0,
+          size: 100
+        })
+      );
+
+    }
+
+  }, [dispatch, user]);
+
+
+  // =====================================================
+  // ROADMAP STATISTICS
+  // =====================================================
+
+  const activeRoadmaps =
+    roadmaps.filter(
+      (r) => r.status === 'PUBLISHED'
+    ).length;
+
+
+  // =====================================================
+  // STUDENT STATISTICS
+  // =====================================================
+
+  const completedEnrollments =
+    enrollments.filter(
+      (e) => e.status === 'COMPLETED'
+    ).length;
+
+
+  const activeEnrollment =
+    enrollments.find(
+      (e) => e.status === 'ACTIVE'
+    );
+
+
+  // =====================================================
+  // AVERAGE SCORE
+  // =====================================================
 
   const averageScore =
     submissions.length > 0
       ? Math.round(
           submissions.reduce(
             (total, submission) =>
-              total + Number(submission.score || 0),
+              total +
+              Number(
+                submission.score || 0
+              ),
             0
           ) / submissions.length
         )
       : 0;
 
-  const recentSubmissions = [...submissions]
-    .filter(
+
+  // =====================================================
+  // PENDING GRADING
+  // =====================================================
+
+  const pendingGrading =
+    submissions.filter(
       (submission) =>
-        submission.score !== null &&
-        submission.score !== undefined
-    )
-    .slice(-3)
-    .reverse();
+        submission.status === 'PENDING'
+    ).length;
+
+
+  // =====================================================
+  // RECENT GRADED SUBMISSIONS
+  // =====================================================
+
+  const recentSubmissions =
+    [...submissions]
+      .filter(
+        (submission) =>
+          submission.score !== null &&
+          submission.score !== undefined
+      )
+      .slice(-3)
+      .reverse();
+
 
   return (
+
     <div className="page-container dashboard-page">
 
-      {/* Decorative background elements */}
+
+      {/* =====================================================
+          DECORATIVE BACKGROUND ELEMENTS
+          ===================================================== */}
+
       <div className="dashboard-decoration dashboard-decoration-one"></div>
+
       <div className="dashboard-decoration dashboard-decoration-two"></div>
+
       <div className="dashboard-decoration dashboard-decoration-three"></div>
 
-      {/* Small learning notes */}
+
+      {/* =====================================================
+          SMALL LEARNING NOTES
+          ===================================================== */}
+
       <div className="dashboard-note dashboard-note-left">
+
         Learn
         <br />
+
         Build
         <br />
+
         Grow
+
         <span>↗</span>
+
       </div>
 
+
       <div className="dashboard-note dashboard-note-right">
+
         Small
         <br />
+
         Steps
         <br />
+
         Big Progress
+
         <span>↗</span>
+
       </div>
+
 
       {/* =====================================================
           WELCOME SECTION
@@ -130,11 +235,13 @@ const Dashboard = () => {
             <span>S</span>
           </div>
 
+
           <div className="dashboard-hero-text">
 
             <h1>
               Welcome back, {user?.role}!
             </h1>
+
 
             <p
               style={{
@@ -145,6 +252,7 @@ const Dashboard = () => {
               Here's what's happening with your
               learning roadmaps today.
             </p>
+
 
             <Link
               to="/roadmaps"
@@ -157,35 +265,52 @@ const Dashboard = () => {
                 textDecoration: 'none'
               }}
             >
+
               Explore Roadmaps
+
               <span className="dashboard-btn-arrow">
                 →
               </span>
+
             </Link>
 
           </div>
 
         </div>
 
-        {/* Hero decorative artwork */}
+
+        {/* =================================================
+            HERO DECORATIVE ARTWORK
+            ================================================= */}
 
         <div className="dashboard-hero-circle hero-circle-one"></div>
+
         <div className="dashboard-hero-circle hero-circle-two"></div>
 
+
         <div className="dashboard-mountains">
+
           <div className="dashboard-mountain mountain-one"></div>
+
           <div className="dashboard-mountain mountain-two"></div>
+
           <div className="dashboard-mountain mountain-three"></div>
 
           <div className="dashboard-learning-path"></div>
+
         </div>
 
+
         <div className="dashboard-quote">
+
           <span>"</span>
+
           Progress is a series
           <br />
           of small wins.
+
           <div></div>
+
         </div>
 
       </div>
@@ -196,7 +321,9 @@ const Dashboard = () => {
           ===================================================== */}
 
       {user?.role === 'STUDENT' && (
+
         <>
+
 
           {/* =================================================
               STATISTICS
@@ -217,11 +344,13 @@ const Dashboard = () => {
               value={enrollments.length}
             />
 
+
             <StatCards
               title="Completed"
               value={completedEnrollments}
               color="#10b981"
             />
+
 
             <StatCards
               title="Average Score"
@@ -246,9 +375,11 @@ const Dashboard = () => {
             <div className="dashboard-section-heading">
 
               <div>
+
                 <div className="section-icon">
                   ✦
                 </div>
+
 
                 <h2
                   style={{
@@ -257,6 +388,7 @@ const Dashboard = () => {
                 >
                   Your Learning Progress
                 </h2>
+
 
                 <p
                   style={{
@@ -267,6 +399,7 @@ const Dashboard = () => {
                   Track your progress across enrolled
                   roadmaps.
                 </p>
+
               </div>
 
             </div>
@@ -287,10 +420,12 @@ const Dashboard = () => {
                   ○
                 </div>
 
+
                 <p>
                   You haven't enrolled in any
                   roadmaps yet.
                 </p>
+
 
                 <Link
                   to="/roadmaps"
@@ -308,102 +443,112 @@ const Dashboard = () => {
 
             ) : (
 
-              enrollments.map((enrollment) => {
+              enrollments.map(
+                (enrollment) => {
 
-                const progress = Math.min(
-                  100,
-                  Math.max(
-                    0,
-                    Number(
-                      enrollment.progressPercentage || 0
-                    )
-                  )
-                );
+                  const progress =
+                    Math.min(
+                      100,
+                      Math.max(
+                        0,
+                        Number(
+                          enrollment.progressPercentage || 0
+                        )
+                      )
+                    );
 
-                return (
-                  <div
-                    key={enrollment.id}
-                    className="dashboard-progress-item"
-                    style={{
-                      marginBottom: '1.25rem'
-                    }}
-                  >
+
+                  return (
 
                     <div
-                      className="dashboard-progress-header"
+                      key={enrollment.id}
+                      className="dashboard-progress-item"
                       style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        marginBottom: '6px'
-                      }}
-                    >
-
-                      <div>
-
-                        <strong>
-                          Roadmap #{enrollment.roadmapId}
-                        </strong>
-
-                        <div
-                          style={{
-                            fontSize: '0.8rem',
-                            color: 'var(--text-muted)',
-                            marginTop: '2px'
-                          }}
-                        >
-                          {enrollment.status}
-                        </div>
-
-                      </div>
-
-                      <strong
-                        style={{
-                          color:
-                            progress === 100
-                              ? '#059669'
-                              : 'var(--text-dark)'
-                        }}
-                      >
-                        {progress}%
-                      </strong>
-
-                    </div>
-
-
-                    <div
-                      className="dashboard-progress-track"
-                      style={{
-                        width: '100%',
-                        height: '10px',
-                        backgroundColor: '#e5e7eb',
-                        borderRadius: '999px',
-                        overflow: 'hidden'
+                        marginBottom: '1.25rem'
                       }}
                     >
 
                       <div
-                        className={
-                          progress === 100
-                            ? 'dashboard-progress-fill completed'
-                            : 'dashboard-progress-fill'
-                        }
+                        className="dashboard-progress-header"
                         style={{
-                          width: `${progress}%`,
-                          height: '100%',
-                          backgroundColor:
-                            progress === 100
-                              ? '#10b981'
-                              : '#3b82f6',
-                          borderRadius: '999px',
-                          transition: 'width 0.4s ease'
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          marginBottom: '6px'
                         }}
-                      />
+                      >
+
+                        <div>
+
+                          <strong>
+                            Roadmap #{enrollment.roadmapId}
+                          </strong>
+
+
+                          <div
+                            style={{
+                              fontSize: '0.8rem',
+                              color: 'var(--text-muted)',
+                              marginTop: '2px'
+                            }}
+                          >
+                            {enrollment.status}
+                          </div>
+
+                        </div>
+
+
+                        <strong
+                          style={{
+                            color:
+                              progress === 100
+                                ? '#059669'
+                                : 'var(--text-dark)'
+                          }}
+                        >
+                          {progress}%
+                        </strong>
+
+                      </div>
+
+
+                      <div
+                        className="dashboard-progress-track"
+                        style={{
+                          width: '100%',
+                          height: '10px',
+                          backgroundColor: '#e5e7eb',
+                          borderRadius: '999px',
+                          overflow: 'hidden'
+                        }}
+                      >
+
+                        <div
+                          className={
+                            progress === 100
+                              ? 'dashboard-progress-fill completed'
+                              : 'dashboard-progress-fill'
+                          }
+                          style={{
+                            width: `${progress}%`,
+                            height: '100%',
+                            backgroundColor:
+                              progress === 100
+                                ? '#10b981'
+                                : '#3b82f6',
+                            borderRadius: '999px',
+                            transition: 'width 0.4s ease'
+                          }}
+                        />
+
+                      </div>
 
                     </div>
 
-                  </div>
-                );
-              })
+                  );
+
+                }
+
+              )
 
             )}
 
@@ -412,7 +557,6 @@ const Dashboard = () => {
 
           {/* =================================================
               BOTTOM SECTIONS
-              Existing order preserved
               ================================================= */}
 
           <div
@@ -423,6 +567,7 @@ const Dashboard = () => {
               flexWrap: 'wrap'
             }}
           >
+
 
             {/* =================================================
                 CONTINUE LEARNING
@@ -437,14 +582,18 @@ const Dashboard = () => {
             >
 
               <div className="feature-card-top">
+
                 <div className="feature-icon">
                   ▶
                 </div>
+
               </div>
+
 
               <h2>
                 Continue Learning
               </h2>
+
 
               <p
                 style={{
@@ -480,6 +629,7 @@ const Dashboard = () => {
                       Roadmap #
                       {activeEnrollment.roadmapId}
                     </strong>
+
 
                     <p
                       style={{
@@ -540,14 +690,18 @@ const Dashboard = () => {
             >
 
               <div className="feature-card-top">
+
                 <div className="feature-icon score-icon">
                   ★
                 </div>
+
               </div>
+
 
               <h2>
                 Recent Performance
               </h2>
+
 
               <p
                 style={{
@@ -595,6 +749,7 @@ const Dashboard = () => {
                           Milestone #
                           {submission.milestoneId}
                         </strong>
+
 
                         <div
                           style={{
@@ -648,6 +803,7 @@ const Dashboard = () => {
           </div>
 
         </>
+
       )}
 
 
@@ -657,7 +813,12 @@ const Dashboard = () => {
 
       {(user?.role === 'LEARNING_MANAGER' ||
         user?.role === 'MENTOR') && (
+
         <>
+
+          {/* =================================================
+              MANAGER / MENTOR STATISTICS
+              ================================================= */}
 
           <div
             className="dashboard-stats"
@@ -674,20 +835,26 @@ const Dashboard = () => {
               value={roadmaps.length}
             />
 
+
             <StatCards
               title="Active Published"
               value={activeRoadmaps}
               color="#10b981"
             />
 
+
             <StatCards
               title="Pending Grading"
-              value="12"
+              value={pendingGrading}
               color="#f59e0b"
             />
 
           </div>
 
+
+          {/* =================================================
+              MANAGER / MENTOR BOTTOM SECTIONS
+              ================================================= */}
 
           <div
             className="dashboard-manager-bottom"
@@ -705,9 +872,11 @@ const Dashboard = () => {
           </div>
 
         </>
+
       )}
 
     </div>
+
   );
 };
 
