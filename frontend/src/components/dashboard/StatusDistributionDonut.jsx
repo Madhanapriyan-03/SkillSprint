@@ -1,45 +1,54 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchEnrollments } from '../../store/slices/enrollmentSlice';
 
-const StatusDistributionDonut = ({
-  completed = 0,
-  active = 0,
-  dropped = 0
-}) => {
+const StatusDistributionDonut = () => {
+  const dispatch = useDispatch();
 
-  const total =
-    completed +
-    active +
-    dropped;
+  const { items: enrollments } = useSelector(
+    (state) => state.enrollments
+  );
 
+  useEffect(() => {
+    dispatch(
+      fetchEnrollments({
+        page: 0,
+        size: 100
+      })
+    );
+  }, [dispatch]);
 
-  const completedPercent =
-    total > 0
-      ? (completed / total) * 100
-      : 0;
+  const completed = enrollments.filter(
+    (e) => e.status === 'COMPLETED'
+  ).length;
 
-  const activePercent =
-    total > 0
-      ? (active / total) * 100
-      : 0;
+  const active = enrollments.filter(
+    (e) => e.status === 'ACTIVE'
+  ).length;
 
+  const dropped = enrollments.filter(
+    (e) => e.status === 'DROPPED'
+  ).length;
 
-  const completedEnd =
-    completedPercent;
+  const total = completed + active + dropped;
 
-  const activeEnd =
-    completedPercent +
-    activePercent;
+  let background = '#e5e7eb';
 
+  if (total > 0) {
+    const completedPercent = (completed / total) * 100;
+    const activePercent =
+      (active / total) * 100;
 
-  const background =
-    total === 0
-      ? '#e5e7eb'
-      : `conic-gradient(
-          #10b981 0% ${completedEnd}%,
-          #f59e0b ${completedEnd}% ${activeEnd}%,
-          #ef4444 ${activeEnd}% 100%
-        )`;
+    const completedEnd = completedPercent;
+    const activeEnd =
+      completedPercent + activePercent;
 
+    background = `conic-gradient(
+      #10b981 0% ${completedEnd}%,
+      #f59e0b ${completedEnd}% ${activeEnd}%,
+      #ef4444 ${activeEnd}% 100%
+    )`;
+  }
 
   return (
     <div
@@ -49,11 +58,7 @@ const StatusDistributionDonut = ({
         minWidth: '300px'
       }}
     >
-
-      <h3>
-        Status Distribution
-      </h3>
-
+      <h3>Status Distribution</h3>
 
       <div
         style={{
@@ -62,75 +67,63 @@ const StatusDistributionDonut = ({
           borderRadius: '50%',
           background: background,
           margin: '20px auto',
-          position: 'relative',
-          flexShrink: 0
+          position: 'relative'
         }}
       >
-
-        {total > 0 && (
-
-          <div
+        <div
+          style={{
+            position: 'absolute',
+            width: '90px',
+            height: '90px',
+            borderRadius: '50%',
+            background: 'white',
+            top: '30px',
+            left: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column'
+          }}
+        >
+          <strong
             style={{
-              position: 'absolute',
-              width: '70px',
-              height: '70px',
-              borderRadius: '50%',
-              background: '#fff',
-              top: '40px',
-              left: '40px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontWeight: '700',
-              color: '#172033'
+              fontSize: '24px'
             }}
           >
             {total}
-          </div>
+          </strong>
 
-        )}
-
+          <span
+            style={{
+              fontSize: '11px',
+              color: '#64748b'
+            }}
+          >
+            Enrollments
+          </span>
+        </div>
       </div>
-
 
       <div
         style={{
           display: 'flex',
           justifyContent: 'center',
           gap: '15px',
-          flexWrap: 'wrap',
-          fontSize: '0.9rem'
+          flexWrap: 'wrap'
         }}
       >
-
-        <span
-          style={{
-            color: '#10b981'
-          }}
-        >
-          ● Completed ({completed})
+        <span style={{ color: '#10b981' }}>
+          ● Completed {completed}
         </span>
 
-
-        <span
-          style={{
-            color: '#f59e0b'
-          }}
-        >
-          ● Active ({active})
+        <span style={{ color: '#f59e0b' }}>
+          ● Active {active}
         </span>
 
-
-        <span
-          style={{
-            color: '#ef4444'
-          }}
-        >
-          ● Dropped ({dropped})
+        <span style={{ color: '#ef4444' }}>
+          ● Dropped {dropped}
         </span>
-
       </div>
-
     </div>
   );
 };
