@@ -651,12 +651,7 @@ const RoadmapList = () => {
 
                         {roadmap.status ===
                           'PUBLISHED' &&
-                          (
-                            user?.role ===
-                              'STUDENT' ||
-                            user?.role ===
-                              'LEARNING_MANAGER'
-                          ) && (
+                          user?.role === 'STUDENT' && (
 
                             <button
 
