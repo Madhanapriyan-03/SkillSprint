@@ -1,38 +1,81 @@
 package com.example.demo.dto;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
-public class RoadmapRequestDto {
-    @NotBlank
+public class RoadmapResponseDto {
+
+    private Long id;
     private String title;
-
-    @NotBlank
     private String description;
-
-    @Min(1)
     private Integer maxCapacity;
+    private Integer currentEnrollmentCount;
+    private String status;
+    private LocalDateTime createdAt;
+    private String mentorName;
 
-    public RoadmapRequestDto() {}
+    public RoadmapResponseDto() {}
 
-    public String getTitle() { 
-        return title; 
-    }
-    public void setTitle(String title) { 
-        this.title = title; 
-    }
-
-    public String getDescription() { 
-        return description; 
-    }
-    public void setDescription(String description) { 
-        this.description = description; 
+    public Long getId() {
+        return id;
     }
 
-    public Integer getMaxCapacity() { 
-        return maxCapacity; 
+    public void setId(Long id) {
+        this.id = id;
     }
-    public void setMaxCapacity(Integer maxCapacity) { 
-        this.maxCapacity = maxCapacity; 
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getMaxCapacity() {
+        return maxCapacity;
+    }
+
+    public void setMaxCapacity(Integer maxCapacity) {
+        this.maxCapacity = maxCapacity;
+    }
+
+    public Integer getCurrentEnrollmentCount() {
+        return currentEnrollmentCount;
+    }
+
+    public void setCurrentEnrollmentCount(Integer currentEnrollmentCount) {
+        this.currentEnrollmentCount = currentEnrollmentCount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getMentorName() {
+        return mentorName;
+    }
+
+    public void setMentorName(String mentorName) {
+        this.mentorName = mentorName;
     }
 }
