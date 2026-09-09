@@ -104,14 +104,26 @@ public class RoadmapService {
     }
 
     private RoadmapResponseDto mapToDto(LearningRoadmap entity) {
+
         RoadmapResponseDto dto = new RoadmapResponseDto();
+
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
         dto.setDescription(entity.getDescription());
         dto.setMaxCapacity(entity.getMaxCapacity());
+
+        long enrollmentCount =
+                enrollmentRepository.countByRoadmapIdAndStatusIn(
+                        entity.getId(),
+                        List.of("ACTIVE", "COMPLETED")
+                );
+
+        dto.setCurrentEnrollmentCount((int) enrollmentCount);
+
         dto.setStatus(entity.getStatus());
         dto.setCreatedAt(entity.getCreatedAt());
         dto.setMentorName(entity.getMentor().getEmail());
+
         return dto;
     }
 }
