@@ -618,15 +618,8 @@ const RoadmapList = () => {
                       >
 
                         <CapacityBar
-
-                          current={
-                            currentEnrollmentCount
-                          }
-
-                          max={
-                            roadmap.maxCapacity
-                          }
-
+                            current={roadmap.currentEnrollmentCount || 0}
+                            max={roadmap.maxCapacity}
                         />
 
                       </td>
