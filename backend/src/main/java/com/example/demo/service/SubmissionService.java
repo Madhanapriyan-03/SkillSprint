@@ -64,11 +64,14 @@ public class SubmissionService {
 
             String email = authentication.getName();
 
-            Page<MilestoneSubmission> findByEnrollmentStudentEmail(
-                String email,
-                Pageable pageable
-            );
+            page = repository.findByEnrollmentStudentEmail(
+                email,
+                pageable
+        );
 
+        } else {
+
+            page = repository.findAll(pageable);
         }
 
         /*
