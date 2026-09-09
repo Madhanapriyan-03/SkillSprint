@@ -79,10 +79,6 @@ public class SubmissionService {
          * -------------------------
          * They can see all submissions.
          */
-        else {
-
-            page = repository.findAll(pageable);
-        }
 
         return new PageResponseDto<>(
                 page.getContent()
