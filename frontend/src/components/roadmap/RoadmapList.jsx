@@ -33,12 +33,6 @@ const RoadmapList = () => {
     (state) => state.roadmaps
   );
 
-  const {
-    items: enrollments
-  } = useSelector(
-    (state) => state.enrollments
-  );
-
   const { user } = useSelector(
     (state) => state.auth
   );
@@ -103,29 +97,6 @@ const RoadmapList = () => {
   const isAdmin =
     user?.role === 'LEARNING_MANAGER' ||
     user?.role === 'MENTOR';
-
-
-  // =========================================================
-  // GET CURRENT ENROLLMENT COUNT
-  //
-  // ACTIVE     -> counts
-  // COMPLETED  -> counts
-  // DROPPED    -> does not count
-  // =========================================================
-
-  const getEnrollmentCount = (
-    roadmapId
-  ) => {
-
-    return (enrollments || []).filter(
-      (enrollment) =>
-        enrollment.roadmapId === roadmapId &&
-        (
-          enrollment.status === 'ACTIVE' ||
-          enrollment.status === 'COMPLETED'
-        )
-    ).length;
-  };
 
 
   // =========================================================
@@ -450,16 +421,6 @@ const RoadmapList = () => {
 
               {filteredItems.map(
                 (roadmap) => {
-
-                  // =========================================
-                  // ACTUAL ENROLLMENT COUNT
-                  // =========================================
-
-                  const currentEnrollmentCount =
-                    getEnrollmentCount(
-                      roadmap.id
-                    );
-
 
                   return (
 
