@@ -121,65 +121,14 @@ const RoadmapDetails = () => {
   }
 
   return (
-    <div
-      className="page-container roadmap-details-page"
-      style={{
-        position: 'relative',
-        overflow: 'hidden',
-        background: '#f5f8ff',
-        minHeight: '100vh',
-      }}
-    >
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          width: '320px',
-          height: '320px',
-          borderRadius: '50%',
-          background: 'rgba(37, 99, 235, 0.10)',
-          left: '-150px',
-          top: '120px',
-          pointerEvents: 'none',
-          zIndex: 0,
-        }}
-      />
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          width: '380px',
-          height: '380px',
-          borderRadius: '50%',
-          background: 'rgba(124, 58, 237, 0.08)',
-          right: '-180px',
-          top: '360px',
-          pointerEvents: 'none',
-          zIndex: 0,
-        }}
-      />
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          width: '240px',
-          height: '240px',
-          borderRadius: '50%',
-          background: 'rgba(59, 130, 246, 0.07)',
-          left: '35%',
-          bottom: '-150px',
-          pointerEvents: 'none',
-          zIndex: 0,
-        }}
-      />
+    <div className="page-container roadmap-details-page">
 
-      <div
-        className="card"
-        style={{
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
+      {/* Same decorative background style used by Dashboard */}
+      <div className="dashboard-decoration dashboard-decoration-one"></div>
+      <div className="dashboard-decoration dashboard-decoration-two"></div>
+      <div className="dashboard-decoration dashboard-decoration-three"></div>
+
+      <div className="card roadmap-details-card">
 
         {/* Back */}
         <Link
