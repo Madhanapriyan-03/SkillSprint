@@ -22,7 +22,6 @@ const Login = () => {
     if (user) {
       navigate('/');
     }
-
     dispatch(reset());
   }, [user, navigate, dispatch]);
 
@@ -40,85 +39,61 @@ const Login = () => {
 
   return (
     <div className="login-page">
-
-      {/* Decorative background */}
-      <div className="login-bg-circle circle-one"></div>
-      <div className="login-bg-circle circle-two"></div>
-      <div className="login-bg-circle circle-three"></div>
-
-      {/* Top brand */}
-      <div className="login-top-brand">
-        <span className="brand-skill">Skill</span>
-        <span className="brand-sprint">Sprint</span>
-        <small>LEARN · BUILD · ACHIEVE</small>
-      </div>
-
-      {/* Top right message */}
-      <div className="login-top-message">
-        <span>Better Skills</span>
-        <span>Brighter Careers</span>
-        <span>A Smarter You</span>
-        <i></i>
-      </div>
-
       <div className="login-layout">
-
-        {/* ================= LEFT ================= */}
+        {/* ================= LEFT BRAND PANEL ================= */}
         <div className="login-brand-panel">
+          <div>
+            <div className="brand-icon">
+              S
+            </div>
+            <h1>SkillSprint</h1>
+            <p className="brand-tagline">
+              Accelerate your engineering journey.<br />
+              Master in-demand skills.<br />
+              Build real-world proof of competence.
+            </p>
 
-          <div className="brand-icon">
-            S
-          </div>
-
-          <h1>SkillSprint</h1>
-
-          <p className="brand-tagline">
-            Learn smarter.<br />
-            Build your skills.<br />
-            Achieve your goals.
-          </p>
-
-          {/* Mountain / learning path decoration */}
-          <div className="learning-landscape">
-            <div className="mountain mountain-back"></div>
-            <div className="mountain mountain-middle"></div>
-            <div className="mountain mountain-front"></div>
-
-            <div className="learning-path"></div>
+            <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#e2e8f0', fontSize: '0.9rem' }}>
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '24px', height: '24px', borderRadius: '50%', background: 'rgba(37, 99, 235, 0.3)', color: '#60a5fa', fontWeight: 'bold' }}>✓</span>
+                Structured Learning Roadmaps
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#e2e8f0', fontSize: '0.9rem' }}>
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '24px', height: '24px', borderRadius: '50%', background: 'rgba(37, 99, 235, 0.3)', color: '#60a5fa', fontWeight: 'bold' }}>✓</span>
+                Hands-on Milestone Submissions
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#e2e8f0', fontSize: '0.9rem' }}>
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '24px', height: '24px', borderRadius: '50%', background: 'rgba(37, 99, 235, 0.3)', color: '#60a5fa', fontWeight: 'bold' }}>✓</span>
+                Expert Mentor Evaluations & Feedback
+              </div>
+            </div>
           </div>
 
           <div className="brand-quote">
             <span className="quote-mark">“</span>
-            Progress is a series<br />
-            of small wins.
-            <div className="quote-line"></div>
+            Progress is a series of small wins. Master one skill at a time.
           </div>
-
         </div>
 
-        {/* ================= RIGHT ================= */}
+        {/* ================= RIGHT FORM PANEL ================= */}
         <div className="login-form-panel">
-
           <div className="login-header">
             <h2>Welcome Back</h2>
-            <p>Sign in to continue your learning journey</p>
+            <p>Sign in to your SkillSprint learning workspace</p>
           </div>
 
-          {isError && (
+          {isError && message && (
             <div className="login-error">
               {message}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="login-form">
-
             {/* Email */}
             <div className="login-field">
-              <label htmlFor="email">Email</label>
-
+              <label htmlFor="email">Work / Academic Email</label>
               <div className="login-input-wrapper">
                 <span className="input-icon">✉</span>
-
                 <input
                   id="email"
                   type="email"
@@ -134,10 +109,8 @@ const Login = () => {
             {/* Password */}
             <div className="login-field">
               <label htmlFor="password">Password</label>
-
               <div className="login-input-wrapper">
-                <span className="input-icon lock-icon">⌑</span>
-
+                <span className="input-icon lock-icon">🔒</span>
                 <input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -147,7 +120,6 @@ const Login = () => {
                   placeholder="Enter your password"
                   required
                 />
-
                 <button
                   type="button"
                   className="password-toggle"
@@ -158,32 +130,15 @@ const Login = () => {
               </div>
             </div>
 
-            {/* Forgot password */}
-            <div className="forgot-row">
-              <button
-                type="button"
-                className="forgot-password"
-                onClick={() => {}}
-              >
-                Forgot password?
-              </button>
-            </div>
-
-            {/* Login */}
+            {/* Submit */}
             <button
               type="submit"
               className="login-submit"
               disabled={isLoading}
             >
-              <span>
-                {isLoading ? 'Loading...' : 'Login'}
-              </span>
-
-              {!isLoading && (
-                <span className="login-arrow">→</span>
-              )}
+              <span>{isLoading ? 'Signing in...' : 'Login'}</span>
+              {!isLoading && <span style={{ marginLeft: '4px' }}>→</span>}
             </button>
-
           </form>
 
           {/* Divider */}
@@ -193,10 +148,9 @@ const Login = () => {
             <span></span>
           </div>
 
-          {/* Register */}
+          {/* Register Link */}
           <div className="login-register">
             <span>Don't have an account?</span>
-
             <button
               type="button"
               onClick={() => navigate('/register')}
@@ -204,80 +158,8 @@ const Login = () => {
               Create Account
             </button>
           </div>
-
         </div>
       </div>
-
-      {/* Bottom benefits */}
-      <div className="login-benefits">
-
-        <div className="benefit">
-          <div className="benefit-icon">⌂</div>
-          <div>
-            <strong>Learn from experts</strong>
-            <span>Build real-world skills</span>
-          </div>
-        </div>
-
-        <div className="benefit">
-          <div className="benefit-icon">▥</div>
-          <div>
-            <strong>Track your progress</strong>
-            <span>Stay on your roadmap</span>
-          </div>
-        </div>
-
-        <div className="benefit">
-          <div className="benefit-icon">↗</div>
-          <div>
-            <strong>Achieve your goals</strong>
-            <span>Grow one step at a time</span>
-          </div>
-        </div>
-
-      </div>
-
-      {/* Decorative books */}
-      <div className="decor-books">
-        <div className="book book-one">Plan</div>
-        <div className="book book-two">Learn</div>
-        <div className="book book-three">Build</div>
-        <div className="book book-four">Grow</div>
-      </div>
-
-      <div className="decor-plant">
-        <div className="plant-leaf leaf-one"></div>
-        <div className="plant-leaf leaf-two"></div>
-        <div className="plant-leaf leaf-three"></div>
-        <div className="plant-pot"></div>
-      </div>
-
-      {/* Right decorative laptop */}
-      <div className="decor-laptop">
-        <div className="laptop-screen">
-          <span>Good Skills</span>
-          <span>Brighter</span>
-          <span>Tomorrow</span>
-        </div>
-        <div className="laptop-base"></div>
-      </div>
-
-      {/* Handwritten style messages */}
-      <div className="learning-note note-left">
-        Your Learning<br />
-        Journey<br />
-        Starts Here
-        <span>↗</span>
-      </div>
-
-      <div className="learning-note note-right">
-        Small<br />
-        Steps<br />
-        Big<br />
-        Progress
-        <span>↗</span>
-      </div>
-
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEnrollments } from '../../store/slices/enrollmentSlice';
 import EmptyState from '../common/EmptyState';
+import EnrollmentJourneyFlow from '../common/EnrollmentJourneyFlow';
 
 const EnrollmentList = () => {
   const dispatch = useDispatch();
@@ -61,13 +62,10 @@ const EnrollmentList = () => {
     switch (status) {
       case 'COMPLETED':
         return 'status-badge status-completed';
-
       case 'ACTIVE':
         return 'status-badge status-active';
-
       case 'DROPPED':
         return 'status-badge status-dropped';
-
       default:
         return 'status-badge';
     }
@@ -84,41 +82,94 @@ const EnrollmentList = () => {
     );
   };
 
+  const activeCount = items.filter(e => e.status === 'ACTIVE').length;
+  const completedCount = items.filter(e => e.status === 'COMPLETED').length;
+  const avgProgress = items.length > 0
+    ? Math.round(items.reduce((sum, e) => sum + Number(e.progressPercentage || 0), 0) / items.length)
+    : 0;
+
   return (
     <div className="page-container enrollments-page">
-      <div className="card">
+      {/* Universal Optimistic Quote Banner */}
+      <div className="page-quote-banner">
+        <div className="page-quote-content">
+          <div className="page-quote-icon">📚</div>
+          <div>
+            <div className="page-quote-text">
+              "Education is not the learning of facts, but the training of the mind to think. Stay consistent, track your milestones, and master your field."
+            </div>
+            <span className="page-quote-author">— Albert Einstein • Lifelong Study Mindset</span>
+          </div>
+        </div>
+        <div className="page-quote-tag">🚀 Skill Trajectory</div>
+      </div>
 
-        {/* Header */}
+      {/* Enrollment Health Process Metrics Bar */}
+      <div className="process-metric-bar">
+        <div className="process-metric-item">
+          <div className="process-metric-icon" style={{ background: 'var(--primary-light)', color: 'var(--primary)' }}>
+            🎯
+          </div>
+          <div className="process-metric-info">
+            <span className="process-metric-label">Enrolled Paths</span>
+            <span className="process-metric-val">{items.length}</span>
+          </div>
+        </div>
+
+        <div className="process-metric-item">
+          <div className="process-metric-icon" style={{ background: 'var(--success-light)', color: 'var(--success)' }}>
+            🔥
+          </div>
+          <div className="process-metric-info">
+            <span className="process-metric-label">Active Learning</span>
+            <span className="process-metric-val">{activeCount}</span>
+          </div>
+        </div>
+
+        <div className="process-metric-item">
+          <div className="process-metric-icon" style={{ background: 'var(--purple-light)', color: 'var(--purple-accent)' }}>
+            🎓
+          </div>
+          <div className="process-metric-info">
+            <span className="process-metric-label">Completed</span>
+            <span className="process-metric-val">{completedCount}</span>
+          </div>
+        </div>
+
+        <div className="process-metric-item">
+          <div className="process-metric-icon" style={{ background: 'var(--warning-light)', color: 'var(--warning)' }}>
+            📊
+          </div>
+          <div className="process-metric-info">
+            <span className="process-metric-label">Avg Progress</span>
+            <span className="process-metric-val">{avgProgress}%</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Table Card */}
+      <div className="card">
         <div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            gap: '1rem',
-            marginBottom: '1.5rem',
-            flexWrap: 'wrap'
+            marginBottom: '1.25rem',
+            borderBottom: '1px solid var(--border-light)',
+            paddingBottom: '0.85rem'
           }}
         >
           <div>
-            <h2>My Enrollments</h2>
-
-            <p
-              style={{
-                color: 'var(--text-muted)',
-                marginTop: '4px',
-                fontSize: '0.9rem'
-              }}
-            >
-              Track your roadmap enrollment and progress.
+            <h2 style={{ margin: 0, fontSize: '1.35rem' }}>My Enrolled Roadmaps</h2>
+            <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+              Manage active learning paths and track your milestone progress
             </p>
           </div>
 
           <button
+            type="button"
             className="btn-primary"
-            onClick={() => {
-              setErrorMsg('');
-              setShowModal(true);
-            }}
+            onClick={() => setShowModal(true)}
           >
             + Enroll in Roadmap
           </button>
@@ -126,62 +177,38 @@ const EnrollmentList = () => {
 
         {/* Enrollment Table */}
         {loading ? (
-          <div
-            style={{
-              textAlign: 'center',
-              padding: '3rem',
-              color: 'var(--text-muted)'
-            }}
-          >
-            Loading enrollments...
+          <div style={{ textAlign: 'center', padding: '3.5rem 0', color: 'var(--text-muted)' }}>
+            <div
+              style={{
+                display: 'inline-block',
+                width: '36px',
+                height: '36px',
+                border: '3px solid var(--border)',
+                borderTopColor: 'var(--primary)',
+                borderRadius: '50%',
+                animation: 'spinOrbitTrack 0.8s linear infinite',
+                marginBottom: '1rem'
+              }}
+            />
+            <p style={{ fontWeight: '600' }}>Loading your learning enrollments...</p>
           </div>
         ) : items.length === 0 ? (
           <EmptyState
+            icon="🎓"
+            title="No Active Enrollments"
             entityName="Enrollments"
             message="You have not enrolled in any roadmaps yet."
             onAction={() => setShowModal(true)}
           />
         ) : (
-          <div
-            style={{
-              overflowX: 'auto'
-            }}
-          >
-            <table
-              style={{
-                width: '100%',
-                borderCollapse: 'collapse',
-                marginTop: '0.5rem'
-              }}
-            >
+          <div style={{ overflowX: 'auto', marginTop: '1rem' }}>
+            <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0 }}>
               <thead>
-                <tr
-                  style={{
-                    borderBottom:
-                      '2px solid var(--border)',
-                    textAlign: 'left'
-                  }}
-                >
-                  <th style={{ padding: '12px' }}>
-                    Enrollment
-                  </th>
-
-                  <th style={{ padding: '12px' }}>
-                    Roadmap
-                  </th>
-
-                  <th style={{ padding: '12px' }}>
-                    Status
-                  </th>
-
-                  <th
-                    style={{
-                      padding: '12px',
-                      minWidth: '220px'
-                    }}
-                  >
-                    Progress
-                  </th>
+                <tr>
+                  <th style={{ width: '120px' }}>Enrollment</th>
+                  <th>Roadmap</th>
+                  <th style={{ width: '140px' }}>Status</th>
+                  <th style={{ minWidth: '220px' }}>Progress</th>
                 </tr>
               </thead>
 
@@ -190,96 +217,47 @@ const EnrollmentList = () => {
                   const progress = getProgress(enroll);
 
                   return (
-                    <tr
-                      key={enroll.id}
-                      style={{
-                        borderBottom:
-                          '1px solid var(--border)'
-                      }}
-                    >
-
+                    <tr key={enroll.id}>
                       {/* Enrollment ID */}
-                      <td
-                        style={{
-                          padding: '14px 12px',
-                          fontWeight: '600'
-                        }}
-                      >
+                      <td style={{ fontWeight: '700', color: 'var(--text-muted)' }}>
                         #{enroll.id}
                       </td>
 
                       {/* Roadmap */}
-                      <td
-                        style={{
-                          padding: '14px 12px'
-                        }}
-                      >
-                        <div
-                          style={{
-                            fontWeight: '600'
-                          }}
-                        >
+                      <td>
+                        <div style={{ fontWeight: '700', color: 'var(--text-dark)' }}>
                           Roadmap #{enroll.roadmapId}
                         </div>
-
-                        <div
-                          style={{
-                            fontSize: '0.8rem',
-                            color:
-                              'var(--text-muted)',
-                            marginTop: '2px'
-                          }}
-                        >
-                          Learning Roadmap
+                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+                          Skill Development Track
                         </div>
                       </td>
 
                       {/* Status */}
-                      <td
-                        style={{
-                          padding: '14px 12px'
-                        }}
-                      >
-                        <span
-                          className={getStatusClass(
-                            enroll.status
-                          )}
-                        >
+                      <td>
+                        <span className={getStatusClass(enroll.status)}>
                           {enroll.status}
                         </span>
                       </td>
 
                       {/* Progress */}
-                      <td
-                        style={{
-                          padding: '14px 12px'
-                        }}
-                      >
+                      <td>
                         <div
                           style={{
                             display: 'flex',
-                            justifyContent:
-                              'space-between',
+                            justifyContent: 'space-between',
                             alignItems: 'center',
                             marginBottom: '6px',
                             fontSize: '0.85rem'
                           }}
                         >
-                          <span
-                            style={{
-                              color:
-                                'var(--text-muted)'
-                            }}
-                          >
+                          <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                             Completion
                           </span>
-
                           <strong
                             style={{
-                              color:
-                                progress === 100
-                                  ? '#059669'
-                                  : 'var(--text-dark)'
+                              color: progress === 100 ? '#059669' : 'var(--text-dark)',
+                              fontFamily: 'var(--font-heading)'
                             }}
                           >
                             {progress}%
@@ -290,9 +268,8 @@ const EnrollmentList = () => {
                         <div
                           style={{
                             width: '100%',
-                            height: '9px',
-                            backgroundColor:
-                              '#e5e7eb',
+                            height: '8px',
+                            backgroundColor: '#e2e8f0',
                             borderRadius: '999px',
                             overflow: 'hidden'
                           }}
@@ -301,18 +278,13 @@ const EnrollmentList = () => {
                             style={{
                               width: `${progress}%`,
                               height: '100%',
-                              backgroundColor:
-                                progress === 100
-                                  ? '#10b981'
-                                  : '#3b82f6',
+                              backgroundColor: progress === 100 ? '#10b981' : '#3b82f6',
                               borderRadius: '999px',
-                              transition:
-                                'width 0.4s ease'
+                              transition: 'width 0.4s ease'
                             }}
                           />
                         </div>
                       </td>
-
                     </tr>
                   );
                 })}
@@ -321,212 +293,68 @@ const EnrollmentList = () => {
           </div>
         )}
       </div>
-      {/* =====================================================
-    ENROLLMENT LEARNING SECTION
-    ===================================================== */}
 
-    <div className="enrollment-inspiration">
+      {/* Unique Live Animated Skill Trajectory & Journey Flow */}
+      <EnrollmentJourneyFlow enrollments={items} />
 
-      <div className="enrollment-visual">
-
-        <div className="progress-ring">
-          <div className="progress-ring-inner">
-            <span>↗</span>
-            <strong>GROW</strong>
-          </div>
-        </div>
-
-        <div className="floating-card enrollment-card-one">
-          <span>✓</span>
-          Roadmap
-        </div>
-
-        <div className="floating-card enrollment-card-two">
-          <span>★</span>
-          Progress
-        </div>
-
-        <div className="floating-dot enrollment-dot-one"></div>
-        <div className="floating-dot enrollment-dot-two"></div>
-        <div className="floating-dot enrollment-dot-three"></div>
-
-      </div>
-
-
-      <div className="enrollment-message">
-
-        <div className="small-label">
-          YOUR LEARNING JOURNEY
-        </div>
-
-        <h2>
-          Keep learning.
-          <span> Keep growing.</span>
-        </h2>
-
-        <p>
-          Every enrollment is a new opportunity to build
-          knowledge, complete milestones, and move closer
-          to your goals.
-        </p>
-
-        <div className="enrollment-quote">
-          “Success is the sum of small efforts,
-          repeated day in and day out.”
-        </div>
-
-        <div className="enrollment-line"></div>
-
-      </div>
-
-    </div>
-
-      {/* Enrollment Modal */}
+      {/* Enroll Modal */}
       {showModal && (
-        <div
-          className="modal-overlay"
-          onClick={() => setShowModal(false)}
-        >
-          <div
-            className="modal-card"
-            onClick={(e) =>
-              e.stopPropagation()
-            }
-          >
-
-            {/* Modal Header */}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent:
-                  'space-between',
-                alignItems: 'center',
-                marginBottom: '1.25rem',
-                paddingBottom: '0.75rem',
-                borderBottom:
-                  '1px solid var(--border)'
-              }}
-            >
-              <div>
-                <h3>
-                  Enroll in a Roadmap
-                </h3>
-
-                <p
-                  style={{
-                    color:
-                      'var(--text-muted)',
-                    fontSize: '0.85rem',
-                    marginTop: '3px'
-                  }}
-                >
-                  Enter the roadmap ID to enroll.
-                </p>
+        <div className="modern-modal-overlay">
+          <div className="modern-modal" style={{ maxWidth: '440px' }}>
+            <div className="modern-modal-header">
+              <div className="modern-modal-title-area">
+                <div className="modern-modal-icon">
+                  📚
+                </div>
+                <div>
+                  <h2>Enroll in Roadmap</h2>
+                  <p>Join a curated learning track</p>
+                </div>
               </div>
 
               <button
                 type="button"
-                onClick={() =>
-                  setShowModal(false)
-                }
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  fontSize: '1.5rem',
-                  cursor: 'pointer',
-                  color:
-                    'var(--text-muted)'
-                }}
+                className="modern-modal-close"
+                onClick={() => setShowModal(false)}
               >
                 ×
               </button>
             </div>
 
-            {/* Error */}
             {errorMsg && (
-              <div
-                style={{
-                  color: 'var(--danger)',
-                  marginBottom: '1rem',
-                  padding: '0.75rem',
-                  backgroundColor:
-                    '#fee2e2',
-                  borderRadius: '6px',
-                  fontSize: '0.9rem',
-                  fontWeight: '500'
-                }}
-              >
+              <div className="login-error" style={{ marginBottom: '1rem' }}>
                 {errorMsg}
               </div>
             )}
 
-            {/* Form */}
-            <form
-              onSubmit={handleEnrollSubmit}
-            >
-              <div
-                style={{
-                  marginBottom: '1.5rem'
-                }}
-              >
+            <form onSubmit={handleEnrollSubmit} className="modern-modal-form">
+              <div className="modern-form-group">
                 <label>
-                  Roadmap ID
+                  Roadmap ID <span style={{ color: 'var(--danger)' }}>*</span>
                 </label>
-
                 <input
                   type="number"
-                  min="1"
-                  required
                   value={roadmapIdInput}
-                  onChange={(e) => {
-                    setRoadmapIdInput(
-                      e.target.value
-                    );
-                    setErrorMsg('');
-                  }}
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem',
-                    borderRadius: '7px',
-                    border:
-                      '1px solid var(--border)',
-                    color:
-                      'var(--text-dark)',
-                    fontSize: '1rem',
-                    marginTop: '5px'
-                  }}
+                  onChange={(e) => setRoadmapIdInput(e.target.value)}
                   placeholder="e.g. 1"
+                  required
                 />
+                <small>Enter the numeric ID of the roadmap you wish to join.</small>
               </div>
 
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent:
-                    'flex-end',
-                  gap: '10px'
-                }}
-              >
+              <div className="modern-modal-actions">
                 <button
                   type="button"
-                  className="btn-secondary"
-                  onClick={() => {
-                    setShowModal(false);
-                    setErrorMsg('');
-                  }}
+                  className="modern-cancel-btn"
+                  onClick={() => setShowModal(false)}
                 >
                   Cancel
                 </button>
-
-                <button
-                  type="submit"
-                  className="btn-primary"
-                >
+                <button type="submit" className="modern-submit-btn">
                   Enroll
                 </button>
               </div>
             </form>
-
           </div>
         </div>
       )}

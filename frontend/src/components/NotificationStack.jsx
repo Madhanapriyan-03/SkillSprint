@@ -36,21 +36,16 @@ const NotificationStack = () => {
   if (alerts.length === 0) return null;
 
   return (
-    <div className="notification-stack" style={{ position: 'fixed', top: '20px', right: '20px', zIndex: 1000 }}>
+    <div className="notification-stack">
       {alerts.map((alert) => (
         <div
           key={alert.id}
           className={`alert ${alert.type}`}
-          style={{
-            background: alert.type === 'success' ? 'green' : 'red',
-            color: 'white',
-            padding: '10px',
-            marginBottom: '10px',
-            borderRadius: '4px',
-            boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
-          }}
         >
-          {alert.text}
+          <span style={{ marginRight: '8px', fontSize: '1rem' }}>
+            {alert.type === 'success' ? '✓' : '⚠️'}
+          </span>
+          <span>{alert.text}</span>
         </div>
       ))}
     </div>

@@ -18,20 +18,64 @@ const EnrollmentForm = ({ item, onClose, onSuccess }) => {
   };
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
-      <div className="card" style={{ width: '100%', maxWidth: '400px', margin: '20px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-          <h2>Enroll in Roadmap</h2>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer' }}>×</button>
-        </div>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          <div>
-            <label>Roadmap ID <span style={{color: 'red'}}>*</span></label>
-            <input type="number" value={formData.roadmapId} onChange={e => setFormData({...formData, roadmapId: parseInt(e.target.value)})} required style={{ width: '100%', padding: '8px', border: '1px solid var(--border)', borderRadius: '4px' }} />
+    <div className="modern-modal-overlay">
+      <div className="modern-modal" style={{ maxWidth: '440px' }}>
+        <div className="modern-modal-header">
+          <div className="modern-modal-title-area">
+            <div className="modern-modal-icon">
+              📚
+            </div>
+            <div>
+              <h2>Enroll in Roadmap</h2>
+              <p>Join a curated learning track</p>
+            </div>
           </div>
-          <button type="submit" className="btn-primary" disabled={loading} style={{ width: '100%', marginTop: '10px' }}>
-            {loading ? 'Enrolling...' : 'Enroll'}
+          <button
+            type="button"
+            className="modern-modal-close"
+            onClick={onClose}
+          >
+            ×
           </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="modern-modal-form">
+          <div className="modern-form-group">
+            <label>
+              Roadmap ID <span style={{ color: 'var(--danger)' }}>*</span>
+            </label>
+            <input
+              type="number"
+              value={formData.roadmapId}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  roadmapId: parseInt(e.target.value) || ''
+                })
+              }
+              placeholder="e.g. 1"
+              required
+            />
+            <small>Enter the numeric ID of the roadmap to enroll.</small>
+          </div>
+
+          <div className="modern-modal-actions">
+            <button
+              type="button"
+              className="modern-cancel-btn"
+              onClick={onClose}
+              disabled={loading}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="modern-submit-btn"
+              disabled={loading}
+            >
+              {loading ? 'Enrolling...' : 'Enroll'}
+            </button>
+          </div>
         </form>
       </div>
     </div>

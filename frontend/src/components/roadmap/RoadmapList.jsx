@@ -19,9 +19,7 @@ import RoadmapForm from './RoadmapForm';
 import roadmapService from '../../services/roadmapService';
 import enrollmentService from '../../services/enrollmentService';
 
-
 const RoadmapList = () => {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -40,46 +38,27 @@ const RoadmapList = () => {
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
 
-
-  // =========================================================
-  // LOAD ROADMAPS
-  // =========================================================
-
+  // Load roadmaps on mount and when searchQuery changes
   useEffect(() => {
-
     dispatch(
       fetchRoadmaps({
         page: 0,
         size: 20
       })
     );
-
   }, [dispatch, searchQuery]);
 
-
-  // =========================================================
-  // LOAD ENROLLMENTS
-  //
-  // Student -> own enrollments
-  // Manager / Mentor -> all enrollments
-  // =========================================================
-
+  // Load enrollments
   useEffect(() => {
-
     dispatch(
       fetchEnrollments({
         page: 0,
         size: 100
       })
     );
-
   }, [dispatch]);
 
-
-  // =========================================================
-  // FILTER ROADMAPS
-  // =========================================================
-
+  // Filter roadmaps
   const filteredItems = items.filter(
     (item) =>
       item.title
@@ -89,36 +68,17 @@ const RoadmapList = () => {
         )
   );
 
-
-  // =========================================================
-  // ADMIN CHECK
-  // =========================================================
-
   const isAdmin =
     user?.role === 'LEARNING_MANAGER' ||
     user?.role === 'MENTOR';
 
-
-  // =========================================================
-  // DELETE ROADMAP
-  // =========================================================
-
   const handleDelete = async (id) => {
-
-    console.log(
-      'Deleting roadmap:',
-      id
-    );
+    if (!window.confirm('Are you sure you want to delete this roadmap?')) {
+      return;
+    }
 
     try {
-
-      const response =
-        await roadmapService.remove(id);
-
-      console.log(
-        'Delete success:',
-        response
-      );
+      await roadmapService.remove(id);
 
       dispatch(
         fetchRoadmaps({
@@ -127,54 +87,25 @@ const RoadmapList = () => {
         })
       );
 
-      // Refresh enrollment data too
       dispatch(
         fetchEnrollments({
           page: 0,
           size: 100
         })
       );
-
     } catch (err) {
-
-      console.error(
-        'Delete error:',
-        err
-      );
-
       const errorMsg =
         err.response?.data?.message ||
         err.message ||
         'Unknown error';
 
-      alert(
-        'Delete failed: ' +
-        errorMsg
-      );
+      alert('Delete failed: ' + errorMsg);
     }
   };
 
-
-  // =========================================================
-  // PUBLISH ROADMAP
-  // =========================================================
-
   const handlePublish = async (id) => {
-
-    console.log(
-      'Publishing roadmap:',
-      id
-    );
-
     try {
-
-      const response =
-        await roadmapService.publish(id);
-
-      console.log(
-        'Publish success:',
-        response
-      );
+      await roadmapService.publish(id);
 
       dispatch(
         fetchRoadmaps({
@@ -182,56 +113,31 @@ const RoadmapList = () => {
           size: 20
         })
       );
-
     } catch (err) {
-
-      console.error(
-        'Publish error:',
-        err
-      );
-
       const errorMsg =
         err.response?.data?.message ||
         err.message ||
         'Unknown error';
 
-      alert(
-        'Publish failed: ' +
-        errorMsg
-      );
+      alert('Publish failed: ' + errorMsg);
     }
   };
 
-
-  // =========================================================
-  // ENROLL
-  // =========================================================
-
-  const handleEnroll = async (
-    roadmapId
-  ) => {
-
+  const handleEnroll = async (roadmapId) => {
     try {
-
       await enrollmentService.create({
         roadmapId
       });
 
-      alert(
-        'Successfully enrolled!'
-      );
+      alert('Successfully enrolled!');
 
-      // IMPORTANT:
-      // Refresh enrollment count after enrollment
       dispatch(
         fetchEnrollments({
           page: 0,
           size: 100
         })
       );
-
     } catch (err) {
-
       alert(
         err.response?.data?.message ||
         'Failed to enroll'
@@ -239,685 +145,341 @@ const RoadmapList = () => {
     }
   };
 
-
-  // =========================================================
-  // ROADMAP TITLE CLICK
-  // =========================================================
-
   const handleTitleClick = (id) => {
-
-    navigate(
-      `/roadmaps/${id}`
-    );
+    navigate(`/roadmaps/${id}`);
   };
 
-
-  // =========================================================
-  // UI
-  // =========================================================
+  const totalCapacity = items.reduce((sum, r) => sum + (Number(r.maxCapacity) || 0), 0);
+  const totalEnrolled = items.reduce((sum, r) => sum + (Number(r.currentEnrollmentCount) || 0), 0);
+  const publishedCount = items.filter(r => r.status === 'PUBLISHED').length;
 
   return (
-
     <div className="page-container roadmaps-page">
+      {/* Universal Optimistic Quote Banner */}
+      <div className="page-quote-banner">
+        <div className="page-quote-content">
+          <div className="page-quote-icon">🗺️</div>
+          <div>
+            <div className="page-quote-text">
+              "The expert in anything was once a beginner. Choose your path, embrace every milestone, and build real-world mastery."
+            </div>
+            <span className="page-quote-author">— Helen Hayes • Lifelong Learning Mindset</span>
+          </div>
+        </div>
+        <div className="page-quote-tag">⚡ {items.length} Curated Tracks</div>
+      </div>
+
+      {/* Curriculum Overview Metric Process Bar */}
+      <div className="process-metric-bar">
+        <div className="process-metric-item">
+          <div className="process-metric-icon" style={{ background: 'var(--primary-light)', color: 'var(--primary)' }}>
+            📚
+          </div>
+          <div className="process-metric-info">
+            <span className="process-metric-label">Total Tracks</span>
+            <span className="process-metric-val">{items.length}</span>
+          </div>
+        </div>
+
+        <div className="process-metric-item">
+          <div className="process-metric-icon" style={{ background: 'var(--success-light)', color: 'var(--success)' }}>
+            ✓
+          </div>
+          <div className="process-metric-info">
+            <span className="process-metric-label">Published</span>
+            <span className="process-metric-val">{publishedCount}</span>
+          </div>
+        </div>
+
+        <div className="process-metric-item">
+          <div className="process-metric-icon" style={{ background: 'var(--purple-light)', color: 'var(--purple-accent)' }}>
+            👥
+          </div>
+          <div className="process-metric-info">
+            <span className="process-metric-label">Enrolled Learners</span>
+            <span className="process-metric-val">{totalEnrolled}</span>
+          </div>
+        </div>
+
+        <div className="process-metric-item">
+          <div className="process-metric-icon" style={{ background: 'var(--warning-light)', color: 'var(--warning)' }}>
+            🎯
+          </div>
+          <div className="process-metric-info">
+            <span className="process-metric-label">Total Capacity</span>
+            <span className="process-metric-val">{totalCapacity}</span>
+          </div>
+        </div>
+      </div>
 
       <div className="card">
-
-        {/* =================================================
-            HEADER
-        ================================================= */}
-
+        {/* Header with Title & Action */}
         <div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
-            marginBottom: '1rem'
+            alignItems: 'center',
+            marginBottom: '1.5rem',
+            gap: '1rem',
+            flexWrap: 'wrap'
           }}
         >
-
-          <h2>
-            Learning Roadmaps
-          </h2>
-
+          <div>
+            <h2 style={{ marginBottom: '0.25rem' }}>Learning Roadmaps</h2>
+            <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+              Explore structured curricula, milestone requirements, and start learning.
+            </p>
+          </div>
 
           {isAdmin && (
-
             <button
               className="btn-primary"
               onClick={() => {
-
                 setEditingItem(null);
                 setShowModal(true);
-
               }}
             >
               + Add Roadmap
             </button>
-
           )}
-
         </div>
 
-
-        {/* =================================================
-            SEARCH
-        ================================================= */}
-
+        {/* Search Bar */}
         <SearchFilterBar
-
-          searchQuery={
-            searchQuery
-          }
-
-          onSearchChange={(q) =>
-            dispatch(
-              setSearchQuery(q)
-            )
-          }
-
+          searchQuery={searchQuery}
+          onSearchChange={(q) => dispatch(setSearchQuery(q))}
           placeholder="Search roadmaps by title..."
-
         />
 
-
-        {/* =================================================
-            CONTENT
-        ================================================= */}
-
+        {/* Content */}
         {loading ? (
-
-          <p>
+          <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
             Loading roadmaps...
-          </p>
-
+          </div>
         ) : filteredItems.length === 0 ? (
-
           <EmptyState
-
             entityName="Roadmaps"
-
+            message="No learning roadmaps match your search criteria."
             onAction={
               isAdmin
                 ? () => {
-
                     setEditingItem(null);
                     setShowModal(true);
-
                   }
                 : null
             }
-
           />
-
         ) : (
+          <div style={{ overflowX: 'auto', marginTop: '1rem' }}>
+            <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0 }}>
+              <thead>
+                <tr>
+                  <th style={{ width: '80px' }}>ID</th>
+                  <th>Title & Description</th>
+                  <th style={{ width: '130px' }}>Status</th>
+                  <th style={{ width: '150px' }}>Capacity</th>
+                  <th style={{ width: '200px' }}>Actions</th>
+                </tr>
+              </thead>
 
-          <table
-            style={{
-              width: '100%',
-              borderCollapse: 'collapse',
-              marginTop: '1rem'
-            }}
-          >
+              <tbody>
+                {filteredItems.map((roadmap) => (
+                  <tr key={roadmap.id}>
+                    {/* ID */}
+                    <td style={{ fontWeight: '700', color: 'var(--text-muted)' }}>
+                      #{roadmap.id}
+                    </td>
 
-            <thead>
-
-              <tr
-                style={{
-                  borderBottom:
-                    '2px solid var(--border)',
-                  textAlign: 'left'
-                }}
-              >
-
-                <th
-                  style={{
-                    padding: '10px'
-                  }}
-                >
-                  ID
-                </th>
-
-
-                <th
-                  style={{
-                    padding: '10px'
-                  }}
-                >
-                  Title
-                </th>
-
-
-                <th
-                  style={{
-                    padding: '10px'
-                  }}
-                >
-                  Status
-                </th>
-
-
-                <th
-                  style={{
-                    padding: '10px'
-                  }}
-                >
-                  Capacity
-                </th>
-
-
-                <th
-                  style={{
-                    padding: '10px'
-                  }}
-                >
-                  Actions
-                </th>
-
-              </tr>
-
-            </thead>
-
-
-            <tbody>
-
-              {filteredItems.map(
-                (roadmap) => {
-
-                  return (
-
-                    <tr
-
-                      key={
-                        roadmap.id
-                      }
-
-                      style={{
-                        borderBottom:
-                          '1px solid var(--border)'
-                      }}
-
-                    >
-
-                      {/* =================================================
-                          ID
-                      ================================================= */}
-
-                      <td
-                        style={{
-                          padding: '10px',
-                          fontWeight: 'bold'
-                        }}
-                      >
-
-                        #{roadmap.id}
-
-                      </td>
-
-
-                      {/* =================================================
-                          TITLE
-                      ================================================= */}
-
-                      <td
-                        style={{
-                          padding: '10px'
-                        }}
-                      >
-
+                    {/* Title & Description */}
+                    <td>
+                      <div>
                         <span
-
                           role="link"
-
                           tabIndex={0}
-
-                          onClick={() =>
-                            handleTitleClick(
-                              roadmap.id
-                            )
-                          }
-
+                          onClick={() => handleTitleClick(roadmap.id)}
                           onKeyDown={(e) => {
-
-                            if (
-                              e.key === 'Enter' ||
-                              e.key === ' '
-                            ) {
-
+                            if (e.key === 'Enter' || e.key === ' ') {
                               e.preventDefault();
-
-                              handleTitleClick(
-                                roadmap.id
-                              );
-
+                              handleTitleClick(roadmap.id);
                             }
-
                           }}
-
                           style={{
-                            color:
-                              'var(--text-dark)',
-                            textDecoration:
-                              'none',
-                            fontWeight:
-                              '600',
-                            cursor:
-                              'pointer'
+                            color: 'var(--text-dark)',
+                            textDecoration: 'none',
+                            fontWeight: '700',
+                            fontSize: '0.95rem',
+                            cursor: 'pointer'
                           }}
-
                           onMouseEnter={(e) => {
-
-                            e.currentTarget.style.color =
-                              'var(--primary)';
-
+                            e.currentTarget.style.color = 'var(--primary)';
                           }}
-
                           onMouseLeave={(e) => {
-
-                            e.currentTarget.style.color =
-                              'var(--text-dark)';
-
+                            e.currentTarget.style.color = 'var(--text-dark)';
                           }}
-
                         >
-
                           {roadmap.title}
-
                         </span>
 
-                      </td>
+                        {roadmap.description && (
+                          <div
+                            style={{
+                              fontSize: '0.8rem',
+                              color: 'var(--text-muted)',
+                              marginTop: '3px',
+                              maxWidth: '450px',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis'
+                            }}
+                          >
+                            {roadmap.description}
+                          </div>
+                        )}
+                      </div>
+                    </td>
 
-
-                      {/* =================================================
-                          STATUS
-                      ================================================= */}
-
-                      <td
-                        style={{
-                          padding: '10px'
-                        }}
+                    {/* Status Badge */}
+                    <td>
+                      <span
+                        className={
+                          roadmap.status === 'PUBLISHED'
+                            ? 'status-badge status-published'
+                            : 'status-badge status-draft'
+                        }
                       >
+                        {roadmap.status}
+                      </span>
+                    </td>
 
-                        <span
-                          style={{
-                            padding:
-                              '4px 8px',
-                            borderRadius:
-                              '4px',
-                            fontSize:
-                              '12px',
-                            fontWeight:
-                              '500',
+                    {/* Capacity Bar */}
+                    <td>
+                      <CapacityBar
+                        current={roadmap.currentEnrollmentCount || 0}
+                        max={roadmap.maxCapacity}
+                      />
+                    </td>
 
-                            backgroundColor:
-                              roadmap.status ===
-                              'PUBLISHED'
-                                ? '#dcfce7'
-                                : '#f1f5f9',
-
-                            color:
-                              roadmap.status ===
-                              'PUBLISHED'
-                                ? '#166534'
-                                : '#475569'
-                          }}
-                        >
-
-                          {roadmap.status}
-
-                        </span>
-
-                      </td>
-
-
-                      {/* =================================================
-                          CAPACITY
-                      ================================================= */}
-
-                      <td
-                        style={{
-                          padding: '10px'
-                        }}
-                      >
-
-                        <CapacityBar
-                            current={roadmap.currentEnrollmentCount || 0}
-                            max={roadmap.maxCapacity}
-                        />
-
-                      </td>
-
-
-                      {/* =================================================
-                          ACTIONS
-                      ================================================= */}
-
-                      <td
-                        style={{
-                          padding: '10px',
-                          display: 'flex',
-                          gap: '10px',
-                          alignItems: 'center'
-                        }}
-                      >
-
-                        {/* =================================================
-                            ENROLL
-                        ================================================= */}
-
-                        {roadmap.status ===
-                          'PUBLISHED' &&
-                          user?.role === 'STUDENT' && (
-
-                            <button
-
-                              className="btn-primary"
-
-                              style={{
-                                padding:
-                                  '5px 10px',
-                                fontSize:
-                                  '12px',
-                                minWidth:
-                                  'auto'
-                              }}
-
-                              onClick={() =>
-                                handleEnroll(
-                                  roadmap.id
-                                )
-                              }
-
-                            >
-
-                              Enroll
-
-                            </button>
-
-                          )}
-
-
-                        {/* =================================================
-                            ADMIN ACTIONS
-                        ================================================= */}
-
-                        {isAdmin && (
-
-                          <>
-
-                            {/* ---------------------------------------------
-                                PUBLISH
-                            --------------------------------------------- */}
-
-                            {roadmap.status ===
-                              'DRAFT' && (
-
-                              <button
-
-                                style={{
-                                  color:
-                                    '#16a34a',
-                                  border:
-                                    '1px solid #16a34a',
-                                  padding:
-                                    '4px 8px',
-                                  borderRadius:
-                                    '4px',
-                                  background:
-                                    'none',
-                                  cursor:
-                                    'pointer',
-                                  fontSize:
-                                    '12px'
-                                }}
-
-                                onClick={() =>
-                                  handlePublish(
-                                    roadmap.id
-                                  )
-                                }
-
-                              >
-
-                                Publish
-
-                              </button>
-
-                            )}
-
-
-                            {/* ---------------------------------------------
-                                EDIT
-                            --------------------------------------------- */}
-
-                            <button
-
-                              style={{
-                                color:
-                                  'var(--primary)',
-                                border:
-                                  'none',
-                                background:
-                                  'none',
-                                cursor:
-                                  'pointer'
-                              }}
-
-                              onClick={() => {
-
-                                setEditingItem(
-                                  roadmap
-                                );
-
-                                setShowModal(
-                                  true
-                                );
-
-                              }}
-
-                            >
-
-                              Edit
-
-                            </button>
-
-
-                            {/* ---------------------------------------------
-                                DELETE
-                            --------------------------------------------- */}
-
-                            <button
-
-                              style={{
-                                color:
-                                  'var(--danger)',
-                                border:
-                                  'none',
-                                background:
-                                  'none',
-                                cursor:
-                                  'pointer'
-                              }}
-
-                              onClick={() =>
-                                handleDelete(
-                                  roadmap.id
-                                )
-                              }
-
-                            >
-
-                              Delete
-
-                            </button>
-
-                          </>
-
+                    {/* Actions */}
+                    <td>
+                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                        {/* Student Enroll Button */}
+                        {roadmap.status === 'PUBLISHED' && user?.role === 'STUDENT' && (
+                          <button
+                            className="btn-primary"
+                            style={{
+                              padding: '4px 12px',
+                              fontSize: '0.8125rem'
+                            }}
+                            onClick={() => handleEnroll(roadmap.id)}
+                          >
+                            Enroll
+                          </button>
                         )}
 
-                      </td>
+                        {/* Admin / Mentor Actions */}
+                        {isAdmin && (
+                          <>
+                            {roadmap.status === 'DRAFT' && (
+                              <button
+                                style={{
+                                  color: '#059669',
+                                  background: 'var(--success-light)',
+                                  border: '1px solid var(--success-border)',
+                                  padding: '4px 10px',
+                                  borderRadius: '6px',
+                                  cursor: 'pointer',
+                                  fontSize: '0.8rem',
+                                  fontWeight: '600'
+                                }}
+                                onClick={() => handlePublish(roadmap.id)}
+                              >
+                                Publish
+                              </button>
+                            )}
 
-                    </tr>
+                            <button
+                              style={{
+                                color: 'var(--primary)',
+                                border: '1px solid var(--border)',
+                                background: '#ffffff',
+                                padding: '4px 10px',
+                                borderRadius: '6px',
+                                cursor: 'pointer',
+                                fontSize: '0.8rem',
+                                fontWeight: '600'
+                              }}
+                              onClick={() => {
+                                setEditingItem(roadmap);
+                                setShowModal(true);
+                              }}
+                            >
+                              Edit
+                            </button>
 
-                  );
-
-                }
-
-              )}
-
-            </tbody>
-
-          </table>
-
+                            <button
+                              style={{
+                                color: 'var(--danger-dark)',
+                                border: '1px solid var(--danger-border)',
+                                background: 'var(--danger-light)',
+                                padding: '4px 10px',
+                                borderRadius: '6px',
+                                cursor: 'pointer',
+                                fontSize: '0.8rem',
+                                fontWeight: '600'
+                              }}
+                              onClick={() => handleDelete(roadmap.id)}
+                            >
+                              Delete
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
-
       </div>
 
-
-      {/* =================================================
-          LEARNING INSPIRATION SECTION
-      ================================================= */}
-
+      {/* Roadmap Inspiration Banner */}
       <div className="roadmap-inspiration">
-
-        {/* Decorative Books */}
-
-        <div className="books-illustration">
-
-          <div className="book book-blue">
-            <div className="book-page"></div>
-            <span>LEARN</span>
-          </div>
-
-
-          <div className="book book-purple">
-            <div className="book-page"></div>
-            <span>GROW</span>
-          </div>
-
-
-          <div className="book book-yellow">
-            <div className="book-page"></div>
-            <span>BUILD</span>
-          </div>
-
-
-          <div className="book-shadow"></div>
-
-
-          <div className="floating-star star-one">
-            ✦
-          </div>
-
-
-          <div className="floating-star star-two">
-            ✧
-          </div>
-
-
-          <div className="floating-star star-three">
-            ✦
-          </div>
-
-        </div>
-
-
-        {/* Quote */}
-
         <div className="roadmap-quote">
-
-          <div className="quote-mark">
-            “
-          </div>
-
-
-          <h2>
-            Every expert was once
-            <span> a beginner.</span>
-          </h2>
-
-
+          <div className="quote-mark">“</div>
+          <h2>Every expert was once a <span>beginner</span>.</h2>
           <p>
-            Choose a roadmap, build your
-            skills, and keep moving forward
-            one milestone at a time.
+            Choose a structured learning path, complete real milestones, and master in-demand skills step by step with mentor support.
           </p>
-
-
-          <div className="quote-line"></div>
-
-
-          <div className="quote-label">
-            YOUR NEXT SKILL STARTS HERE
+          <span className="quote-label">⚡ Continuous Skill Acceleration</span>
+        </div>
+        <div className="learning-pills-container">
+          <div className="learning-pill">
+            <span>✦</span> Step-by-Step Curriculum
           </div>
-
+          <div className="learning-pill">
+            <span>✓</span> Milestone Verification
+          </div>
+          <div className="learning-pill">
+            <span>↗</span> Industry Ready Portfolio
+          </div>
         </div>
-
-
-        {/* Small Learning Notes */}
-
-        <div className="learning-pill pill-one">
-          <span>✦</span>
-          Learn
-        </div>
-
-
-        <div className="learning-pill pill-two">
-          <span>✓</span>
-          Practice
-        </div>
-
-
-        <div className="learning-pill pill-three">
-          <span>↗</span>
-          Grow
-        </div>
-
       </div>
 
-
-      {/* =================================================
-          ROADMAP FORM MODAL
-      ================================================= */}
-
+      {/* Roadmap Form Modal */}
       {showModal && (
-
         <RoadmapForm
-
-          item={
-            editingItem
-          }
-
-          onClose={() =>
-            setShowModal(false)
-          }
-
+          item={editingItem}
+          onClose={() => setShowModal(false)}
           onSuccess={() => {
-
             setShowModal(false);
-
-            dispatch(
-              fetchRoadmaps({
-                page: 0,
-                size: 20
-              })
-            );
-
-            dispatch(
-              fetchEnrollments({
-                page: 0,
-                size: 100
-              })
-            );
-
+            dispatch(fetchRoadmaps({ page: 0, size: 20 }));
+            dispatch(fetchEnrollments({ page: 0, size: 100 }));
           }}
-
         />
-
       )}
-
     </div>
-
   );
 };
-
 
 export default RoadmapList;

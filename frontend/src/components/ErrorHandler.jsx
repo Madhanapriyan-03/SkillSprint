@@ -10,8 +10,8 @@ const ErrorHandler = () => {
   if (!error) return null;
 
   return (
-    <div className="error-handler" style={{ color: 'red', padding: '10px', border: '1px solid red', margin: '10px 0' }}>
-      <p>{error}</p>
+    <div className="error-handler">
+      <p style={{ margin: 0 }}>{error}</p>
     </div>
   );
 };

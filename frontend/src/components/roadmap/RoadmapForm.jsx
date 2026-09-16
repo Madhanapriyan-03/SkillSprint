@@ -50,35 +50,28 @@ const RoadmapForm = ({ item, onClose, onSuccess }) => {
 
   return (
     <div className="modern-modal-overlay">
-
       <div
         ref={cardRef}
         className="modern-modal roadmap-modal"
       >
-
         {/* Header */}
         <div className="modern-modal-header">
-
           <div className="modern-modal-title-area">
-
             <div className="modern-modal-icon roadmap-icon">
-              R
+              🗺️
             </div>
-
             <div>
               <h2>
                 {item
                   ? 'Edit Roadmap'
                   : 'Create New Roadmap'}
               </h2>
-
               <p>
                 {item
                   ? 'Update your roadmap details'
                   : 'Create a structured learning path'}
               </p>
             </div>
-
           </div>
 
           <button
@@ -88,7 +81,6 @@ const RoadmapForm = ({ item, onClose, onSuccess }) => {
           >
             ×
           </button>
-
         </div>
 
         {/* Form */}
@@ -96,15 +88,11 @@ const RoadmapForm = ({ item, onClose, onSuccess }) => {
           onSubmit={handleSubmit}
           className="modern-modal-form"
         >
-
           {/* Title */}
           <div className="modern-form-group">
-
             <label>
-              Roadmap Title
-              <span>*</span>
+              Roadmap Title <span style={{ color: 'var(--danger)' }}>*</span>
             </label>
-
             <input
               ref={titleInputRef}
               type="text"
@@ -118,52 +106,36 @@ const RoadmapForm = ({ item, onClose, onSuccess }) => {
               placeholder="e.g. Frontend Masterclass"
               required
             />
-
             <small>
-              Give your learning roadmap a clear title.
+              Give your learning roadmap a clear, descriptive title.
             </small>
-
           </div>
 
           {/* Description */}
           <div className="modern-form-group">
-
             <label>Description</label>
-
             <textarea
               value={formData.description || ''}
-              onChange={e =>
+              onChange={(e) =>
                 setFormData({
                   ...formData,
                   description: e.target.value
                 })
               }
-              style={{
-                width: '100%',
-                padding: '8px',
-                border: '1px solid var(--border)',
-                borderRadius: '4px'
-              }}
               placeholder="Detailed course description..."
               rows="3"
             />
-
             <small>
               Explain what learners can expect from this roadmap.
             </small>
-
           </div>
 
           {/* Capacity */}
           <div className="modern-form-group">
-
             <label>
-              Maximum Capacity
-              <span>*</span>
+              Maximum Capacity <span style={{ color: 'var(--danger)' }}>*</span>
             </label>
-
-            <div className="capacity-input-wrapper">
-
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <input
                 type="number"
                 min="1"
@@ -171,43 +143,49 @@ const RoadmapForm = ({ item, onClose, onSuccess }) => {
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    maxCapacity: parseInt(
-                      e.target.value
-                    )
+                    maxCapacity: parseInt(e.target.value) || 1
                   })
                 }
                 required
               />
-
-              <span>learners</span>
-
+              <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)', fontWeight: '600' }}>
+                learners
+              </span>
             </div>
-
             <small>
-              Maximum number of learners who can enroll.
+              Maximum number of learners who can enroll simultaneously.
             </small>
-
           </div>
 
-          {/* Status */}
-          <div className="roadmap-status-info">
-
-            <div className="status-info-icon">
-              ✓
-            </div>
-
-            <div>
-              <strong>Roadmap Status</strong>
-              <p>
-                {item?.status || 'DRAFT'}
-              </p>
-            </div>
-
+          {/* Status info */}
+          <div
+            style={{
+              padding: '0.75rem 1rem',
+              background: 'var(--surface-alt)',
+              borderRadius: 'var(--radius-sm)',
+              border: '1px solid var(--border-light)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '1.25rem'
+            }}
+          >
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '600' }}>
+              Current Status:
+            </span>
+            <span
+              className={
+                formData.status === 'PUBLISHED'
+                  ? 'status-badge status-published'
+                  : 'status-badge status-draft'
+              }
+            >
+              {formData.status}
+            </span>
           </div>
 
           {/* Actions */}
           <div className="modern-modal-actions">
-
             <button
               type="button"
               className="modern-cancel-btn"
@@ -223,18 +201,10 @@ const RoadmapForm = ({ item, onClose, onSuccess }) => {
               disabled={loading}
             >
               {loading ? 'Saving...' : 'Save Roadmap'}
-
-              {!loading && (
-                <span>→</span>
-              )}
             </button>
-
           </div>
-
         </form>
-
       </div>
-
     </div>
   );
 };

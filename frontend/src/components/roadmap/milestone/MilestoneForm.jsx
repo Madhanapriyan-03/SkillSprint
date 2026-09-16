@@ -52,63 +52,35 @@ const MilestoneForm = ({ roadmapId, item, onClose, onSuccess }) => {
   };
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 1100
-      }}
-    >
-      <div
-        className="card"
-        style={{
-          width: '100%',
-          maxWidth: '500px',
-          margin: '20px'
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginBottom: '1rem'
-          }}
-        >
-          <h2>{item ? 'Edit Milestone' : 'Add Milestone'}</h2>
+    <div className="modern-modal-overlay" style={{ zIndex: 10100 }}>
+      <div className="modern-modal" style={{ maxWidth: '500px' }}>
+        {/* Header */}
+        <div className="modern-modal-header">
+          <div className="modern-modal-title-area">
+            <div className="modern-modal-icon">
+              🚩
+            </div>
+            <div>
+              <h2>{item ? 'Edit Milestone' : 'Add Milestone'}</h2>
+              <p>Define expectations and passing criteria</p>
+            </div>
+          </div>
 
           <button
+            type="button"
+            className="modern-modal-close"
             onClick={onClose}
-            style={{
-              background: 'none',
-              border: 'none',
-              fontSize: '1.5rem',
-              cursor: 'pointer'
-            }}
           >
             ×
           </button>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '15px'
-          }}
-        >
-          <div>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="modern-modal-form">
+          <div className="modern-form-group">
             <label>
-              Title <span style={{ color: 'red' }}>*</span>
+              Title <span style={{ color: 'var(--danger)' }}>*</span>
             </label>
-
             <input
               ref={titleInputRef}
               type="text"
@@ -120,22 +92,16 @@ const MilestoneForm = ({ roadmapId, item, onClose, onSuccess }) => {
                 })
               }
               required
-              style={{
-                width: '100%',
-                padding: '8px',
-                border: '1px solid var(--border)',
-                borderRadius: '4px'
-              }}
               placeholder="e.g. Java Basics"
             />
+            <small>Clear title for this milestone stage.</small>
           </div>
 
-          <div>
+          <div className="modern-form-group">
             <label>
               Expected Duration (days){' '}
-              <span style={{ color: 'red' }}>*</span>
+              <span style={{ color: 'var(--danger)' }}>*</span>
             </label>
-
             <input
               type="number"
               min="1"
@@ -147,20 +113,14 @@ const MilestoneForm = ({ roadmapId, item, onClose, onSuccess }) => {
                 })
               }
               required
-              style={{
-                width: '100%',
-                padding: '8px',
-                border: '1px solid var(--border)',
-                borderRadius: '4px'
-              }}
             />
+            <small>Estimated days to complete this milestone.</small>
           </div>
 
-          <div>
+          <div className="modern-form-group">
             <label>
-              Passing Score <span style={{ color: 'red' }}>*</span>
+              Passing Score <span style={{ color: 'var(--danger)' }}>*</span>
             </label>
-
             <input
               type="number"
               min="1"
@@ -172,30 +132,31 @@ const MilestoneForm = ({ roadmapId, item, onClose, onSuccess }) => {
                 })
               }
               required
-              style={{
-                width: '100%',
-                padding: '8px',
-                border: '1px solid var(--border)',
-                borderRadius: '4px'
-              }}
             />
+            <small>Minimum score required to pass evaluation.</small>
           </div>
 
-          <button
-            type="submit"
-            className="btn-primary"
-            disabled={loading}
-            style={{
-              width: '100%',
-              marginTop: '10px'
-            }}
-          >
-            {loading
-              ? 'Saving...'
-              : item
-              ? 'Update Milestone'
-              : 'Save Milestone'}
-          </button>
+          <div className="modern-modal-actions">
+            <button
+              type="button"
+              className="modern-cancel-btn"
+              onClick={onClose}
+              disabled={loading}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="modern-submit-btn"
+              disabled={loading}
+            >
+              {loading
+                ? 'Saving...'
+                : item
+                ? 'Update Milestone'
+                : 'Save Milestone'}
+            </button>
+          </div>
         </form>
       </div>
     </div>

@@ -32,20 +32,18 @@ const StatusDistributionDonut = () => {
 
   const total = completed + active + dropped;
 
-  let background = '#e5e7eb';
+  let background = '#e2e8f0';
 
   if (total > 0) {
     const completedPercent = (completed / total) * 100;
-    const activePercent =
-      (active / total) * 100;
+    const activePercent = (active / total) * 100;
 
     const completedEnd = completedPercent;
-    const activeEnd =
-      completedPercent + activePercent;
+    const activeEnd = completedPercent + activePercent;
 
     background = `conic-gradient(
       #10b981 0% ${completedEnd}%,
-      #f59e0b ${completedEnd}% ${activeEnd}%,
+      #3b82f6 ${completedEnd}% ${activeEnd}%,
       #ef4444 ${activeEnd}% 100%
     )`;
   }
@@ -55,75 +53,109 @@ const StatusDistributionDonut = () => {
       className="card"
       style={{
         flex: 1,
-        minWidth: '300px'
+        minWidth: '320px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
       }}
     >
-      <h3>Status Distribution</h3>
-
-      <div
-        style={{
-          width: '150px',
-          height: '150px',
-          borderRadius: '50%',
-          background: background,
-          margin: '20px auto',
-          position: 'relative'
-        }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            width: '90px',
-            height: '90px',
-            borderRadius: '50%',
-            background: 'white',
-            top: '30px',
-            left: '30px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column'
-          }}
-        >
-          <strong
-            style={{
-              fontSize: '24px'
-            }}
-          >
-            {total}
-          </strong>
-
-          <span
-            style={{
-              fontSize: '11px',
-              color: '#64748b'
-            }}
-          >
-            Enrollments
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+          <h3 style={{ margin: 0 }}>Enrollment Distribution</h3>
+          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '600' }}>
+            Real-time Status
           </span>
         </div>
+        <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: 0 }}>
+          Distribution of student enrollments across all statuses.
+        </p>
       </div>
 
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '15px',
-          flexWrap: 'wrap'
-        }}
-      >
-        <span style={{ color: '#10b981' }}>
-          ● Completed {completed}
-        </span>
+      {total === 0 ? (
+        <div style={{ textAlign: 'center', padding: '2.5rem 1rem', color: 'var(--text-muted)' }}>
+          <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📊</div>
+          <p style={{ margin: 0, fontSize: '0.9rem' }}>No enrollment data recorded yet.</p>
+        </div>
+      ) : (
+        <>
+          <div
+            style={{
+              width: '160px',
+              height: '160px',
+              borderRadius: '50%',
+              background: background,
+              margin: '1.5rem auto',
+              position: 'relative',
+              boxShadow: '0 4px 18px rgba(15, 23, 42, 0.08)'
+            }}
+          >
+            <div
+              style={{
+                position: 'absolute',
+                width: '104px',
+                height: '104px',
+                borderRadius: '50%',
+                background: '#ffffff',
+                top: '28px',
+                left: '28px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                boxShadow: 'inset 0 2px 6px rgba(0, 0, 0, 0.04)'
+              }}
+            >
+              <strong
+                style={{
+                  fontSize: '1.65rem',
+                  fontFamily: 'var(--font-heading)',
+                  color: 'var(--text-dark)',
+                  lineHeight: 1
+                }}
+              >
+                {total}
+              </strong>
+              <span
+                style={{
+                  fontSize: '0.725rem',
+                  color: 'var(--text-muted)',
+                  fontWeight: '700',
+                  marginTop: '4px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em'
+                }}
+              >
+                Enrollments
+              </span>
+            </div>
+          </div>
 
-        <span style={{ color: '#f59e0b' }}>
-          ● Active {active}
-        </span>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '8px',
+              paddingTop: '0.75rem',
+              borderTop: '1px solid var(--border-light)'
+            }}
+          >
+            <div style={{ textAlign: 'center', padding: '6px 4px', background: 'var(--success-light)', borderRadius: '8px' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--success-dark)', fontWeight: '700' }}>Completed</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: '800', color: 'var(--success-dark)', marginTop: '2px' }}>{completed}</div>
+            </div>
 
-        <span style={{ color: '#ef4444' }}>
-          ● Dropped {dropped}
-        </span>
-      </div>
+            <div style={{ textAlign: 'center', padding: '6px 4px', background: 'var(--primary-light)', borderRadius: '8px' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--primary-dark)', fontWeight: '700' }}>Active</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: '800', color: 'var(--primary-dark)', marginTop: '2px' }}>{active}</div>
+            </div>
+
+            <div style={{ textAlign: 'center', padding: '6px 4px', background: 'var(--danger-light)', borderRadius: '8px' }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--danger-dark)', fontWeight: '700' }}>Dropped</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: '800', color: 'var(--danger-dark)', marginTop: '2px' }}>{dropped}</div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

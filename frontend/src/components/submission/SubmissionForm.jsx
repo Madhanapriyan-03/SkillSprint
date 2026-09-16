@@ -34,26 +34,17 @@ const SubmissionForm = ({ item, onClose, onSuccess }) => {
 
   return (
     <div className="modern-modal-overlay">
-
-      <div className="modern-modal submission-modal">
-
+      <div className="modern-modal submission-modal" style={{ maxWidth: '520px' }}>
         {/* Header */}
         <div className="modern-modal-header">
-
           <div className="modern-modal-title-area">
-
             <div className="modern-modal-icon submission-icon">
-              ↗
+              🚀
             </div>
-
             <div>
               <h2>Submit Milestone</h2>
-
-              <p>
-                Submit your completed milestone work
-              </p>
+              <p>Submit your completed milestone work for mentor evaluation</p>
             </div>
-
           </div>
 
           <button
@@ -63,31 +54,22 @@ const SubmissionForm = ({ item, onClose, onSuccess }) => {
           >
             ×
           </button>
-
         </div>
 
-        {/* Error */}
+        {/* Error Alert */}
         {errorMsg && (
-          <div className="modern-form-error">
-            <span>!</span>
-            <p>{errorMsg}</p>
+          <div className="login-error" style={{ marginBottom: '1.25rem' }}>
+            {errorMsg}
           </div>
         )}
 
         {/* Form */}
-        <form
-          onSubmit={handleSubmit}
-          className="modern-modal-form"
-        >
-
+        <form onSubmit={handleSubmit} className="modern-modal-form">
           {/* Enrollment ID */}
           <div className="modern-form-group">
-
             <label>
-              Enrollment ID
-              <span>*</span>
+              Enrollment ID <span style={{ color: 'var(--danger)' }}>*</span>
             </label>
-
             <input
               type="number"
               min="1"
@@ -95,28 +77,20 @@ const SubmissionForm = ({ item, onClose, onSuccess }) => {
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  enrollmentId:
-                    parseInt(e.target.value)
+                  enrollmentId: parseInt(e.target.value) || ''
                 })
               }
               placeholder="e.g. 1"
               required
             />
-
-            <small>
-              Enter the enrollment associated with this milestone.
-            </small>
-
+            <small>Enrollment tracking ID for this learning journey.</small>
           </div>
 
           {/* Milestone ID */}
           <div className="modern-form-group">
-
             <label>
-              Milestone ID
-              <span>*</span>
+              Milestone ID <span style={{ color: 'var(--danger)' }}>*</span>
             </label>
-
             <input
               type="number"
               min="1"
@@ -124,77 +98,56 @@ const SubmissionForm = ({ item, onClose, onSuccess }) => {
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  milestoneId:
-                    parseInt(e.target.value)
+                  milestoneId: parseInt(e.target.value) || ''
                 })
               }
               placeholder="e.g. 1"
               required
             />
-
-            <small>
-              Enter the milestone you have completed.
-            </small>
-
+            <small>ID of the specific milestone deliverable you completed.</small>
           </div>
 
           {/* Content URL */}
           <div className="modern-form-group">
-
             <label>
-              Submission URL
-              <span>*</span>
+              Submission URL <span style={{ color: 'var(--danger)' }}>*</span>
             </label>
-
-            <div className="url-input-wrapper">
-
-              <span className="url-icon">
-                🔗
-              </span>
-
-              <input
-                type="url"
-                value={formData.contentUrl}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    contentUrl:
-                      e.target.value
-                  })
-                }
-                placeholder="https://github.com/..."
-                required
-              />
-
-            </div>
-
-            <small>
-              Add the URL containing your milestone work.
-            </small>
-
+            <input
+              type="url"
+              value={formData.contentUrl}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  contentUrl: e.target.value
+                })
+              }
+              placeholder="https://github.com/your-username/project-repo"
+              required
+            />
+            <small>Public link to your code repository, live demo, or deliverable document.</small>
           </div>
 
-          {/* Info */}
-          <div className="submission-info-box">
-
-            <div className="submission-info-icon">
-              i
-            </div>
-
-            <div>
-              <strong>Before submitting</strong>
-
-              <p>
-                Make sure your submission link is
-                accessible to your mentor.
-              </p>
-            </div>
-
+          {/* Info callout */}
+          <div
+            style={{
+              padding: '0.85rem 1rem',
+              background: 'var(--surface-alt)',
+              border: '1px solid var(--border-light)',
+              borderRadius: 'var(--radius-sm)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem',
+              marginBottom: '1.25rem'
+            }}
+          >
+            <span style={{ fontSize: '1.1rem' }}>💡</span>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>
+              Ensure your project repository or live URL is publicly accessible so mentors can evaluate your implementation.
+            </span>
           </div>
 
           {/* Actions */}
           <div className="modern-modal-actions">
-
             <button
               type="button"
               className="modern-cancel-btn"
@@ -203,27 +156,16 @@ const SubmissionForm = ({ item, onClose, onSuccess }) => {
             >
               Cancel
             </button>
-
             <button
               type="submit"
-              className="modern-submit-btn submission-submit-btn"
+              className="modern-submit-btn"
               disabled={loading}
             >
-              {loading
-                ? 'Submitting...'
-                : 'Submit Milestone'}
-
-              {!loading && (
-                <span>→</span>
-              )}
+              {loading ? 'Submitting...' : 'Submit Milestone'}
             </button>
-
           </div>
-
         </form>
-
       </div>
-
     </div>
   );
 };

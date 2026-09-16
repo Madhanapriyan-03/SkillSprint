@@ -23,6 +23,8 @@ import RoadmapDetails from './components/roadmap/RoadmapDetails';
 
 import EnrollmentList from './components/enrollment/EnrollmentList';
 import SubmissionList from './components/submission/SubmissionList';
+import SkillSprintBackground from './components/common/SkillSprintBackground';
+import FocusStudyTimer from './components/common/FocusStudyTimer';
 
 
 function PrivateRoute({ children }) {
@@ -48,8 +50,14 @@ function App() {
 
       <div className="app">
 
+        {/* Global Multi-Layered SkillSprint Background System */}
+        <SkillSprintBackground />
+
         {/* Navbar only for logged-in users */}
         {user && <Navbar />}
+
+        {/* Floating Focus Study Timer Capsule */}
+        {user && <FocusStudyTimer />}
 
         <ErrorHandler />
 

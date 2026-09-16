@@ -1,43 +1,53 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import submissionService from '../../services/submissionService';
 
 const RecentActivity = () => {
+  const { items: reduxSubmissions } = useSelector((state) => state.submissions || {});
   const [submissions, setSubmissions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (reduxSubmissions && reduxSubmissions.length > 0) {
+      setSubmissions(reduxSubmissions.slice(0, 10));
+      return;
+    }
+
     const loadRecentActivity = async () => {
       try {
         const response = await submissionService.getAll(0, 10);
 
-        const data = Array.isArray(response?.content)
-          ? response.content
-          : Array.isArray(response)
-            ? response
-            : [];
+        const data = Array.isArray(response?.data?.content)
+          ? response.data.content
+          : Array.isArray(response?.content)
+            ? response.content
+            : Array.isArray(response)
+              ? response
+              : [];
 
         setSubmissions(data);
       } catch (error) {
-        console.error(
-          'Failed to load recent activity:',
-          error
-        );
+        // safe fallback
       } finally {
         setLoading(false);
       }
     };
 
     loadRecentActivity();
-  }, []);
+  }, [reduxSubmissions]);
 
   const getActivityText = (submission) => {
     if (submission.status === 'PASSED') {
       return (
-        <>
-          Submission #{submission.id} graded successfully
-          <br />
-          <strong>Score: {submission.score}</strong>
-        </>
+        <div>
+          <span style={{ fontWeight: '600', color: 'var(--text-dark)' }}>
+            Submission #{submission.id}
+          </span>{' '}
+          <span style={{ color: 'var(--text-secondary)' }}>graded successfully</span>
+          <div style={{ fontSize: '0.8rem', color: 'var(--success-dark)', fontWeight: '700', marginTop: '2px' }}>
+            Score: {submission.score}/100
+          </div>
+        </div>
       );
     }
 
@@ -46,43 +56,48 @@ const RecentActivity = () => {
       submission.status === 'FAILED'
     ) {
       return (
-        <>
-          Submission #{submission.id} was rejected
-          <br />
-          <strong>Score: {submission.score}</strong>
-        </>
+        <div>
+          <span style={{ fontWeight: '600', color: 'var(--text-dark)' }}>
+            Submission #{submission.id}
+          </span>{' '}
+          <span style={{ color: 'var(--text-secondary)' }}>was rejected</span>
+          <div style={{ fontSize: '0.8rem', color: 'var(--danger-dark)', fontWeight: '700', marginTop: '2px' }}>
+            Score: {submission.score}/100
+          </div>
+        </div>
       );
     }
 
     return (
-      <>
-        New submission #{submission.id} is pending grading
-      </>
+      <div>
+        <span style={{ fontWeight: '600', color: 'var(--text-dark)' }}>
+          Submission #{submission.id}
+        </span>{' '}
+        <span style={{ color: 'var(--text-secondary)' }}>is pending grading</span>
+      </div>
     );
   };
 
-  const getStatusStyle = (status) => {
+  const getStatusBadge = (status) => {
     if (status === 'PASSED') {
-      return {
-        color: '#16a34a',
-        background: '#dcfce7'
-      };
+      return (
+        <span className="status-badge status-passed">
+          ✓ Passed
+        </span>
+      );
     }
-
-    if (
-      status === 'REJECTED' ||
-      status === 'FAILED'
-    ) {
-      return {
-        color: '#dc2626',
-        background: '#fee2e2'
-      };
+    if (status === 'REJECTED' || status === 'FAILED') {
+      return (
+        <span className="status-badge status-rejected">
+          ✕ Rejected
+        </span>
+      );
     }
-
-    return {
-      color: '#d97706',
-      background: '#fef3c7'
-    };
+    return (
+      <span className="status-badge status-pending">
+        ⏳ Pending
+      </span>
+    );
   };
 
   return (
@@ -90,99 +105,71 @@ const RecentActivity = () => {
       className="card"
       style={{
         flex: 1,
-        minWidth: '300px'
+        minWidth: '320px',
+        display: 'flex',
+        flexDirection: 'column'
       }}
     >
-      <h3>Recent Activity</h3>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+        <h3 style={{ margin: 0 }}>Recent Activity</h3>
+        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '600' }}>
+          Latest Submissions
+        </span>
+      </div>
+      <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: 0, marginBottom: '1rem' }}>
+        Real-time audit log of learner submissions and grading updates.
+      </p>
 
       {loading ? (
-        <p
-          style={{
-            marginTop: '1rem',
-            color: 'var(--text-muted)'
-          }}
-        >
-          Loading recent activity...
-        </p>
+        <div style={{ textAlign: 'center', padding: '2rem 1rem', color: 'var(--text-muted)' }}>
+          <p style={{ margin: 0, fontSize: '0.9rem' }}>Loading recent activity...</p>
+        </div>
       ) : submissions.length === 0 ? (
-        <p
-          style={{
-            marginTop: '1rem',
-            color: 'var(--text-muted)'
-          }}
-        >
-          No recent activity.
-        </p>
+        <div style={{ textAlign: 'center', padding: '2.5rem 1rem', color: 'var(--text-muted)' }}>
+          <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📝</div>
+          <p style={{ margin: 0, fontSize: '0.9rem' }}>No recent activity recorded yet.</p>
+        </div>
       ) : (
         <ul
           style={{
             listStyle: 'none',
             padding: 0,
-            marginTop: '1rem'
+            margin: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px'
           }}
         >
-          {submissions.map((submission) => {
-            const statusStyle = getStatusStyle(
-              submission.status
-            );
-
-            return (
-              <li
-                key={submission.id}
-                style={{
-                  padding: '12px 0',
-                  borderBottom:
-                    '1px solid var(--border)'
-                }}
-              >
+          {submissions.map((submission) => (
+            <li
+              key={submission.id}
+              style={{
+                padding: '10px 14px',
+                borderRadius: '8px',
+                background: 'var(--surface-alt)',
+                border: '1px solid var(--border-light)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: '12px'
+              }}
+            >
+              <div>
+                {getActivityText(submission)}
                 <div
                   style={{
-                    display: 'flex',
-                    justifyContent:
-                      'space-between',
-                    alignItems: 'center',
-                    gap: '10px'
+                    fontSize: '0.75rem',
+                    color: 'var(--text-muted)',
+                    marginTop: '2px'
                   }}
                 >
-                  <div>
-                    <div
-                      style={{
-                        fontSize: '0.95rem'
-                      }}
-                    >
-                      {getActivityText(submission)}
-                    </div>
-
-                    <div
-                      style={{
-                        fontSize: '0.8rem',
-                        color: 'var(--text-muted)',
-                        marginTop: '4px'
-                      }}
-                    >
-                      Enrollment ID:{' '}
-                      {submission.enrollmentId}
-                    </div>
-                  </div>
-
-                  <span
-                    style={{
-                      padding: '4px 8px',
-                      borderRadius: '12px',
-                      fontSize: '0.75rem',
-                      fontWeight: '600',
-                      whiteSpace: 'nowrap',
-                      color: statusStyle.color,
-                      backgroundColor:
-                        statusStyle.background
-                    }}
-                  >
-                    {submission.status}
-                  </span>
+                  Enrollment ID: #{submission.enrollmentId}
                 </div>
-              </li>
-            );
-          })}
+              </div>
+
+              <div>{getStatusBadge(submission.status)}</div>
+            </li>
+          ))}
         </ul>
       )}
     </div>
